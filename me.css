@@ -1,0 +1,190 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+  }
+  
+  html,
+  body {
+    height: 100%;
+  }
+  
+  body {
+    margin: 0;
+    background: #3D3D4A;
+    color: white;
+    min-height: 400px;
+    font-family: sans-serif;
+  }
+  
+  .info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px;
+    opacity: .5;
+  }
+  .slider-container {
+    padding-top: 40px;
+    display: flex;
+    left: 50%;
+    padding-bottom: 20px;
+    width: 90%;
+    height: 80%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding-bottom: 0;
+  }
+  
+  .range-slider {
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    text-align: center;
+    height: 100%;
+    max-height: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    margin: 10px;
+  }
+  .range-slider:before {
+    position: absolute;
+    top: -2em;
+    left: .5em;
+    content: attr(data-slider-db);
+    color: white;
+    font-size: 50%;
+    text-align: center;
+  }
+  .range-slider__thumb {
+    position: absolute;
+    left: 10%;
+    width: 90%;
+    height: 30px;
+    line-height: 30px;
+    background: white;
+    color: #777;
+    font-size: 50%;
+    box-shadow: 0 0 0 4px #3D3D4A;
+    border-radius: 0.5em;
+    border-radius: 0.5em;
+    pointer-events: none;
+  }
+  .range-slider__bar {
+    left: 16px;
+    bottom: 0;
+    position: absolute;
+    background: linear-gradient(dodgerblue, blue);
+    pointer-events: none;
+    width: 90%;
+    left: 10%;
+    border-radius: 0.5em;
+  }
+  .range-slider input[type=range][orient=vertical] {
+    position: relative;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    writing-mode: bt-lr;
+    -webkit-appearance: slider-vertical;
+  }
+  .range-slider input[type=range][orient=vertical]::-webkit-slider-runnable-track,
+  .range-slider input[type=range][orient=vertical]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+  }
+  .range-slider input[type=range][orient=vertical]::-webkit-slider-runnable-track {
+    border: none;
+    position: relative;
+    background: #343440;
+    width: 90%;
+    left: 5%;
+    border-color: #343440;
+    border-radius: 0.5em;
+    box-shadow: 0 0 0 2px #3D3D4A;
+  }
+  .range-slider input[type=range][orient=vertical]::-moz-range-track {
+    border: none;
+    background: #343440;
+    width: 90%;
+    border-color: #343440;
+    border-radius: 0.5em;
+    box-shadow: 0 0 0 2px #3D3D4A;
+  }
+  .range-slider input[type=range][orient=vertical]::-ms-track {
+    border: none;
+    background: #343440;
+    width: 90%;
+    border-color: #343440;
+    border-radius: 0.5em;
+    box-shadow: 0 0 0 2px #3D3D4A;
+    color: transparent;
+    height: 100%;
+  }
+  .range-slider input[type=range][orient=vertical]::-ms-fill-lower,
+  .range-slider input[type=range][orient=vertical]::-ms-fill-upper,
+  .range-slider input[type=range][orient=vertical]::-ms-tooltip {
+    display: none;
+  }
+  .range-slider input[type=range][orient=vertical]::-webkit-slider-thumb {
+    width: 90%;
+    height: 30px;
+    opacity: 0;
+  }
+  .range-slider input[type=range][orient=vertical]::-moz-range-thumb {
+    width: 90%;
+    height: 30px;
+    opacity: 0;
+  }
+  .range-slider input[type=range][orient=vertical]::-ms-thumb {
+    width: 90%;
+    height: 30px;
+    opacity: 0;
+  }
+  
+  .group .range-slider__bar {
+    background: linear-gradient(pink, deeppink);
+  }
+  
+  .mastermix .range-slider__bar {
+    background: linear-gradient(tomato, red);
+  }
+  
+  .hplevel .range-slider__bar {
+    background: linear-gradient(yellow, orange);
+  }
+
+
+  .hplevel {
+    flex-grow: 0;
+    max-width: 20px;
+  }
+.range-slider__vu-left-in,
+.range-slider__vu-left-out,
+.range-slider__vu-right-in,
+.range-slider__vu-right-out {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    width: 4.5%;
+    left: 0;
+
+}
+.range-slider__vu-right-in,
+.range-slider__vu-right-out {
+    left: 5%;
+}
+
+.vubar {
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    height: 0;
+    background: #343440;
+}
+
+.range-slider__vu-left-out .vubar,
+.range-slider__vu-right-out .vubar {
+    background: #777;
+    
+}
