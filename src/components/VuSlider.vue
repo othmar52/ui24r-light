@@ -11,7 +11,7 @@
 <script>
 import  { mapState, mapGetters } from 'vuex'
 export default {
-  name: 'HelloWorld',
+  name: 'VuSlider',
   props: {
     w: String,
     mKey: String

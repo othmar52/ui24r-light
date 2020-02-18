@@ -1,18 +1,17 @@
 <template>
   <div id="app" data-fut="beidl">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld w="50" mKey="myTestKey" />
+    <VuSlider w="50" mKey="myTestKey" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-// import Parser from './assets/js/parser.js'
+import VuSlider from './components/VuSlider.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    VuSlider
   },
   data() {
     return {

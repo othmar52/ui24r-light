@@ -20,8 +20,7 @@ Vue.use(
 
 const vm = new Vue({
   render: h => h(App),
-  store: store,
-  created(){ console.log(this.$parser)}
+  store: store
 }).$mount('#app')
 
 //vm.$connect()
