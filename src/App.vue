@@ -1,17 +1,17 @@
 <template>
   <div id="app" data-fut="beidl">
     <img alt="Vue logo" src="./assets/logo.png">
-    <VuSlider w="50" mKey="myTestKey" />
+    <VuMeter keyVuIn="vu.i.20.mix" keyVuOut="vu.i.21.mix"/>
   </div>
 </template>
 
 <script>
-import VuSlider from './components/VuSlider.vue'
+import VuMeter from './components/VuMeter.vue'
 
 export default {
   name: 'App',
   components: {
-    VuSlider
+    VuMeter
   },
   data() {
     return {
@@ -30,7 +30,6 @@ export default {
       store: null,
       sock: null,
       keepAliveInterval: null,
-      testInterval: null,
       // parser: new Parser(),
 
       // mixer constants
@@ -69,19 +68,6 @@ export default {
       }
 
       this.$connect(`ws://${this.ip}/socket.io/1/websocket/sock-${(new Date).getTime()}${(new Date).getMilliseconds()}`)
-
-      this.testInterval = setInterval(() => {
-           let uniqueVar = (new Date).getTime() +"."+ (new Date).getMilliseconds();
-           //console.log("committingxxx", uniqueVar)
-           this.$store.commit(
-             'updateMixerData',
-             {
-               key: `myTestKey`,
-               data: { pre: uniqueVar }
-            }
-          )
-      }, 1000);
-
 
       console.log(this.$options)
 

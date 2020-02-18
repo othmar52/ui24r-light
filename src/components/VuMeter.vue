@@ -1,8 +1,8 @@
 <template>
-  <div class="hello" :style="`width: ${w}%;`">
-  <h1>mKey: {{ mKey }}</h1>
-  <p>xxx:  <span v-if="asfdg">
-    {{asfdg}}
+  <div class="hello" :style="`width: ${vuInPercent}%;`">
+  <h1></h1>
+  <p>xxx:  <span v-if="vuInPercent">
+    aa
     </span>
 </p>
   </div>
@@ -13,18 +13,27 @@ import  { mapState, mapGetters } from 'vuex'
 export default {
   name: 'VuSlider',
   props: {
-    w: String,
-    mKey: String
+    keyVuIn: String,
+    keyVuOut: String
   },
   computed: {
     ...mapGetters([
       'getMixerValue'
     ]),
-    asfdg() {
-      console.log(this.mKey, "--------")
-      let vuPre = this.getMixerValue(this.mKey);
-      return (typeof vuPre !== "undefined") ? vuPre.pre : "undef";
+    vuInPercent() {
+      return this.getVuPercent(this.keyVuIn);
+    },
+    vuOutPercent() {
+      return this.getVuPercent(this.keyVuOut);
     }
+  },
+  methods: {
+     getVuPercent(vuKey) {
+        let vuPre = this.getMixerValue(vuKey);
+        return (typeof vuPre !== "undefined")
+          ? vuPre.pre*100* this.$store.getters.getCurSetup.zeroDbPos
+          : 0;
+     }
   }
 }
 </script>

@@ -21,6 +21,7 @@ export default new Vuex.Store({
       aux: 10,
       sub: 6,
       rec: true,
+      zeroDbPos: .7647058823529421,
       // TODO: below variables can be removed, right?
       bankSize: 8,
       maxx: false,
@@ -57,7 +58,7 @@ export default new Vuex.Store({
     },
     updateMixerData(state, payload) {
       //console.log('payload', payload)
-      state.mData[payload.key] = payload.data
+      Vue.set(state.mData, payload.key, payload.data)
     }
   },
   getters: {
@@ -65,10 +66,6 @@ export default new Vuex.Store({
       return state.cursetup;
     },
     getMixerValue: (state) => (keyArg) => {
-      console.log("getMixerValue", keyArg)
-      console.log("state", state)
-      console.log("state.mData", state.mData)
-      console.log("state.mData[key]", state.mData[keyArg])
       return state.mData[keyArg]
     }
   },
