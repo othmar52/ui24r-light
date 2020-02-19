@@ -1,17 +1,22 @@
 <template>
-  <div id="app" data-fut="beidl">
+  <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <VuMeter keyVuIn="vu.i.20.mix" keyVuOut="vu.i.21.mix"/>
+    <VuMeterStereo keyVuLeft="i.20.mix" keyVuRight="i.21.mix" />
+    <RangeSlider dataKey="i.20.mix" />
   </div>
 </template>
 
 <script>
-import VuMeter from './components/VuMeter.vue'
+//import VuMeter from './components/VuMeter.vue'
+import VuMeterStereo from './components/VuMeterStereo.vue'
+import RangeSlider from './components/RangeSlider.vue'
 
 export default {
   name: 'App',
   components: {
-    VuMeter
+    //VuMeter,
+    VuMeterStereo,
+    RangeSlider
   },
   data() {
     return {

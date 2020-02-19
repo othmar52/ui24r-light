@@ -1,37 +1,33 @@
 <template>
-  <div class="hello" :style="`width: ${vuInPercent}%;`">
-  <h1></h1>
-  <p>xxx:  <span v-if="vuInPercent">
-    aa
-    </span>
-</p>
+  <div class="vumeter" >
+    <div class="vumeter__in" :style="`width: ${vuInPercent}%;`"></div>
+    <div class="vumeter__out" :style="`width: ${vuOutPercent}%;`"></div>
   </div>
 </template>
 
 <script>
-import  { mapState, mapGetters } from 'vuex'
+import  { mapGetters } from 'vuex'
 export default {
-  name: 'VuSlider',
+  name: 'VuMeter',
   props: {
-    keyVuIn: String,
-    keyVuOut: String
+    keyVu: String
   },
   computed: {
     ...mapGetters([
       'getMixerValue'
     ]),
     vuInPercent() {
-      return this.getVuPercent(this.keyVuIn);
+      return this.getVuPercent(this.keyVu, 'pre');
     },
     vuOutPercent() {
-      return this.getVuPercent(this.keyVuOut);
+      return this.getVuPercent(this.keyVu, 'post');
     }
   },
   methods: {
-     getVuPercent(vuKey) {
+     getVuPercent(vuKey, subKey) {
         let vuPre = this.getMixerValue(vuKey);
         return (typeof vuPre !== "undefined")
-          ? vuPre.pre*100* this.$store.getters.getCurSetup.zeroDbPos
+          ? vuPre[subKey]*100* this.$store.getters.getCurSetup.zeroDbPos
           : 0;
      }
   }
@@ -55,10 +51,23 @@ a {
   color: #42b983;
 }
 
-.hello {
-   background: red;
-   border: 1px solid blue;
+.vumeter {
+   position: relative;
    height: 100px;
-   width: 20%;
+   width: 100%;
+}
+
+.vumeter__in,
+.vumeter__out {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.vumeter__in {
+  background: red;
+}
+.vumeter__out {
+  background: blue;
 }
 </style>
