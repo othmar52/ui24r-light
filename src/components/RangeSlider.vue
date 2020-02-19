@@ -1,16 +1,14 @@
 <template>
   <div class="range-slider" data-key="a.2.mix" data-key2="null" data-slider-value="0" ref="sliderWrapper">
     <input
-      @input="updateSlider"
-      @change="updateSlider"
       type="range"
       orient="vertical"
       min="0"
       max="100"
-      :value="sliderValue"
+      v-model="sliderValue"
     />
-    <div class="range-slider__bar" :style="`height: ${thumbHeight}%;`"></div>
-    <div class="range-slider__thumb" :style="`bottom: ${barBottom}%;`" ref="thumb"></div>
+    <div class="range-slider__bar" :style="{'height': barHeight}"></div>
+    <div class="range-slider__thumb" :style="{'bottom': thumbBottom}" ref="thumb"></div>
   </div>
 </template>
 
@@ -18,41 +16,41 @@
 import  { mapGetters } from 'vuex'
 export default {
   name: 'RangeSlider',
-  props: {
-    dataKey: String,
-    sliderValue: {
-      type: Number,
-      default: 0
+  data: function(){
+    return {
+      sliderValue: 0,
+      barHeight: 0,
+      thumbBottom: 0
     }
+  },
+  props: {
+    dataKey: String
   },
   computed: {
-    ...mapGetters([
-      'getMixerValue'
-    ]),
-    thumbHeight: function() {
-      return `${this.getHeightPercent()}%`;
-      //return `20%`;
-    },
-    barBottom: function(){
-      return '0%'
-    }
+    ...mapGetters({
+      'mixerValue': 'getMixerValue'
+    }),
+
   },
   methods: {
-     updateSlider(event) {
-        //this.sliderValue = event.target.value;
-        //console.log("updatSlider()", event.target.value)
-        //console.log(this.$refs.sliderWrapper.clientHeight)
-        //console.log(this.getHeightPercent())
-     },
      getHeightPercent() {
-       console.log(this.$refs);
-       if(typeof this.$refs.sliderWrapper === "undefined") return 0;
-       if(typeof this.$refs.thumb === "undefined") return 0;
-       //console.log(this.$refs.sliderWrapper.clientHeight);
-       //console.log(this.$refs.thumb.clientHeight);
-       console.log(this.sliderValue);
-       return this.sliderValue * ((this.$refs.sliderWrapper.clientHeight - this.$refs.thumb.clientHeight) / this.$refs.sliderWrapper.clientHeight);
+       return this.sliderValue * (
+         (this.$refs.sliderWrapper.clientHeight - this.$refs.thumb.clientHeight) / this.$refs.sliderWrapper.clientHeight
+      );
      }
+  },
+  watch: {
+    sliderValue(newValue){
+      this.thumbBottom = this.getHeightPercent() + '%';
+      this.barHeight = `calc(${this.getHeightPercent()}% + ${this.$refs.thumb.clientHeight / 2}px)`  + '%';
+      //console.log(newValue)
+    }
+    /*,
+    mixerValue(newValue){
+      this.thumbHeight = '20%';
+      console.log(newValue)
+    }
+    */
   }
 }
 </script>
