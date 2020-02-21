@@ -1,11 +1,12 @@
 <template>
-  <div class="range-slider" data-key="a.2.mix" data-key2="null" data-slider-value="0" ref="sliderWrapper">
+  <div class="range-slider" ref="sliderWrapper">
     <input
       type="range"
       orient="vertical"
       min="0"
-      max="100"
-      v-model="sliderValue"
+      step="0.01"
+      max="1"
+      v-model="localSliderValue"
     />
     <div class="range-slider__bar" :style="{'height': barHeight}"></div>
     <div class="range-slider__thumb" :style="{'bottom': thumbBottom}" ref="thumb"></div>
@@ -18,7 +19,8 @@ export default {
   name: 'RangeSlider',
   data: function(){
     return {
-      sliderValue: 0,
+      localSliderValue: 0,
+      visualSliderValue: 0,
       barHeight: 0,
       thumbBottom: 0
     }
@@ -27,30 +29,39 @@ export default {
     dataKey: String
   },
   computed: {
-    ...mapGetters({
-      'mixerValue': 'getMixerValue'
-    }),
+    ...mapGetters([
+      'readRemoteMixerValue'
+    ]),
+    remoteSliderValue() {
+      return this.readRemoteMixerValue(this.dataKey);
+    }
 
   },
   methods: {
+     setVisualSliderValue(newValue) {
+       this.visualSliderValue = newValue;
+       this.thumbBottom = this.getHeightPercent() + '%';
+       this.barHeight = `calc(${this.getHeightPercent()}% + ${this.$refs.thumb.clientHeight / 2}px)`  + '%';
+     },
      getHeightPercent() {
-       return this.sliderValue * (
+       return this.visualSliderValue * 100 * (
          (this.$refs.sliderWrapper.clientHeight - this.$refs.thumb.clientHeight) / this.$refs.sliderWrapper.clientHeight
       );
      }
   },
   watch: {
-    sliderValue(newValue){
-      this.thumbBottom = this.getHeightPercent() + '%';
-      this.barHeight = `calc(${this.getHeightPercent()}% + ${this.$refs.thumb.clientHeight / 2}px)`  + '%';
-      //console.log(newValue)
+    localSliderValue(){
+      //console.log("watch.localSliderValue() changed to ", this.localSliderValue)
+      this.$store.dispatch('sendMixerParam', {
+        mKey: this.dataKey,
+        mValue: parseFloat(this.localSliderValue)
+      })
+      this.setVisualSliderValue(this.localSliderValue)
+    },
+    remoteSliderValue(){
+      //console.log("watch.remoteSliderValue() changed to ", this.remoteSliderValue)
+      this.setVisualSliderValue(this.remoteSliderValue)
     }
-    /*,
-    mixerValue(newValue){
-      this.thumbHeight = '20%';
-      console.log(newValue)
-    }
-    */
   }
 }
 </script>
@@ -63,12 +74,13 @@ export default {
     width: 100%;
     position: relative;
     text-align: center;
-    height: 100%;
+    height: 300px;
     max-height: 100%;
     flex-grow: 1;
     flex-shrink: 1;
     margin: 10px;
     max-width: 100px;
+    min-height: 300px;
   }
   .range-slider:before {
     position: absolute;

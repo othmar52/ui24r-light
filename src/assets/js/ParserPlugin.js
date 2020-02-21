@@ -23,8 +23,8 @@ const ParserPlugin = store => {
             ? (b = data.split('^', 3), 3 > b.length || putValue(b[1], b[2]))
             : parseCommand(data)
     }
-    function putValue(k,c) {
-
+    function putValue(paramName, paramValue) {
+        store.commit('updateMixerData', { key: paramName, data: paramValue })
     }
 
 

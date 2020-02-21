@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
+    <img alt="Vue logo" class="logo" src="./assets/logo.png">
     <VuMeterStereo keyVuLeft="i.20.mix" keyVuRight="i.21.mix" />
     <RangeSlider dataKey="i.20.mix" />
+    <RangeSlider dataKey="i.21.mix" />
   </div>
 </template>
 
@@ -71,11 +72,7 @@ export default {
       this.$options.sockets.onclose = () => {
           clearInterval(this.keepAliveInterval)
       }
-
       this.$connect(`ws://${this.ip}/socket.io/1/websocket/sock-${(new Date).getTime()}${(new Date).getMilliseconds()}`)
-
-      console.log(this.$options)
-
 
   },
   methods: {
@@ -95,6 +92,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 0;
+}
+.logo {
+  height: 30px;
 }
 </style>

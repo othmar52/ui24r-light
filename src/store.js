@@ -65,13 +65,25 @@ export default new Vuex.Store({
     getCurSetup: state => {
       return state.cursetup;
     },
-    getMixerValue: (state) => (keyArg) => {
+    readRemoteMixerValue: (state) => (keyArg) => {
       return state.mData[keyArg]
     }
   },
   actions: {
     sendMessage: function(context, message) {
+      if(this.state.socket.isConnected === false) {
+        console.log(`socket is NOT connected! will not send ${message}`)
+        return
+      }
+      //console.log(`store.sendMessage(${message})`)
       Vue.prototype.$socket.send(message)
+    },
+    sendMixerParam: function(context, data) {
+      this.dispatch(
+        'sendMessage',
+        `3:::SET${('string' == typeof data.mValue ? 'S' : 'D')}^${data.mKey}^${data.mValue}`
+      )
+      //this.sendMessage(null, );
     }
 
   }

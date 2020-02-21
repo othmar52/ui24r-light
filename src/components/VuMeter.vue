@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getMixerValue'
+      'readRemoteMixerValue'
     ]),
     vuInPercent() {
       return this.getVuPercent(this.keyVu, 'pre');
@@ -25,7 +25,7 @@ export default {
   },
   methods: {
      getVuPercent(vuKey, subKey) {
-        let vuPre = this.getMixerValue(vuKey);
+        let vuPre = this.readRemoteMixerValue(vuKey);
         return (typeof vuPre !== "undefined")
           ? vuPre[subKey]*100* this.$store.getters.getCurSetup.zeroDbPos
           : 0;
