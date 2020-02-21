@@ -83,22 +83,10 @@ export default {
     width: 100%;
     position: relative;
     text-align: center;
-    height: 300px;
-    max-height: 100%;
+    height: 100%;
     flex-grow: 1;
     flex-shrink: 1;
-    margin: 10px;
     max-width: 100px;
-    min-height: 300px;
-  }
-  .range-slider:before {
-    position: absolute;
-    top: -2em;
-    left: .5em;
-    content: attr(data-slider-db);
-    color: white;
-    font-size: 50%;
-    text-align: center;
   }
   .range-slider__thumb {
     position: absolute;

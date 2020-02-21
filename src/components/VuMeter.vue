@@ -1,7 +1,7 @@
 <template>
   <div class="vumeter" >
-    <div class="vumeter__in" :style="`width: ${vuInPercent}%;`"></div>
-    <div class="vumeter__out" :style="`width: ${vuOutPercent}%;`"></div>
+    <div class="vumeter__in" :style="`height: ${vuInPercent}%;`"></div>
+    <div class="vumeter__out" :style="`height: ${vuOutPercent}%;`"></div>
   </div>
 </template>
 
@@ -25,10 +25,13 @@ export default {
   },
   methods: {
      getVuPercent(vuKey, subKey) {
-        let vuPre = this.readRemoteMixerValue(vuKey);
-        return (typeof vuPre !== "undefined")
-          ? vuPre[subKey]*100* this.$store.getters.getCurSetup.zeroDbPos
-          : 0;
+        let vuValue = this.readRemoteMixerValue(vuKey);
+        if (typeof vuValue == "undefined")
+          return 0
+        
+        return (vuValue[subKey] < 1)
+          ? vuValue[subKey]*100 /* * this.$store.getters.getCurSetup.zeroDbPos*/
+          : 100;
      }
   }
 }
@@ -36,38 +39,26 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
 
 .vumeter {
    position: relative;
-   height: 100px;
-   width: 100%;
+   height: 100%;
+   width: 20px;
+   border: 1px solid blue;
 }
 
 .vumeter__in,
 .vumeter__out {
   width: 100%;
-  height: 100%;
+  height: 0;
   position: absolute;
+  bottom: 0;
 }
 
 .vumeter__in {
-  background: red;
+  background: #222;
 }
 .vumeter__out {
-  background: blue;
+  background: red;
 }
 </style>

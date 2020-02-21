@@ -1,22 +1,24 @@
 <template>
   <div id="app">
     <img alt="Vue logo" class="logo" src="./assets/logo.png">
-    <VuMeterStereo keyVuLeft="i.20.mix" keyVuRight="i.21.mix" />
-    <RangeSlider :dataKeys="['i.20.mix','i.21.mix']" />
+    <RangeSliderVu :dataKeys="['i.18.mix','i.19.mix']" />
+    <RangeSliderVu :dataKeys="['i.20.mix','i.21.mix']" />
   </div>
 </template>
 
 <script>
 //import VuMeter from './components/VuMeter.vue'
-import VuMeterStereo from './components/VuMeterStereo.vue'
-import RangeSlider from './components/RangeSlider.vue'
+//import VuMeterStereo from './components/VuMeterStereo.vue'
+//import RangeSlider from './components/RangeSlider.vue'
+import RangeSliderVu from './components/RangeSliderVu.vue'
 
 export default {
   name: 'App',
   components: {
     //VuMeter,
-    VuMeterStereo,
-    RangeSlider
+    //VuMeterStereo,
+    //RangeSlider
+    RangeSliderVu
   },
   data() {
     return {
