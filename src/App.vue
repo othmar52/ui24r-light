@@ -2,8 +2,7 @@
   <div id="app">
     <img alt="Vue logo" class="logo" src="./assets/logo.png">
     <VuMeterStereo keyVuLeft="i.20.mix" keyVuRight="i.21.mix" />
-    <RangeSlider dataKey="i.20.mix" />
-    <RangeSlider dataKey="i.21.mix" />
+    <RangeSlider :dataKeys="['i.20.mix','i.21.mix']" />
   </div>
 </template>
 

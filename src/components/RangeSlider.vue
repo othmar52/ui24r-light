@@ -26,14 +26,14 @@ export default {
     }
   },
   props: {
-    dataKey: String
+    dataKeys: Array
   },
   computed: {
     ...mapGetters([
       'readRemoteMixerValue'
     ]),
     remoteSliderValue() {
-      return this.readRemoteMixerValue(this.dataKey);
+      return this.readRemoteMixerValue(this.dataKeys[0]);
     }
 
   },
@@ -53,10 +53,19 @@ export default {
     localSliderValue(){
       //console.log("watch.localSliderValue() changed to ", this.localSliderValue)
       this.$store.dispatch('sendMixerParam', {
-        mKey: this.dataKey,
+        mKey: this.dataKeys[0],
         mValue: parseFloat(this.localSliderValue)
       })
       this.setVisualSliderValue(this.localSliderValue)
+
+      // set value for linked stereo channel as well?
+      if((typeof this.dataKeys[1]) !== 'string') {
+        return
+      }
+      this.$store.dispatch('sendMixerParam', {
+        mKey: this.dataKeys[1],
+        mValue: parseFloat(this.localSliderValue)
+      })
     },
     remoteSliderValue(){
       //console.log("watch.remoteSliderValue() changed to ", this.remoteSliderValue)
