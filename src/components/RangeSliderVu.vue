@@ -2,7 +2,7 @@
   <div class="range__slider-vu">
     <VuMeter :keyVu="`vu.${dataKeys[0]}`" v-if="dataKeys.length === 1" />
     <VuMeterStereo :keyVuLeft="`${dataKeys[0]}`" :keyVuRight="dataKeys[1]" v-else/>
-    <RangeSlider :dataKeys="dataKeys" />
+    <RangeSlider :dataKeys="dataKeys" labelKey="i.1.name"/>
   </div>
 </template>
 
@@ -24,7 +24,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 
 .range__slider-vu {
   display: flex;
@@ -32,5 +32,13 @@ export default {
   flex-grow: 1;
   flex-shrink: 1;
   padding: 10px;
+}
+
+.range__slider-vu .range-slider {
+  width: 80%;
+}
+.range__slider-vu .vumeter__stereo,
+.range__slider-vu>.vumeter {
+  width: 20%;
 }
 </style>

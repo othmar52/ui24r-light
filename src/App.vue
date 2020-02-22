@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <img alt="Vue logo" class="logo" src="./assets/logo.png">
-    <SliderContainer :rangeSlidersVu="[['i.20.mix','i.21.mix'], ['i.18.mix','i.19.mix']]" />
+    <SliderContainer :rangeSlidersVu="[['i.0.mix','i.1.mix'], ['i.7.mix'],  ['i.2.mix','i.3.mix'], ['i.20.mix','i.21.mix'], ['i.18.mix','i.19.mix']]" />
   </div>
 </template>
 

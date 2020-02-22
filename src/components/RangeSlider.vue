@@ -10,13 +10,18 @@
     />
     <div class="range-slider__bar" :style="{'height': barHeight}"></div>
     <div class="range-slider__thumb" :style="{'bottom': thumbBottom}" ref="thumb"></div>
+    <StripLabel :staticText="staticLabel" :labelKey="stripLabelKey" v-if="labelKey || staticLabel" />
   </div>
 </template>
 
 <script>
 import  { mapGetters } from 'vuex'
+import StripLabel from './StripLabel.vue'
 export default {
   name: 'RangeSlider',
+    components: {
+      StripLabel
+    },
   data: function(){
     return {
       localSliderValue: 0,
@@ -26,7 +31,9 @@ export default {
     }
   },
   props: {
-    dataKeys: Array
+    dataKeys: Array,
+    labelKey: String,
+    staticLabel: String
   },
   computed: {
     ...mapGetters([
@@ -34,6 +41,14 @@ export default {
     ]),
     remoteSliderValue() {
       return this.readRemoteMixerValue(this.dataKeys[0]);
+    },
+    stripLabelKey() {
+      let found = this.dataKeys[0].match(/([ia].*)\.(\d.*)\./)
+      if(found) {
+        //console.log(found);
+        return `${found[1]}.${found[2]}.name`
+      }
+      return undefined
     }
 
   },
@@ -76,7 +91,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 
   .range-slider {
     display: inline-block;
@@ -89,8 +104,8 @@ export default {
   }
   .range-slider__thumb {
     position: absolute;
-    left: 10%;
-    width: 90%;
+    left: 0;
+    width: 100%;
     height: 30px;
     line-height: 30px;
     background: white;
@@ -107,8 +122,8 @@ export default {
     position: absolute;
     background: linear-gradient(dodgerblue, blue);
     pointer-events: none;
-    width: 90%;
-    left: 10%;
+    width: 100%;
+    left: 0;
     border-radius: 0.5em;
   }
   .range-slider input[type=range][orient=vertical] {
@@ -129,8 +144,8 @@ export default {
     border: none;
     position: relative;
     background: #343440;
-    width: 90%;
-    left: 5%;
+    width: 100%;
+    left: 0;
     border-color: #343440;
     border-radius: 0.5em;
     box-shadow: 0 0 0 2px #3D3D4A;
@@ -138,7 +153,7 @@ export default {
   .range-slider input[type=range][orient=vertical]::-moz-range-track {
     border: none;
     background: #343440;
-    width: 90%;
+    width: 100%;
     border-color: #343440;
     border-radius: 0.5em;
     box-shadow: 0 0 0 2px #3D3D4A;
@@ -146,7 +161,7 @@ export default {
   .range-slider input[type=range][orient=vertical]::-ms-track {
     border: none;
     background: #343440;
-    width: 90%;
+    width: 100%;
     border-color: #343440;
     border-radius: 0.5em;
     box-shadow: 0 0 0 2px #3D3D4A;
@@ -159,17 +174,17 @@ export default {
     display: none;
   }
   .range-slider input[type=range][orient=vertical]::-webkit-slider-thumb {
-    width: 90%;
+    width: 100%;
     height: 30px;
     opacity: 0;
   }
   .range-slider input[type=range][orient=vertical]::-moz-range-thumb {
-    width: 90%;
+    width: 100%;
     height: 30px;
     opacity: 0;
   }
   .range-slider input[type=range][orient=vertical]::-ms-thumb {
-    width: 90%;
+    width: 100%;
     height: 30px;
     opacity: 0;
   }

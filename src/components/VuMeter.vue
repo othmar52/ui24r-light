@@ -38,13 +38,13 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 
 .vumeter {
    position: relative;
    height: 100%;
-   width: 20px;
-   border: 1px solid blue;
+   width: 100%;
+   background: #343440;
 }
 
 .vumeter__in,
@@ -56,9 +56,9 @@ export default {
 }
 
 .vumeter__in {
-  background: #222;
+  background: #2e2e3a;
 }
 .vumeter__out {
-  background: red;
+  background: #777;
 }
 </style>
