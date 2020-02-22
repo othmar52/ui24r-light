@@ -28,7 +28,9 @@ export default {
 
 .range__slider-vu {
   display: flex;
-  border: 1px solid green;
-  height: 300px;
+  height: 100%;
+  flex-grow: 1;
+  flex-shrink: 1;
+  padding: 10px;
 }
 </style>

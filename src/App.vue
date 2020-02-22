@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <img alt="Vue logo" class="logo" src="./assets/logo.png">
-    <RangeSliderVu :dataKeys="['i.18.mix','i.19.mix']" />
-    <RangeSliderVu :dataKeys="['i.20.mix','i.21.mix']" />
+    <SliderContainer :rangeSlidersVu="[['i.20.mix','i.21.mix'], ['i.18.mix','i.19.mix']]" />
   </div>
 </template>
 
@@ -10,7 +9,8 @@
 //import VuMeter from './components/VuMeter.vue'
 //import VuMeterStereo from './components/VuMeterStereo.vue'
 //import RangeSlider from './components/RangeSlider.vue'
-import RangeSliderVu from './components/RangeSliderVu.vue'
+//import RangeSliderVu from './components/RangeSliderVu.vue'
+import SliderContainer from './components/SliderContainer.vue'
 
 export default {
   name: 'App',
@@ -18,7 +18,8 @@ export default {
     //VuMeter,
     //VuMeterStereo,
     //RangeSlider
-    RangeSliderVu
+    //RangeSliderVu
+    SliderContainer
   },
   data() {
     return {
@@ -87,6 +88,10 @@ export default {
 </script>
 
 <style>
+
+body {
+  background: #3D3D4A;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

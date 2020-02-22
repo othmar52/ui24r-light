@@ -86,7 +86,6 @@ export default {
     height: 100%;
     flex-grow: 1;
     flex-shrink: 1;
-    max-width: 100px;
   }
   .range-slider__thumb {
     position: absolute;
