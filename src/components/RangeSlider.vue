@@ -8,7 +8,7 @@
       max="1"
       v-model="localSliderValue"
     />
-    <div class="range-slider__bar" :style="{'height': barHeight}"></div>
+    <div :class="`range-slider__bar range-slider__bar--color-${readRemoteColorIndex}`" :style="{'height': barHeight}"></div>
     <div class="range-slider__thumb" :style="{'bottom': thumbBottom}" ref="thumb"></div>
     <StripLabel :staticText="staticLabel" :labelKey="stripLabelKey" v-if="labelKey || staticLabel" />
   </div>
@@ -49,6 +49,13 @@ export default {
         return `${found[1]}.${found[2]}.name`
       }
       return undefined
+    },
+    readRemoteColorIndex() {
+      let found = this.dataKeys[0].match(/i\.(\d.*)\./)
+      if(found) {
+        return this.readRemoteMixerValue(`i.${found[1]}.color`);
+      }
+      return undefined
     }
 
   },
@@ -56,7 +63,7 @@ export default {
      setVisualSliderValue(newValue) {
        this.visualSliderValue = newValue;
        this.thumbBottom = this.getHeightPercent() + '%';
-       this.barHeight = `calc(${this.getHeightPercent()}% + ${this.$refs.thumb.clientHeight / 2}px)`  + '%';
+       this.barHeight = `calc(${this.getHeightPercent()}% + ${this.$refs.thumb.clientHeight / 2}px)`;
      },
      getHeightPercent() {
        return this.visualSliderValue * 100 * (
@@ -188,5 +195,21 @@ export default {
     height: 30px;
     opacity: 0;
   }
+  /* 1-11 are ui24r's colors, 12-15 are custom script extended colors */
+  .range-slider__bar--color-1 { background: linear-gradient(#111111, #111111); }
+  .range-slider__bar--color-2 { background: linear-gradient(#8B0000, #8B0000); }
+  .range-slider__bar--color-3 { background: linear-gradient(#FF0000, #9e0303); } /* red */
+  .range-slider__bar--color-4 { background: linear-gradient(#FFA500, #FFA500); }
+  .range-slider__bar--color-5 { background: linear-gradient(#FFFF00, #9a9a02); } /* yellow */
+  .range-slider__bar--color-6 { background: linear-gradient(#56DE43, #25641c); } /* green */
+  .range-slider__bar--color-7 { background: linear-gradient(#0091C2, #005673); } /* lightblue */
+  .range-slider__bar--color-8 { background: linear-gradient(#9400D3, #9400D3); }
+  .range-slider__bar--color-9 { background: linear-gradient(#808080, #808080); }
+  .range-slider__bar--color-10 { background: linear-gradient(#FFFFFF, #FFFFFF); }
+  .range-slider__bar--color-11 { background: linear-gradient(#FF1493, #FF1493); }
+  .range-slider__bar--color-12 { background: linear-gradient(#00FFFF, #00FFFF); }
+  .range-slider__bar--color-13 { background: linear-gradient(#009688, #009688); }
+  .range-slider__bar--color-14 { background: linear-gradient(#3a4caf, #3a4caf); }
+  .range-slider__bar--color-15 { background: linear-gradient(#966100, #482f00); } /* brown */
   
 </style>

@@ -59,6 +59,10 @@ export default {
   background: #2e2e3a;
 }
 .vumeter__out {
-  background: #777;
+  /* background: #777; */
+  /* TODO how to make the gradient height independent? */
+  
+  background: linear-gradient(to bottom, #ff1209,  #ff1209, #fd7d2e, #eef609, #10880a, #10880a, #10880a);
+  background-attachment: fixed;
 }
 </style>

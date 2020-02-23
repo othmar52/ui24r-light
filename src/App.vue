@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <img alt="Vue logo" class="logo" src="./assets/logo.png">
-    <SliderContainer :rangeSlidersVu="[['i.0.mix','i.1.mix'], ['i.7.mix'],  ['i.2.mix','i.3.mix'], ['i.20.mix','i.21.mix'], ['i.18.mix','i.19.mix']]" />
+    <SliderContainer :rangeSlidersVu="rangeSlidersVu" />
   </div>
 </template>
 
@@ -25,6 +25,24 @@ export default {
     return {
       // client config
       ip: '10.0.1.124',
+
+      rangeSlidersVu: [
+        ['i.0.mix','i.1.mix'],
+        ['i.2.mix','i.3.mix'],
+        ['i.4.mix','i.5.mix'],
+        ['i.6.mix'],
+        ['i.7.mix'],
+        ['i.8.mix','i.9.mix'],
+        ['i.10.mix'],
+        ['i.11.mix'],
+        ['i.12.mix','i.13.mix'],
+        ['i.14.mix'],
+        ['i.15.mix'],
+        ['i.16.mix','i.17.mix'],
+        ['i.18.mix','i.19.mix'],
+        ['i.20.mix','i.21.mix']
+      ],
+
       subscriptions: [],
       linkedSubscriptions: {},
       backgroundSubscriptions: [],
