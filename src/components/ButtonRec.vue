@@ -1,0 +1,91 @@
+<template>
+    <button
+      @click="toggleStateLocal"
+      :class="`button button-rec button-${stateClass}`"
+    >{{ content }}</button>
+</template>
+
+<script>
+import  { mapGetters } from 'vuex'
+export default {
+  name: 'ButtonRec',
+  props: {
+    content: String,
+    dataKeys: Array
+  },
+  data: function () {
+    return {
+      state: false
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'readRemoteMixerValue'
+    ]),
+    remoteButtonState() {
+      //console.log(this.readRemoteMixerValue(this.dataKeys[0]));
+      return this.readRemoteMixerValue(this.dataKeys[0]);
+    },
+    stateClass() {
+      return (this.state === true) ? 'active' : '';
+    }
+
+  },
+  methods: {
+    toggleStateLocal(){
+      //console.log("watch.localButtonState() changed to ", this.state)
+      this.state = !this.state;
+      this.$store.dispatch('sendMixerCommand', 'MTK_REC_TOGGLE')
+    }
+  },
+  watch: {
+    remoteButtonState(){
+      //console.log("watch.remoteButtonState() changed to ", this.remoteButtonState)
+      this.state = (parseInt(this.remoteButtonState) === 1) ? true : false;
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style>
+.button {
+  z-index: 200;
+  top: 1px;
+  position: absolute;
+}
+
+.button {
+  box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+	background-color:#f9f9f9;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	cursor:pointer;
+	color:#666666;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
+
+}
+
+.button-active {
+	box-shadow:inset 0px 1px 0px 0px #f5978e;
+	background:linear-gradient(to bottom, #f24537 5%, #c62d1f 100%);
+	background-color:#f24537;
+	border:1px solid #d02718;
+	color:#ffffff;
+}
+.button:hover {
+	background:linear-gradient(to bottom, #c62d1f 5%, #f24537 100%);
+	background-color:#c62d1f;
+}
+.button:active {
+}
+
+
+</style>

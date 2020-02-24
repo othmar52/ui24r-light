@@ -83,7 +83,12 @@ export default new Vuex.Store({
         'sendMessage',
         `3:::SET${('string' == typeof data.mValue ? 'S' : 'D')}^${data.mKey}^${data.mValue}`
       )
-      //this.sendMessage(null, );
+    },
+    sendMixerCommand: function(context, command) {
+      this.dispatch(
+        'sendMessage',
+        `3:::${command}`
+      )
     }
 
   }

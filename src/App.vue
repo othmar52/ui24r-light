@@ -2,6 +2,7 @@
   <div id="app">
     <img alt="Vue logo" class="logo" src="./assets/logo.png">
     <SliderContainer :rangeSlidersVu="rangeSlidersVu" />
+    <ButtonRec :dataKeys="['var.mtk.rec.currentState']" content="REC" />
   </div>
 </template>
 
@@ -11,10 +12,12 @@
 //import RangeSlider from './components/RangeSlider.vue'
 //import RangeSliderVu from './components/RangeSliderVu.vue'
 import SliderContainer from './components/SliderContainer.vue'
+import ButtonRec from './components/ButtonRec.vue'
 
 export default {
   name: 'App',
   components: {
+    ButtonRec,
     //VuMeter,
     //VuMeterStereo,
     //RangeSlider
@@ -85,7 +88,7 @@ export default {
 
       this.$options.sockets.onopen = () => {
           this.keepAliveInterval = setInterval(() => {
-                this.$socket.send('3:::ALIVE')
+              this.$store.dispatch('sendMixerCommand', 'ALIVE')
           }, 1000);
       }
 
