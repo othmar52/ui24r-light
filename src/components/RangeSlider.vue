@@ -43,11 +43,12 @@ export default {
       return this.readRemoteMixerValue(this.dataKeys[0]);
     },
     stripLabelKey() {
-      let found = this.dataKeys[0].match(/([ia].*)\.(\d.*)\./)
+      let found = this.dataKeys[0].match(/^([ia]*)\.(\d*)\./)
       if(found) {
         //console.log(found);
         return `${found[1]}.${found[2]}.name`
       }
+      console.log(this.dataKeys[0]);
       return undefined
     },
     readRemoteColorIndex() {
@@ -74,20 +75,19 @@ export default {
   watch: {
     localSliderValue(){
       //console.log("watch.localSliderValue() changed to ", this.localSliderValue)
-      this.$store.dispatch('sendMixerParam', {
-        mKey: this.dataKeys[0],
-        mValue: parseFloat(this.localSliderValue)
-      })
+
       this.setVisualSliderValue(this.localSliderValue)
 
-      // set value for linked stereo channel as well?
-      if((typeof this.dataKeys[1]) !== 'string') {
-        return
+      // set value and also for all linked stereo channel(s)
+      for(let key of this.dataKeys) {
+        if((typeof key) !== 'string') {
+          continue
+        }
+        this.$store.dispatch('sendMixerParam', {
+          mKey: key,
+          mValue: parseFloat(this.localSliderValue)
+        })
       }
-      this.$store.dispatch('sendMixerParam', {
-        mKey: this.dataKeys[1],
-        mValue: parseFloat(this.localSliderValue)
-      })
     },
     remoteSliderValue(){
       //console.log("watch.remoteSliderValue() changed to ", this.remoteSliderValue)

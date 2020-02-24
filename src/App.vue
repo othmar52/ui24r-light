@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <img alt="Vue logo" class="logo" src="./assets/logo.png">
-    <SliderContainer :rangeSlidersVu="rangeSlidersVu" />
+    <!-- <SliderContainer :rangeSlidersVu="rangeSlidersVu" /> -->
     <ButtonRec :dataKeys="['var.mtk.rec.currentState']" content="REC" />
+    <MyAuxMix :myInputChannels="[[2,3],[7]]" :myAuxChannel="[0,1]" />
   </div>
 </template>
 
@@ -11,18 +12,20 @@
 //import VuMeterStereo from './components/VuMeterStereo.vue'
 //import RangeSlider from './components/RangeSlider.vue'
 //import RangeSliderVu from './components/RangeSliderVu.vue'
-import SliderContainer from './components/SliderContainer.vue'
+// import SliderContainer from './components/SliderContainer.vue'
 import ButtonRec from './components/ButtonRec.vue'
+import MyAuxMix from './components/MyAuxMix.vue'
 
 export default {
   name: 'App',
   components: {
     ButtonRec,
+    MyAuxMix
     //VuMeter,
     //VuMeterStereo,
     //RangeSlider
     //RangeSliderVu
-    SliderContainer
+    // SliderContainer
   },
   data() {
     return {

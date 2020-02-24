@@ -1,5 +1,5 @@
 <template>
-  <div class="range__slider-vu">
+  <div class="range__slider-vu" :class="additionalClass">
     <VuMeter :keyVu="`vu.${dataKeys[0]}`" v-if="dataKeys.length === 1" />
     <VuMeterStereo :keyVuLeft="`${dataKeys[0]}`" :keyVuRight="dataKeys[1]" v-else/>
     <RangeSlider :dataKeys="dataKeys" labelKey="i.1.name"/>
@@ -18,7 +18,8 @@ export default {
         RangeSlider
     },
     props: {
-        dataKeys: Array
+        dataKeys: Array,
+        additionalClass: String
     }
 }
 </script>
