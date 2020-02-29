@@ -1,31 +1,35 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" class="logo" src="./assets/logo.png">
     <!-- <SliderContainer :rangeSlidersVu="rangeSlidersVu" /> -->
+    <!--
     <ButtonRec :dataKeys="['var.mtk.rec.currentState']" content="REC" />
     <MyAuxMix :myInputChannels="[[2,3],[7]]" :myAuxChannel="[0,1]" />
+    -->
+    <RecMonitor />
   </div>
 </template>
 
 <script>
-//import VuMeter from './components/VuMeter.vue'
-//import VuMeterStereo from './components/VuMeterStereo.vue'
-//import RangeSlider from './components/RangeSlider.vue'
-//import RangeSliderVu from './components/RangeSliderVu.vue'
-// import SliderContainer from './components/SliderContainer.vue'
+import VuMeter from './components/VuMeter.vue'
+import VuMeterStereo from './components/VuMeterStereo.vue'
+import RangeSlider from './components/RangeSlider.vue'
+import RangeSliderVu from './components/RangeSliderVu.vue'
+import SliderContainer from './components/SliderContainer.vue'
 import ButtonRec from './components/ButtonRec.vue'
 import MyAuxMix from './components/MyAuxMix.vue'
+import RecMonitor from './components/RecMonitor.vue'
 
 export default {
   name: 'App',
   components: {
     ButtonRec,
-    MyAuxMix
-    //VuMeter,
-    //VuMeterStereo,
-    //RangeSlider
-    //RangeSliderVu
-    // SliderContainer
+    MyAuxMix,
+    RecMonitor,
+    VuMeter,
+    VuMeterStereo,
+    RangeSlider,
+    RangeSliderVu,
+    SliderContainer
   },
   data() {
     return {
@@ -112,9 +116,14 @@ export default {
 </script>
 
 <style>
-
+html,
+body,
+#app {
+  height: 100%;
+}
 body {
   background: #3D3D4A;
+  overflow: hidden;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -123,8 +132,5 @@ body {
   text-align: center;
   color: #2c3e50;
   margin-top: 0;
-}
-.logo {
-  height: 30px;
 }
 </style>
