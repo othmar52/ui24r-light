@@ -1,7 +1,7 @@
 <template>
   <div class="vumeter" >
     <div class="vumeter__in" :style="`height: ${vuInPercent}%;`"></div>
-    <div class="vumeter__out" :style="`height: ${vuOutPercent}%;`"></div>
+    <div class="vumeter__out" :style="`height: ${propHansi}%;`"></div>
   </div>
 </template>
 
@@ -9,6 +9,11 @@
 import  { mapGetters } from 'vuex'
 export default {
   name: 'VuMeter',
+  data() {
+    return {
+      propHansi: 0
+    }
+  }, 
   props: {
     keyVu: String
   },
@@ -21,10 +26,14 @@ export default {
     },
     vuOutPercent() {
       return this.getVuPercent(this.keyVu, 'post');
+    },
+    hansi() {
+      return this.propHansi
     }
   },
   methods: {
      getVuPercent(vuKey, subKey) {
+       
         let vuValue = this.readRemoteMixerValue(vuKey);
         if (typeof vuValue == "undefined")
           return 0
@@ -33,6 +42,11 @@ export default {
           ? vuValue[subKey]*100 /* * this.$store.getters.getCurSetup.zeroDbPos*/
           : 100;
      }
+  },
+  created() {
+    window.dataObs.subscribe( hansi => {
+      this.propHansi = hansi * 100
+    })
   }
 }
 </script>

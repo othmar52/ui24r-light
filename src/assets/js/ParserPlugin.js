@@ -1,3 +1,10 @@
+
+
+import { Observable } from 'rxjs/Observable'
+import { BehaviorSubject } from 'rxjs/BehaviorSubject'
+import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/filter'
+//import 'rxjs/observable/map'
 const ParserPlugin = store => {
       store.subscribe(mutation => {
         if (mutation.type === 'SOCKET_ONMESSAGE') {
@@ -5,9 +12,46 @@ const ParserPlugin = store => {
             receiveMessages(mutation.payload.data);
         }
       })
+      const dataSubject = new BehaviorSubject(undefined)
+      window.dataObs = dataSubject.asObservable()
+       .filter(
+          a => !!a
+      ).map(
+        (a) => {
+          return a.split(/\n/).filter(
+              _ => _.startsWith("VU2^")
+          )
+        }
+        ).filter(
+            a => !!a.length
+        )
+        .map(
+            a => {
+                a = atob(a[0].slice(4));
 
+                for (var b = false, c = false, e = 8, g = 0, h = a.charCodeAt(0); g < h && !(g >= store.getters.getCurSetup.input); g++) {
+                    var l = e + 6 * g,
+                        m = deconvertVU(a.charCodeAt(l + 0)),
+                        n = deconvertVU(a.charCodeAt(l + 1)),
+                        q = deconvertVU(a.charCodeAt(l + 2)),
+                        r = deconvertVU_comp((a.charCodeAt(l + 5) & 127) << 1),
+                        p = 0 != (a.charCodeAt(l + 5) & 128);
+                    if(g === 12) {
+                        return q
+                    }
+                }
+                return undefined
+
+            }
+        )
+
+      //.subscribe(value => console.log(value))
+      
       function receiveMessages(data) {
-        data = data.split(/\n/);
+        dataSubject.next(data)
+
+        //console.log(dataSubject);
+        data = data.split(/\n/)
         data.forEach(lineData => (
             receiveMessage(lineData)
         ));
@@ -17,6 +61,7 @@ const ParserPlugin = store => {
         if (!data) { return; }
 
         if (data.startsWith('SETD^')) { 
+            //console.log(data)
             var b = data.split('^', 3);
             3 > b.length || putValue(b[1], parseFloat(b[2]))
         } else data.startsWith('SETS^')

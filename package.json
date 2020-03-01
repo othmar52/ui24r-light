@@ -10,6 +10,8 @@
   "dependencies": {
     "core-js": "^3.6.4",
     "portfinder": "^1.0.21",
+    "rxjs": "^6.5.4",
+    "rxjs-compat": "^6.5.4",
     "vue": "^2.6.11",
     "vue-native-websocket": "^2.0.14",
     "vue-socket-io": "^0.3.2",
