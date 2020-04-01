@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Overlay text="Connecting..." />
     <!-- <SliderContainer :rangeSlidersVu="rangeSlidersVu" /> -->
     <!--
     <ButtonRec :dataKeys="['var.mtk.rec.currentState']" content="REC" />
@@ -18,10 +19,12 @@ import SliderContainer from './components/SliderContainer.vue'
 import ButtonRec from './components/ButtonRec.vue'
 import MyAuxMix from './components/MyAuxMix.vue'
 import RecMonitor from './components/RecMonitor.vue'
+import Overlay from './components/Overlay.vue'
 
 export default {
   name: 'App',
   components: {
+    Overlay,
     ButtonRec,
     MyAuxMix,
     RecMonitor,
@@ -34,7 +37,7 @@ export default {
   data() {
     return {
       // client config
-      ip: '10.0.1.124',
+      ip: '10.0.1.126',
 
       rangeSlidersVu: [
         ['i.0.mix','i.1.mix'],

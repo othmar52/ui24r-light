@@ -38,6 +38,7 @@ export default new Vuex.Store({
       state.socket.isConnected = true
     },
     SOCKET_ONCLOSE (state, event)  {
+      console.log("lost socket connection. store.js SOCKET_ONCLOSE()")
       state.socket.isConnected = false
     },
     SOCKET_ONERROR (state, event)  {
@@ -67,7 +68,10 @@ export default new Vuex.Store({
     },
     readRemoteMixerValue: (state) => (keyArg) => {
       return state.mData[keyArg]
-    }
+    },
+    isSocketConnected: state => {
+      return state.socket.isConnected
+    },
   },
   actions: {
     sendMessage: function(context, message) {
