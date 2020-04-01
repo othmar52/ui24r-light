@@ -69,7 +69,8 @@ export default {
       return this.readRemoteMixerValue("var.mtk.bufferfill")
     },
     remoteVarMtkFreeSpace() {
-      return `${parseFloat(this.readRemoteMixerValue("var.mtk.freespace")).toFixed(2)} GB`;
+      let space = parseFloat(this.readRemoteMixerValue("var.mtk.freespace")).toFixed(2)
+      return (space) < 0 ? '???' : `${space} GB`;
     },
     remoteVarMtkDropOuts() {
       return this.readRemoteMixerValue("var.mtk.dropouts");
