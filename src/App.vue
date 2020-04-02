@@ -7,7 +7,24 @@
     <router-view/>
   </div>
 </template>
+<script>
+import { mapGetters } from 'vuex'
+export default {
+  computed: {
+    ...mapGetters({
+      haveValidConfig: 'haveValidConfig'
+    })
+  },
+  mounted () {
+    if (this.haveValidConfig) {
+      this.$store.dispatch('connectAllEnabledSockets')
+    }
+  },
 
+  methods: {
+  }
+}
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

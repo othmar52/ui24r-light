@@ -1,18 +1,25 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <CreateConfig v-if="!haveValidConfig" />
+    <MainMenu v-if="haveValidConfig" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import CreateConfig from '@/components/config/CreateConfig.vue'
+import MainMenu from '@/components/MainMenu.vue'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    CreateConfig,
+    MainMenu
+  },
+  computed: {
+    ...mapGetters({
+      haveValidConfig: 'haveValidConfig'
+    })
   }
 }
 </script>
