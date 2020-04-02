@@ -2,14 +2,12 @@ const MixerConfigValidator = store => {
   console.log('subscribe()')
   store.subscribe(mutation => {
     if (mutation.type === 'retrieveMixerConfig') {
-      //    console.log('MixerConfigValidator::setMixerConfig', mutation.payload)
       validate(mutation.payload)
     }
   })
 
   //  todo: we need at least one enabled mixer socket
   function validate (mixerConfig) {
-    console.log('validate()', mixerConfig)
     let isValid = true
     for (const subject of ['mixer1', 'mixer2']) {
       if (typeof mixerConfig[subject] === 'undefined') {
@@ -24,12 +22,22 @@ const MixerConfigValidator = store => {
         isValid = false
         continue
       }
+      // todo url schema of mixers(ui24r) vs. url of paramRecorder
       mixerConfig[subject].url = `ws://${mixerConfig[subject].ip}/socket.io/1/websocket/sock-${(new Date()).getTime()}${(new Date()).getMilliseconds()}`
+      mixerConfig[subject].curSetup = {
+        input: 24,
+        linein: 2,
+        fx: 4,
+        aux: 10,
+        sub: 6,
+        rec: true,
+        zeroDbPos: 0.7647058823529421
+      }
     }
-    if (isValid === true) {
-      store.dispatch('setValidatedMixerConfig', mixerConfig)
+    if (isValid === false) {
+      return
     }
-    //  console.log('MixerConfigValidator::validate', isValid, mixerConfig)
+    store.dispatch('setValidatedMixerConfig', mixerConfig)
   }
 }
 

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import MixerConfigValidator from '../assets/js/MixerConfigValidator'
+import Ui24rMessageParser from '../assets/js/Ui24rMessageParser'
 
 Vue.use(Vuex)
 
@@ -18,7 +19,8 @@ export default new Vuex.Store({
         reconnectError: false,
         socket: undefined,
         config: {},
-        keepAliveInterval: undefined
+        keepAliveInterval: undefined,
+        mData: {}
       },
       mixer2: {
         isConnected: false,
@@ -26,7 +28,8 @@ export default new Vuex.Store({
         reconnectError: false,
         socket: undefined,
         config: {},
-        keepAliveInterval: undefined
+        keepAliveInterval: undefined,
+        mData: {}
       },
       paramRecorder1: {
         isConnected: false,
@@ -34,7 +37,8 @@ export default new Vuex.Store({
         reconnectError: false,
         socket: undefined,
         config: {},
-        keepAliveInterval: undefined
+        keepAliveInterval: undefined,
+        mData: {}
       },
       paramRecorder2: {
         isConnected: false,
@@ -42,15 +46,23 @@ export default new Vuex.Store({
         reconnectError: false,
         socket: undefined,
         config: {},
-        keepAliveInterval: undefined
+        keepAliveInterval: undefined,
+        mData: {}
       }
     }
   },
   plugins: [
-    MixerConfigValidator
+    MixerConfigValidator,
+    Ui24rMessageParser
   ],
   mutations: {
     retrieveMixerConfig: function () {
+    },
+    receiveSocketMessage: function (state, data) {
+      state.sockets[data.socketId].message = data.message
+    },
+    updateMixerData (state, payload) {
+      Vue.set(state.sockets[payload.socketId].mData, payload.key, payload.data)
     }
   },
   actions: {
@@ -80,21 +92,24 @@ export default new Vuex.Store({
         sock.onopen = (event) => {
           console.log('onOpen() ', event)
           context.state.sockets[key].isConnected = true
-          if (typeof context.state.sockets[key].keepAliveInterval !== 'undefined') {
-            clearInterval(context.state.sockets[key].keepAliveInterval)
+          if (typeof context.state.sockets[key].keepAliveInterval === 'undefined') {
+            context.state.sockets[key].keepAliveInterval = setInterval(() => {
+              context.dispatch('sendMixerCommand', { socketId: key, cmd: 'ALIVE' })
+            }, 1000)
           }
-          context.state.sockets[key].keepAliveInterval = setInterval(() => {
-            context.dispatch('sendMixerCommand', { socketId: key, cmd: 'ALIVE' })
-          }, 1000)
         }
         sock.onclose = (event) => {
           console.log('onClose() ', event)
           context.state.sockets[key].isConnected = false
           clearInterval(context.state.sockets[key].keepAliveInterval)
+          context.state.sockets[key].keepAliveInterval = undefined
         }
         sock.onerror = (event) => {
           console.log('onError() ', event)
           context.state.sockets[key].isConnected = false
+        }
+        sock.onmessage = (event) => {
+          context.commit('receiveSocketMessage', { socketId: key, message: event.data })
         }
         context.state.sockets[key].socket = sock
       }
@@ -128,7 +143,10 @@ export default new Vuex.Store({
   getters: {
     haveValidConfig: state => state.haveValidConfig,
     socketConnected: (state) => (socketId) => { return state.sockets[socketId].isConnected },
-    socketEnabled: (state) => (socketId) => { return state.sockets[socketId].config.enabled }
+    socketEnabled: (state) => (socketId) => { return state.sockets[socketId].config.enabled },
+    getCurSetup: (state) => (socketId) => {
+      return state.sockets[socketId].config.curSetup
+    }
   },
   modules: {
   }
