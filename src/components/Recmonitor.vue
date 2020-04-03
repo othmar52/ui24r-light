@@ -26,13 +26,15 @@ export default {
     RecStatus
   },
   props: {
-    armedChannels: Array,
-    socketId: String
+    armedChannels: Array
   },
   computed: {
     ...mapGetters([
       'readRemoteMixerValue'
     ]),
+    socketId () {
+      return this.$route.params.socketId
+    },
     remoteArmedChannels () {
       // concatenate all relevant values that affect the vu meters
       let paramChunk = ''

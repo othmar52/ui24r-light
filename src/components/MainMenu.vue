@@ -3,7 +3,7 @@
     <h1>main menu</h1>
     <ul>
       <li>
-        <router-link to="/recmonitor">Rec-monitor</router-link>
+        <router-link :to="{ name: 'RecmonitorSelector' }">Rec-monitor</router-link>
       </li>
       <li>
         <router-link to="/moreme">More Me</router-link>
@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: 'MixerIp',
+  name: 'MainMenu',
   props: {
     msg: String
   }
