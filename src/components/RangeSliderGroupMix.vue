@@ -28,15 +28,13 @@ export default {
     myAuxChannel: Array,
     dataKeys: Array,
     labelKey: String,
-    staticLabel: String
+    staticLabel: String,
+    socketId: String
   },
   computed: {
     ...mapGetters([
       'readRemoteMixerValue'
     ]),
-    socketId () {
-      return this.$route.params.socketId
-    },
     remoteSliderValue () {
       // concatenate all relevant values that affect the headphone mix
       let paramChunk = ''

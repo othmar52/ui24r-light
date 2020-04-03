@@ -1,28 +1,37 @@
 <template>
   <div class="slider__container">
     <!-- headphone(aux) volume -->
-    <RangeSliderVu :socketId="socketId" :dataKeys="auxDataKeys" additionalClass="auxvolume"/>
+    <RangeSliderVu
+      :socketId="socketId"
+      :dataKeys="auxDataKeys"
+      additionalClass="auxvolume"
+    />
 
     <!-- single fader for group (all others) in headphone(aux) mix -->
     <div class="range__slider-group">
-        <RangeSliderGroupMix :socketId="socketId" staticLabel="group" :myInputChannels="myInputChannels" :myAuxChannel="myAuxChannel"/>
+      <RangeSliderGroupMix
+        :socketId="socketId"
+        staticLabel="group"
+        :myInputChannels="myInputChannels"
+        :myAuxChannel="myAuxChannel"
+      />
     </div>
 
     <!-- levels of myChannels for headphone(aux) mix -->
     <RangeSliderVu
-        v-for="(item, index) in inputDataKeysAuxMix"
-        v-bind:dataKeys="item"
-        v-bind:key="index"
-        :socketId="socketId"
-    ></RangeSliderVu>
+      v-for="(item, index) in inputDataKeysAuxMix"
+      v-bind:dataKeys="item"
+      v-bind:key="index"
+      :socketId="socketId"
+    />
 
     <!-- levels of myChannels for master mix -->
     <RangeSliderVu
-        v-for="(item, index) in inputDataKeysMasterMix"
-        v-bind:dataKeys="item"
-        v-bind:key="index+100"
-        :socketId="socketId"
-    ></RangeSliderVu>
+      v-for="(item, index) in inputDataKeysMasterMix"
+      v-bind:dataKeys="item"
+      v-bind:key="index+100"
+      :socketId="socketId"
+    />
   </div>
 </template>
 
@@ -35,22 +44,12 @@ export default {
     RangeSliderVu,
     RangeSliderGroupMix
   },
-  // props: {
-  //   myInputChannels: Array,
-  //   myAuxChannel: Array
-  // },
+  props: {
+    myInputChannels: Array,
+    myAuxChannel: Array,
+    socketId: String
+  },
   computed: {
-    myAuxChannel () {
-      // :myInputChannels="[[2,3],[7]]" :myAuxChannel="[0,1]"
-      return this.$route.params.myAuxChannel
-    },
-    myInputChannels () {
-      // :myInputChannels="[[2,3],[7]]" :myAuxChannel="[0,1]"
-      return this.$route.params.myInputChannels
-    },
-    socketId () {
-      return this.$route.params.socketId
-    },
     auxDataKeys () {
       const keys = []
       for (const index in this.myAuxChannel) {
@@ -69,7 +68,6 @@ export default {
         }
         allSources.push(singleSource)
       }
-      console.log('inputDataKeysAuxMix', allSources)
       return allSources
     },
     inputDataKeysMasterMix () {
@@ -81,14 +79,8 @@ export default {
         }
         allSources.push(singleSource)
       }
-      console.log('inputDataKeysMasterMix', allSources)
       return allSources
     }
-  },
-  mounted () {
-    // this.myInputChannels = [[2, 3], [7]]
-    // this.myAuxChannel = [0, 1]
-    // console.log('mounted MyAuXMix.vue', this.socketId)
   }
 }
 </script>

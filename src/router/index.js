@@ -5,7 +5,7 @@ import EmptyRouterView from '@/views/EmptyRouterView.vue'
 import RecmonitorSelector from '@/components/RecmonitorSelector.vue'
 import Recmonitor from '@/components/Recmonitor.vue'
 import MyAuxMixConfigurator from '@/components/MyAuxMixConfigurator.vue'
-import MyAuxMix from '@/components/MyAuxMix.vue'
+import MyAuxMixUrlConverter from '@/components/MyAuxMixUrlConverter.vue'
 
 Vue.use(VueRouter)
 
@@ -41,9 +41,9 @@ const routes = [
         component: MyAuxMixConfigurator
       },
       {
-        path: ':socketId/:myInputChannels/:myAuxChannel',
+        path: ':myAuxMixUrlParams',
         name: 'MyAuxMixShow',
-        component: MyAuxMix
+        component: MyAuxMixUrlConverter
       }
     ]
   }

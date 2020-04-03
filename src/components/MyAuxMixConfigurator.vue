@@ -1,13 +1,27 @@
 <template>
   <div class="auxmix__selector">
-    aux mix configurator<br>
-    <router-link :to="{ name: 'MyAuxMixShow', params: { socketId: 'mixer2', myInputChannels: [[2, 3], [7]], myAuxChannel: [0, 1] }}">c1</router-link><br>
-    <router-link :to="{ name: 'Home' }">back to menu</router-link>
+    <div class="choose__mixer">
+      <h3>Choose Mixer</h3>
+    </div>
+    <h1>choose your channel(s)...</h1>
+    <router-link :to="{ name: 'MyAuxMixShow', params: { myAuxMixUrlParams: jsonifiedParams } }">static example configuration</router-link><br>
+    <router-link :to="{ name: 'Home' }">back to menu</router-link><br>
+    params: {{ jsonifiedParams }} XXX
   </div>
 </template>
 
 <script>
 export default {
-  name: 'MyAuxMixConfigurator'
+  name: 'MyAuxMixConfigurator',
+  computed: {
+    jsonifiedParams () {
+      const testJson = [
+        'mixer1',
+        [[2, 3], [7]],
+        [0, 1]
+      ]
+      return JSON.stringify(testJson)
+    }
+  }
 }
 </script>
