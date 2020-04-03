@@ -126,7 +126,10 @@ export default new Vuex.Store({
     sendMixerParam: function (context, data) {
       this.dispatch(
         'sendMessage',
-        `3:::SET${(typeof data.mValue === 'string' ? 'S' : 'D')}^${data.mKey}^${data.mValue}`
+        {
+          socketId: data.socketId,
+          cmd: `3:::SET${(typeof data.mValue === 'string' ? 'S' : 'D')}^${data.mKey}^${data.mValue}`
+        }
       )
     },
     sendMixerCommand: function (context, data) {

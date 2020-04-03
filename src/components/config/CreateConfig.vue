@@ -40,5 +40,6 @@ pre {
     padding: 2em;
     margin-left: 200px;
     background: #CCC;
+    color: #222;
 }
 </style>

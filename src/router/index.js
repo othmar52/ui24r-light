@@ -4,8 +4,9 @@ import Home from '@/views/Home.vue'
 import EmptyRouterView from '@/views/EmptyRouterView.vue'
 import RecmonitorSelector from '@/components/RecmonitorSelector.vue'
 import Recmonitor from '@/components/Recmonitor.vue'
+import MyAuxMixConfigurator from '@/components/MyAuxMixConfigurator.vue'
+import MyAuxMix from '@/components/MyAuxMix.vue'
 
-import MyAuxMixView from '@/views/MyAuxMixView.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -16,7 +17,6 @@ const routes = [
   },
   {
     path: '/recmonitor',
-    name: 'EmptyRouterView',
     component: EmptyRouterView,
     children: [
       {
@@ -33,13 +33,19 @@ const routes = [
   },
   {
     path: '/mymix',
-    name: 'MyAuxMixViewConfigurator',
-    component: MyAuxMixView
-  },
-  {
-    path: '/mymix/:myAuxMixConf',
-    name: 'MyAuxMixViewShow',
-    component: MyAuxMixView
+    component: EmptyRouterView,
+    children: [
+      {
+        path: '',
+        name: 'MyAuxMixConfigurator',
+        component: MyAuxMixConfigurator
+      },
+      {
+        path: ':socketId/:myInputChannels/:myAuxChannel',
+        name: 'MyAuxMixShow',
+        component: MyAuxMix
+      }
+    ]
   }
 ]
 

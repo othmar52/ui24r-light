@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <CreateConfig v-if="!haveValidConfig" />
-    <ConnectionStatusAll />
+    <ConnectionStatusAll v-if="haveValidConfig"  />
     <router-view v-if="haveValidConfig" />
   </div>
 </template>
@@ -65,7 +65,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: white;
   margin-top: 0;
+}
+
+a {
+  color: white;
 }
 </style>

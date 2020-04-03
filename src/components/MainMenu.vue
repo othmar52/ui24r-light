@@ -6,7 +6,7 @@
         <router-link :to="{ name: 'RecmonitorSelector' }">Rec-monitor</router-link>
       </li>
       <li>
-        <router-link to="/moreme">More Me</router-link>
+        <router-link :to="{ name: 'MyAuxMixConfigurator' }">My AUX mix</router-link>
       </li>
     </ul>
   </div>

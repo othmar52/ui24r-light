@@ -30,7 +30,7 @@ export default {
       if (typeof vuValue === 'undefined') { return 0 }
 
       return (vuValue[subKey] < 1)
-        ? vuValue[subKey] * 100 /* * this.$store.getters.getCurSetup.zeroDbPos */
+        ? vuValue[subKey] * 100 /* * this.$store.getters.getCurSetup(this.socketId).zeroDbPos */
         : 100
     }
   }
