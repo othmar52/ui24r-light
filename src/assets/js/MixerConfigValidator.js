@@ -1,5 +1,4 @@
 const MixerConfigValidator = store => {
-  console.log('subscribe()')
   store.subscribe(mutation => {
     if (mutation.type === 'retrieveMixerConfig') {
       validate(mutation.payload)

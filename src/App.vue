@@ -1,15 +1,19 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <CreateConfig v-if="!haveValidConfig" />
+    <ConnectionStatusAll />
+    <router-view v-if="haveValidConfig" />
   </div>
 </template>
 <script>
+import CreateConfig from '@/components/config/CreateConfig.vue'
+import ConnectionStatusAll from '@/components/ConnectionStatusAll.vue'
 import { mapGetters } from 'vuex'
 export default {
+  components: {
+    CreateConfig,
+    ConnectionStatusAll
+  },
   computed: {
     ...mapGetters({
       haveValidConfig: 'haveValidConfig'

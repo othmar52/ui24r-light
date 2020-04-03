@@ -33,7 +33,6 @@ const Ui24rMessageParser = store => {
   }
 
   function parseCommand (msg, socketId) {
-    // store.commit('updateMixerData', { key: `sdgsdygfdkey`, data: { pre: 10, post: 20 } });
     /// * eslint-disable no-unreachable */
     // return;
     switch (true) {
@@ -41,7 +40,7 @@ const Ui24rMessageParser = store => {
         return parseVUdata(msg, socketId)
 
       case msg.startsWith('INIT^'):
-        console.log('init() in parser')
+        // console.log('init() in parser')
         Object.extend(
           // appData.mData,
           JSON.parse(msg.substring(5))

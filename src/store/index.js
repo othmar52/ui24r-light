@@ -66,12 +66,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    mixerSocketConnect: function (context, ip) {
-      console.log('mixerSocketConnect ', ip)
-    },
     setValidatedMixerConfig: function (context, mixerConfig) {
-      context.state.haveValidConfig = true
       //  console.log('setMixerConfig ', mixerConfig)
+      context.state.haveValidConfig = true
       context.state.sockets.mixer1.config = mixerConfig.mixer1
       context.state.sockets.mixer2.config = mixerConfig.mixer2
     },
@@ -90,7 +87,7 @@ export default new Vuex.Store({
           value.config.url
         )
         sock.onopen = (event) => {
-          console.log('onOpen() ', event)
+          // console.log('onOpen() ', event)
           context.state.sockets[key].isConnected = true
           if (typeof context.state.sockets[key].keepAliveInterval === 'undefined') {
             context.state.sockets[key].keepAliveInterval = setInterval(() => {
@@ -99,13 +96,13 @@ export default new Vuex.Store({
           }
         }
         sock.onclose = (event) => {
-          console.log('onClose() ', event)
+          // console.log('onClose() ', event)
           context.state.sockets[key].isConnected = false
           clearInterval(context.state.sockets[key].keepAliveInterval)
           context.state.sockets[key].keepAliveInterval = undefined
         }
         sock.onerror = (event) => {
-          console.log('onError() ', event)
+          // console.log('onError() ', event)
           context.state.sockets[key].isConnected = false
         }
         sock.onmessage = (event) => {
@@ -121,7 +118,7 @@ export default new Vuex.Store({
     },
     sendMessage: function (context, data) {
       if (this.state.sockets[data.socketId].isConnected === false) {
-        console.log(`socket '${data.socketId}' is NOT connected! will not send ${data.cmd}`)
+        // console.log(`socket '${data.socketId}' is NOT connected! will not send ${data.cmd}`)
         return
       }
       this.state.sockets[data.socketId].socket.send(data.cmd)

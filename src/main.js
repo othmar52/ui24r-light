@@ -52,6 +52,7 @@ window.initialDataLoadInterval = window.setInterval(
     // now we ar ready to go
     // destroy the interval and init Vue app
     clearInterval(window.initialDataLoadInterval)
+    window.initialDataLoadInterval = undefined
     configJsNode.parentNode.removeChild(configJsNode)
 
     store.commit('retrieveMixerConfig', mixerConfig) // eslint-disable-line no-undef
