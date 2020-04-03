@@ -10,7 +10,7 @@
 export default {
   name: 'RecmonitorSelector',
   mounted () {
-    console.log('RecmonitorSelector::mounted()')
+    // console.log('RecmonitorSelector::mounted()')
     if (typeof this.$route.params.socketId === 'undefined') {
       // return
     }
@@ -20,11 +20,11 @@ export default {
     // console.log('rec selector mounted', this.socketId, this.$route.params.socketId)
   },
   created () {
-    console.log('RecmonitorSelector::created()')
+    // console.log('RecmonitorSelector::created()')
   },
   watch: {
     '$route.params.socketId': function (socketId) {
-      console.log('RecmonitorSelector::watcher ', socketId)
+      // console.log('RecmonitorSelector::watcher ', socketId)
       this.show = false
       // this.$router.push(`/recmonitor/${socketId}`)
     }

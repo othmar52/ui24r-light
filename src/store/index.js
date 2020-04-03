@@ -143,6 +143,11 @@ export default new Vuex.Store({
     socketEnabled: (state) => (socketId) => { return state.sockets[socketId].config.enabled },
     getCurSetup: (state) => (socketId) => {
       return state.sockets[socketId].config.curSetup
+    },
+    readRemoteMixerValue: (state) => (args) => {
+      // console.log('args', args)
+      // return state.mData[keyArg]
+      return state.sockets[args.socketId].mData[args.key]
     }
   },
   modules: {

@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="recmonitor__view">
     <RecmonitorSelector v-if="!socketId" />
     <Recmonitor v-else v-bind:socketId="socketId" />
     <router-view />
@@ -31,23 +31,29 @@ export default {
     })
   },
   mounted () {
-    console.log('RecmonitorView::mounted()')
+    // console.log('RecmonitorView::mounted()')
     if (typeof this.$route.params.socketId === 'undefined') {
       return
     }
     // this.$router.push('Home')
     this.socketId = this.$route.params.socketId
 
-    console.log('rec selector mounted: ', this.socketId)
+    // console.log('rec selector mounted: ', this.socketId)
   },
   created () {
-    console.log('RecmonitorView::created()')
+    // console.log('RecmonitorView::created()')
   },
   watch: {
     '$route.params.socketId': function (socketId) {
-      console.log('watcher ', socketId)
+      // console.log('watcher ', socketId)
       // this.$router.push(`/recmonitor/${socketId}`)
     }
   }
 }
 </script>
+
+<style>
+.recmonitor__view {
+  height: 100%;
+}
+</style>
