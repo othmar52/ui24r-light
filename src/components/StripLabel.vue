@@ -20,7 +20,22 @@ export default {
       if (typeof this.staticText !== 'undefined') {
         return this.staticText
       }
-      return this.readRemoteMixerValue({ socketId: this.socketId, key: this.labelKey })
+      return this.postProcessLabel(
+        this.readRemoteMixerValue({
+          socketId: this.socketId,
+          key: this.labelKey
+        }),
+        this.labelKey
+      )
+    }
+  },
+  methods: {
+    /* TODO: add channel suffix by configuration. respect stereoLink */
+    postProcessLabel (labelString, labelKey) {
+      if (labelString === '') {
+        return labelKey.replace('.name', '')
+      }
+      return labelString
     }
   }
 }
