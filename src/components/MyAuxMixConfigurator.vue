@@ -48,6 +48,8 @@
         <router-link :to="{ name: 'MyAuxMixShow', params: { myAuxMixUrlParams: jsonifiedParams } }">static example configuration</router-link><br>
       -->
       <router-link :to="`${jsonifiedParams}`">READY TO GO... ({{ jsonifiedParams }})</router-link><br>
+      <qrcode :value="jsonifiedParams" :options="{ width: 200 }"></qrcode>
+
     </div>
     <div v-else>
       choose your channel(s)...

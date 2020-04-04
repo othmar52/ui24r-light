@@ -3,8 +3,11 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+import VueQrcode from '@chenfengyuan/vue-qrcode'
+
 Vue.config.productionTip = false
 
+Vue.component(VueQrcode.name, VueQrcode)
 Vue.use({
   install (Vue, options) {
     Object.defineProperty(Vue.prototype, '$mixer1Socket', {
