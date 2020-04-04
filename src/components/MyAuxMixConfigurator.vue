@@ -5,7 +5,6 @@
       <div v-for="(item, index) in availableSocketKeys"
         v-bind:item="item"
         v-bind:key="index+200">
-
         <input type="radio" :id="item" :value="item" v-model="cMixer">
         <label :for="item">{{ item }}</label>
       </div>
@@ -18,7 +17,6 @@
           <input type="checkbox" :id="item.id" :value="item.channels" v-model="cInputs">
           <label :for="item.id">{{ item.label }}</label>
       </div>
-      <br>
     </div>
     <div class="choose__output">
       <h3>Choose Output</h3>
@@ -28,7 +26,20 @@
           <input type="radio" :id="item.id" :value="item.channels" v-model="cOutput">
           <label :for="item.id">{{ item.label }}</label>
       </div>
-      <br>
+    </div>
+    <div class="choose__showrec">
+      <h3>Show rec button?</h3>
+      <input type="radio" id="showRec-yes" :value="true" v-model="cShowRec">
+      <label for="showRec-yes">yes</label>
+      <input type="radio" id="showRec-no" :value="false" v-model="cShowRec">
+      <label for="showRec-no">no</label>
+    </div>
+    <div class="choose__nosleep">
+      <h3>Show rec button?</h3>
+      <input type="radio" id="noSleep-yes" :value="true" v-model="cNoSleep">
+      <label for="noSleep-yes">yes</label>
+      <input type="radio" id="noSleep-no" :value="false" v-model="cNoSleep">
+      <label for="noSleep-no">no</label>
     </div>
     <h1>
     <div v-if="validUrlParams">
@@ -55,7 +66,9 @@ export default {
       availableSocketKeys: ['mixer1', 'mixer2'],
       cMixer: 'mixer1',
       cInputs: [],
-      cOutput: []
+      cOutput: [],
+      cShowRec: false,
+      cNoSleep: true
     }
   },
   computed: {
@@ -67,7 +80,9 @@ export default {
       const testJson = [
         this.cMixer,
         this.cInputs,
-        this.cOutput
+        this.cOutput,
+        this.cShowRec,
+        this.cNoSleep
       ]
       return JSON.stringify(testJson)
     },
