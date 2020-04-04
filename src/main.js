@@ -8,63 +8,46 @@ import VueQrcode from '@chenfengyuan/vue-qrcode'
 Vue.config.productionTip = false
 
 Vue.component(VueQrcode.name, VueQrcode)
-Vue.use({
-  install (Vue, options) {
-    Object.defineProperty(Vue.prototype, '$mixer1Socket', {
-      get () {
-        return store.getters.mixer1Socket
-      },
-      set (v) {
-        return store.commit('mixer1Socket', v)
-      }
-    })
-    Object.defineProperty(Vue.prototype, '$mixer2Socket', {
-      get () {
-        return store.getters.mixer2Socket
-      },
-      set (v) {
-        return store.commit('mixer2Socket', v)
-      }
-    })
-  }
-})
 
 // due to the requirement of supporting file:// protocol we can't
 // perform an ajax call. but we can load a script during runtime by creating a DOM node...
 const configJsNode = document.createElement('script')
 configJsNode.setAttribute('src', './config.js')
 document.head.appendChild(configJsNode)
+
+// helper vars
 let loadAttempts = 0
+let initApp = false
 
 window.initialDataLoadInterval = window.setInterval(
   function () {
-    if (loadAttempts > 3) {
-      clearInterval(window.initialDataLoadInterval)
-      configJsNode.parentNode.removeChild(configJsNode)
-      new Vue({
-        router,
-        store,
-        render: h => h(App)
-      }).$mount('#app')
+    // continue loop until we reach max tries or we get mixerConfig from external file...
+    if (loadAttempts > 3 || typeof mixerConfig !== 'undefined') {
+      initApp = true
     }
-    if (typeof mixerConfig === 'undefined') {
-      // continue loop until we get mixerConfig from external file...
-      loadAttempts++
+    loadAttempts++
+    if (initApp === false) {
       return
     }
-    // now we ar ready to go
+
     // destroy the interval and init Vue app
     clearInterval(window.initialDataLoadInterval)
     window.initialDataLoadInterval = undefined
     configJsNode.parentNode.removeChild(configJsNode)
 
-    store.commit('retrieveMixerConfig', mixerConfig) // eslint-disable-line no-undef
+    try {
+      // pass loaded mixerConfig (or undefined) to the store
+      store.commit('retrieveMixerConfig', mixerConfig) // eslint-disable-line no-undef
+    } catch (e) {
+      // don't wory about missing config as app will handle missing config
+    }
 
+    // init App
     new Vue({
       router,
       store,
       render: h => h(App)
     }).$mount('#app')
   },
-  5
+  10
 )

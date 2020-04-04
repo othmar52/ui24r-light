@@ -57,6 +57,7 @@ export default new Vuex.Store({
   ],
   mutations: {
     retrieveMixerConfig: function () {
+      // @see src/assets/js/MixerConfigValidator.js
     },
     receiveSocketMessage: function (state, data) {
       state.sockets[data.socketId].message = data.message
