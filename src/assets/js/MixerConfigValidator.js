@@ -8,6 +8,7 @@ const MixerConfigValidator = store => {
   //  todo: we need at least one enabled mixer socket
   function validate (mixerConfig) {
     let isValid = true
+    let atLeastOneMixerEnabled = false
     for (const subject of ['mixer1', 'mixer2']) {
       if (typeof mixerConfig[subject] === 'undefined') {
         isValid = false
@@ -21,6 +22,9 @@ const MixerConfigValidator = store => {
         isValid = false
         continue
       }
+      if (mixerConfig[subject].enabled === true) {
+        atLeastOneMixerEnabled = true
+      }
       // todo url schema of mixers(ui24r) vs. url of paramRecorder
       mixerConfig[subject].url = `ws://${mixerConfig[subject].ip}/socket.io/1/websocket/sock-${(new Date()).getTime()}${(new Date()).getMilliseconds()}`
       mixerConfig[subject].curSetup = {
@@ -32,6 +36,10 @@ const MixerConfigValidator = store => {
         rec: true,
         zeroDbPos: 0.7647058823529421
       }
+    }
+
+    if (atLeastOneMixerEnabled === false) {
+      isValid = false
     }
     if (isValid === false) {
       return

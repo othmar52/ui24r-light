@@ -1,8 +1,8 @@
 <template>
   <div class="auxmix__selector">
-    <div class="choose__mixer">
+    <div class="choose__mixer" v-if="enabledSocketKeys.length > 1">
       <h3>Choose Mixer</h3>
-      <div v-for="(item, index) in availableSocketKeys"
+      <div v-for="(item, index) in enabledSocketKeys"
         v-bind:item="item"
         v-bind:key="index+200">
         <input type="radio" :id="item" :value="item" v-model="cMixer">
@@ -65,8 +65,7 @@ export default {
   name: 'MyAuxMixConfigurator',
   data () {
     return {
-      availableSocketKeys: ['mixer1', 'mixer2'],
-      cMixer: 'mixer1',
+      cMixer: '',
       cInputs: [],
       cOutput: [],
       cShowRec: false,
@@ -76,6 +75,7 @@ export default {
   computed: {
     ...mapGetters([
       'readRemoteMixerValue',
+      'getEnabledMixerSocketIds',
       'getCurSetup'
     ]),
     jsonifiedParams () {
@@ -99,6 +99,9 @@ export default {
     },
     availableOutputs () {
       return this.fetchAvailableOutputs()
+    },
+    enabledSocketKeys () {
+      return this.getEnabledMixerSocketIds
     }
   },
   methods: {
@@ -147,7 +150,15 @@ export default {
         inputs.push(input)
       }
       return inputs
+    },
+    checkForPreselectMixer () {
+      if (this.enabledSocketKeys.length === 1) {
+        this.cMixer = this.enabledSocketKeys[0]
+      }
     }
+  },
+  mounted () {
+    this.checkForPreselectMixer()
   }
 }
 </script>

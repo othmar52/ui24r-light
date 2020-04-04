@@ -153,6 +153,16 @@ export default new Vuex.Store({
       // console.log('args', args)
       // return state.mData[keyArg]
       return state.sockets[args.socketId].mData[args.key]
+    },
+    getEnabledMixerSocketIds (state) {
+      const enabledSockets = []
+      for (const socketId of ['mixer1', 'mixer2']) {
+        if (typeof state.sockets[socketId].socket === 'undefined') {
+          continue
+        }
+        enabledSockets.push(socketId)
+      }
+      return enabledSockets
     }
   },
   modules: {
