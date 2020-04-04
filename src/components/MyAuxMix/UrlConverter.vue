@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import MyAuxMix from '@/components/MyAuxMix.vue'
+import MyAuxMix from '@/components/MyAuxMix/Show.vue'
 export default {
   name: 'MyAuxMixUrlConverter',
   components: {

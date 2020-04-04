@@ -36,8 +36,8 @@
 </template>
 
 <script>
-import RangeSliderVu from './RangeSliderVu.vue'
-import RangeSliderGroupMix from './RangeSliderGroupMix.vue'
+import RangeSliderVu from '@/components/RangeSliderVu.vue'
+import RangeSliderGroupMix from '@/components/RangeSliderGroupMix.vue'
 export default {
   name: 'MyAuxMix',
   components: {

@@ -17,8 +17,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import LabeledVuMeter from './LabeledVuMeter.vue'
-import RecStatus from './RecStatus.vue'
+import LabeledVuMeter from '@/components/LabeledVuMeter.vue'
+import RecStatus from '@/components/RecStatus.vue'
 export default {
   name: 'RecMonitor',
   components: {

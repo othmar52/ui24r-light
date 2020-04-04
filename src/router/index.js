@@ -2,10 +2,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import EmptyRouterView from '@/views/EmptyRouterView.vue'
-import RecmonitorSelector from '@/components/RecmonitorSelector.vue'
-import Recmonitor from '@/components/Recmonitor.vue'
-import MyAuxMixConfigurator from '@/components/MyAuxMixConfigurator.vue'
-import MyAuxMixUrlConverter from '@/components/MyAuxMixUrlConverter.vue'
+import RecmonitorSelector from '@/components/Recmonitor/Selector.vue'
+import Recmonitor from '@/components/Recmonitor/Show.vue'
+import MyAuxMixConfigurator from '@/components/MyAuxMix/Configurator.vue'
+import MyAuxMixUrlConverter from '@/components/MyAuxMix/UrlConverter.vue'
 
 Vue.use(VueRouter)
 
