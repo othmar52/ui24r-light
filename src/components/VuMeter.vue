@@ -26,9 +26,13 @@ export default {
   },
   methods: {
     getVuPercent (vuKey, subKey) {
-      const vuValue = this.readRemoteMixerValue({ socketId: this.socketId, key: vuKey })
-      if (typeof vuValue === 'undefined') { return 0 }
-
+      const vuValue = this.readRemoteMixerValue({
+        socketId: this.socketId,
+        key: vuKey
+      })
+      if (typeof vuValue === 'undefined') {
+        return 0
+      }
       return (vuValue[subKey] < 1)
         ? vuValue[subKey] * 100 /* * this.$store.getters.getCurSetup(this.socketId).zeroDbPos */
         : 100

@@ -10,7 +10,12 @@
     />
     <div :class="`range-slider__bar range-slider__bar--color-${readRemoteColorIndex}`" :style="{'height': barHeight}"></div>
     <div class="range-slider__thumb" :style="{'bottom': thumbBottom}" ref="thumb"></div>
-    <StripLabel :socketId="socketId" :staticText="staticLabel" :labelKey="stripLabelKey" v-if="labelKey || staticLabel" />
+    <StripLabel
+      v-if="labelKey || staticLabel"
+      :socketId="socketId"
+      :staticText="staticLabel"
+      :labelKey="stripLabelKey"
+    />
   </div>
 </template>
 
@@ -41,7 +46,10 @@ export default {
       'readRemoteMixerValue'
     ]),
     remoteSliderValue () {
-      return this.readRemoteMixerValue({ socketId: this.socketId, key: this.dataKeys[0] })
+      return this.readRemoteMixerValue({
+        socketId: this.socketId,
+        key: this.dataKeys[0]
+      })
     },
     stripLabelKey () {
       const found = this.dataKeys[0].match(/^([ia]*)\.(\d*)\./)
@@ -55,7 +63,10 @@ export default {
     readRemoteColorIndex () {
       const found = this.dataKeys[0].match(/i\.(\d.*)\./)
       if (found) {
-        return this.readRemoteMixerValue({ socketId: this.socketId, key: `i.${found[1]}.color` })
+        return this.readRemoteMixerValue({
+          socketId: this.socketId,
+          key: `i.${found[1]}.color`
+        })
       }
       return undefined
     }

@@ -1,8 +1,21 @@
 <template>
   <div class="range__slider-vu" :class="additionalClass">
-    <VuMeter :socketId="socketId" :keyVu="`vu.${dataKeys[0]}`" v-if="dataKeys.length === 1" />
-    <VuMeterStereo :socketId="socketId" :keyVuLeft="`${dataKeys[0]}`" :keyVuRight="dataKeys[1]" v-else/>
-    <RangeSlider :socketId="socketId" :dataKeys="dataKeys" labelKey="i.1.name"/>
+    <VuMeter
+      v-if="dataKeys.length === 1"
+      :socketId="socketId"
+      :keyVu="`vu.${dataKeys[0]}`"
+    />
+    <VuMeterStereo
+      v-else
+      :socketId="socketId"
+      :keyVuLeft="`${dataKeys[0]}`"
+      :keyVuRight="dataKeys[1]"
+    />
+    <RangeSlider
+      :socketId="socketId"
+      :dataKeys="dataKeys"
+      labelKey="i.1.name"
+    />
   </div>
 </template>
 
@@ -25,7 +38,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 
 .range__slider-vu {

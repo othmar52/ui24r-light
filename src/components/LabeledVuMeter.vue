@@ -1,8 +1,21 @@
 <template>
   <div class="labeled__vumeter" :class="`labeled__vumeter-color-${readRemoteColorIndex} ${additionalClass}`">
-    <VuMeter :keyVu="`vu.${keyLeft}`" :socketId="socketId" v-if="dataKeys.length === 1" />
-    <VuMeterStereo :keyVuLeft="`${keyLeft}`" :keyVuRight="keyRight" :socketId="socketId" v-else/>
-    <StripLabel :labelKey="fullLabelKey" :staticText="staticLabel" :socketId="socketId" />
+    <VuMeter
+      v-if="dataKeys.length === 1"
+      :keyVu="`vu.${keyLeft}`"
+      :socketId="socketId"
+    />
+    <VuMeterStereo
+      v-else
+      :keyVuLeft="`${keyLeft}`"
+      :keyVuRight="keyRight"
+      :socketId="socketId"
+    />
+    <StripLabel
+      :labelKey="fullLabelKey"
+      :staticText="staticLabel"
+      :socketId="socketId"
+    />
   </div>
 </template>
 

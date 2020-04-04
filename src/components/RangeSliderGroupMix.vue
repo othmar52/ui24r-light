@@ -3,7 +3,10 @@
         <input type="range" orient="vertical" min="0" step="0.01" max="1" v-model="localSliderValue" />
         <div :class="`range-slider__bar range-slider__bar--color-5`" :style="{'height': barHeight}"></div>
         <div class="range-slider__thumb" :style="{'bottom': thumbBottom}" ref="thumb"></div>
-        <StripLabel :socketId="socketId" :staticText="staticLabel" />
+        <StripLabel
+          :socketId="socketId"
+          :staticText="staticLabel"
+        />
     </div>
 </template>
 
