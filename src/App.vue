@@ -23,9 +23,6 @@ export default {
     if (this.haveValidConfig) {
       this.$store.dispatch('connectAllEnabledSockets')
     }
-  },
-
-  methods: {
   }
 }
 </script>

@@ -57,7 +57,7 @@ export default {
         // console.log(found);
         return `${found[1]}.${found[2]}.name`
       }
-      console.log(this.dataKeys[0])
+      // console.log(this.dataKeys[0])
       return undefined
     },
     readRemoteColorIndex () {

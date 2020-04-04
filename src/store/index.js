@@ -124,6 +124,7 @@ export default new Vuex.Store({
       this.state.sockets[data.socketId].socket.send(data.cmd)
     },
     sendMixerParam: function (context, data) {
+      console.log(data.socketId, data.mKey, data.mValue) // eslint-disable-line no-console
       this.dispatch(
         'sendMessage',
         {
