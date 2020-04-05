@@ -5,9 +5,17 @@ import store from './store'
 
 import VueQrcode from '@chenfengyuan/vue-qrcode'
 
+// import PrettyInput from 'pretty-checkbox-vue/input'
+import PrettyCheck from 'pretty-checkbox-vue/check'
+import PrettyRadio from 'pretty-checkbox-vue/radio'
+
 Vue.config.productionTip = false
 
 Vue.component(VueQrcode.name, VueQrcode)
+
+// Vue.component('p-input', PrettyInput)
+Vue.component('p-check', PrettyCheck)
+Vue.component('p-radio', PrettyRadio)
 
 // due to the requirement of supporting file:// protocol we can't
 // perform an ajax call. but we can load a script during runtime by creating a DOM node...

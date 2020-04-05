@@ -1,65 +1,90 @@
 <template>
-  <div class="auxmix__selector">
+  <div class="auxmix__configurator__page">
+    <h2>Configure your AUX mix</h2>
     <div class="choose__mixer" v-if="enabledSocketKeys.length > 1">
-      <h3>Choose Mixer</h3>
-      <div v-for="(item, index) in enabledSocketKeys"
-        v-bind:item="item"
-        v-bind:key="index+200">
-        <input type="radio" :id="item" :value="item" v-model="cMixer">
-        <label :for="item">{{ item }}</label>
+      <div>Choose Mixer:</div>
+      <div v-for="(item, index) in enabledSocketKeys" v-bind:key="index+200">
+        <p-radio
+          color="success"
+          v-model="cMixer"
+          :id="item"
+          :value="item"
+          class="p-plain p-icon p-round p-smooth">
+          {{ item }}
+        </p-radio>
       </div>
     </div>
-    <div class="choose__inputs">
-      <h3>Choose Inputs</h3>
-      <div v-for="(item, index) in availableInputs"
-        v-bind:item="item"
-        v-bind:key="index+100">
-          <input type="checkbox" :id="item.id" :value="item.channels" v-model="cInputs">
-          <label :for="item.id">{{ item.label }}</label>
+    <div class="auxmix__configurator">
+      <div class="configurator__column choose_inputs">
+        <h3>Choose your inputs</h3>
+        <div class="choose__configitems">
+          <div v-for="(item, index) in availableInputs" v-bind:key="index+100">
+            <p-check
+              :id="item.id"
+              :value="item.channels"
+              v-model="cInputs"
+              color="success"
+              class="p-plain p-icon p-round p-smooth p-bigger">
+              {{ item.label }}
+            </p-check>
+          </div>
+        </div>
+      </div>
+      <div class="configurator__column choose_output">
+        <h3>Choose your output</h3>
+        <div class="choose__configitems">
+          <div v-for="(item, index) in availableOutputs" v-bind:key="index+200">
+            <p-radio
+              :id="item.id"
+              :value="item.channels"
+              v-model="cOutput"
+              color="success"
+              class="p-plain p-icon p-round p-smooth p-bigger">
+              {{ item.label }}
+            </p-radio>
+          </div>
+        </div>
+      </div>
+      <div class="configurator__column configurator__column-last">
+        <h3>More options</h3>
+        <div class="configurator__verticalsections">
+          <div class="choose__showrec">
+            <p-check
+              :value="true"
+              v-model="cShowRec"
+              color="success"
+              class="p-plain p-icon p-round p-smooth p-bigger">
+              Show rec button
+            </p-check>
+          </div>
+          <div class="choose__nosleep">
+            <p-check
+              :value="true"
+              v-model="cNoSleep"
+              color="success"
+              class="p-plain p-icon p-round p-smooth p-bigger">
+              no sleep
+            </p-check>
+            <br><br>
+          </div>
+          <div class="configurator__result">
+            <div v-if="validUrlParams">
+              <router-link :to="`${confAsUrlParam()}`" class="btn">READY TO GO...</router-link><br><br><br>
+              <qrcode :value="qrCodeUrl" :options="{ width: 200 }"></qrcode>
+            </div>
+            <div v-else class="btn">
+              choose your channel(s)...
+            </div>
+          </div>
+          <router-link :to="{ name: 'Home' }" class="btn">back to menu</router-link><br>
+        </div>
       </div>
     </div>
-    <div class="choose__output">
-      <h3>Choose Output</h3>
-      <div v-for="(item, index) in availableOutputs"
-        v-bind:item="item"
-        v-bind:key="index+200">
-          <input type="radio" :id="item.id" :value="item.channels" v-model="cOutput">
-          <label :for="item.id">{{ item.label }}</label>
-      </div>
-    </div>
-    <div class="choose__showrec">
-      <h3>Show rec button?</h3>
-      <input type="radio" id="showRec-yes" :value="true" v-model="cShowRec">
-      <label for="showRec-yes">yes</label>
-      <input type="radio" id="showRec-no" :value="false" v-model="cShowRec">
-      <label for="showRec-no">no</label>
-    </div>
-    <div class="choose__nosleep">
-      <h3>Activate nosleep?</h3>
-      <input type="radio" id="noSleep-yes" :value="true" v-model="cNoSleep">
-      <label for="noSleep-yes">yes</label>
-      <input type="radio" id="noSleep-no" :value="false" v-model="cNoSleep">
-      <label for="noSleep-no">no</label>
-    </div>
-    URL: {{qrCodeUrl}}
-    <h1>
-    <div v-if="validUrlParams">
-      <!--
-        best practice to generate link fucks up the url by encoding special chars :/
-        <router-link :to="{ name: 'MyAuxMixShow', params: { myAuxMixUrlParams: confAsJsonString } }">static example configuration</router-link><br>
-      -->
-      <router-link :to="`${confAsUrlParam()}`">READY TO GO...</router-link><br>
-      <qrcode :value="qrCodeUrl" :options="{ width: 200 }"></qrcode>
-    </div>
-    <div v-else>
-      choose your channel(s)...
-    </div>
-    </h1>
-    <router-link :to="{ name: 'Home' }">back to menu</router-link><br>
   </div>
 </template>
 
 <script>
+/* @see https://hamed-ehtesham.github.io/pretty-checkbox-vue/ */
 import { mapGetters } from 'vuex'
 export default {
   name: 'MyAuxMixConfigurator',
@@ -196,10 +221,67 @@ export default {
 }
 </script>
 
-<style>
-.choose__inputs,
-.choose__output {
+<style lang="scss">
+
+.auxmix__configurator__page {
+  height: 100%;
+  .auxmix__configurator {
+    display: flex;
+    height: 100%;
+    h3 {
+      border-bottom: 1px solid #444454;
+      padding-bottom: 5px;
+    }
+    &>* {
+      flex-grow: 1;
+      overflow-y: scroll;
+    }
+    .configurator__column:last-child {
+      min-width: 220px;
+      max-width: 220px;
+    }
+  }
+
+}
+
+.choose__mixer {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  &>* {
+    padding: 1em;
+  }
+}
+
+.choose_inputs,
+.choose_output {
+  border-right: 1px solid #444454;
+}
+
+.choose__configitems {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+.choose__configitems {
+  text-align: left;
+  &>div {
+    padding: 5px;
+    margin: 0;
+    min-width: 130px;
+    max-width: 130px;
+  }
+}
+
+.configurator__verticalsections {
+  display: flex;
+  flex-direction: column;
+  &>div {
+    padding: 5px;
+    margin: 0;
+  }
 }
 
 .choose__inputs label {
