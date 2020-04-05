@@ -35,20 +35,21 @@
       <label for="showRec-no">no</label>
     </div>
     <div class="choose__nosleep">
-      <h3>Show rec button?</h3>
+      <h3>Activate nosleep?</h3>
       <input type="radio" id="noSleep-yes" :value="true" v-model="cNoSleep">
       <label for="noSleep-yes">yes</label>
       <input type="radio" id="noSleep-no" :value="false" v-model="cNoSleep">
       <label for="noSleep-no">no</label>
     </div>
+    URL: {{qrCodeUrl}}
     <h1>
     <div v-if="validUrlParams">
       <!--
         best practice to generate link fucks up the url by encoding special chars :/
-        <router-link :to="{ name: 'MyAuxMixShow', params: { myAuxMixUrlParams: jsonifiedParams } }">static example configuration</router-link><br>
+        <router-link :to="{ name: 'MyAuxMixShow', params: { myAuxMixUrlParams: confAsJsonString } }">static example configuration</router-link><br>
       -->
-      <router-link :to="`${jsonifiedParams}`">READY TO GO... ({{ jsonifiedParams }})</router-link><br>
-      <qrcode :value="jsonifiedParams" :options="{ width: 200 }"></qrcode>
+      <router-link :to="`${confAsUrlParam()}`">READY TO GO...</router-link><br>
+      <qrcode :value="qrCodeUrl" :options="{ width: 200 }"></qrcode>
 
     </div>
     <div v-else>
@@ -65,6 +66,15 @@ export default {
   name: 'MyAuxMixConfigurator',
   data () {
     return {
+      /*
+         `readableJsonUrl` is just for debugging purposes.
+         desktop browsers seems to have no problem with non encoded urls
+         but mobile browsers needs encoded urls
+           http(s)://ui24r.light/#/mymix/["mixer2",[[0,1]],[0],false,true]
+           vs.
+           http(s)://ui24r.light/#/mymix/%5B%22mixer2%22,%5B%5B0,1%5D%5D,%5B0%5D,false,true%5D
+      */
+      readableJsonUrl: false,
       cMixer: '',
       cInputs: [],
       cOutput: [],
@@ -78,15 +88,13 @@ export default {
       'getEnabledMixerSocketIds',
       'getCurSetup'
     ]),
-    jsonifiedParams () {
-      const testJson = [
-        this.cMixer,
-        this.cInputs,
-        this.cOutput,
-        this.cShowRec,
-        this.cNoSleep
-      ]
-      return JSON.stringify(testJson)
+    // qr code only makes sense with http server and domain instead of file:// protocol
+    qrCodeUrl () {
+      // TODO: read domain from configuration
+      const domain = 'http://ui24r.mpd/dist/'
+      // TODO: can we retrieve this from router config instead of hardcoding path?
+      const routePath = '#/mymix/'
+      return domain + routePath + this.confAsUrlParam()
     },
     validUrlParams () {
       if (this.cMixer === '') { return false }
@@ -95,28 +103,38 @@ export default {
       return true
     },
     availableInputs () {
-      return this.fetchAvailableInputs()
+      return this.collectChannelItems('input', 'i', 'CH')
     },
     availableOutputs () {
-      return this.fetchAvailableOutputs()
+      return this.collectChannelItems('aux', 'a', 'A')
     },
     enabledSocketKeys () {
       return this.getEnabledMixerSocketIds
     }
   },
   methods: {
-    fetchAvailableInputs () {
-      return this.collectChannelItems('input', 'i', 'CH')
+    confAsJsonString () {
+      const confAsJson = [
+        this.cMixer,
+        this.cInputs,
+        this.cOutput,
+        this.cShowRec,
+        this.cNoSleep
+      ]
+      return JSON.stringify(confAsJson)
     },
-    fetchAvailableOutputs () {
-      return this.collectChannelItems('aux', 'a', 'A')
+    confAsUrlParam () {
+      if (this.readableJsonUrl === true) {
+        return this.confAsJsonString()
+      }
+      return encodeURI(this.confAsJsonString())
     },
     collectChannelItems (setupKey, letter, labelFallback) {
-      const inputs = []
+      const channelItems = []
       if (this.cMixer === '') {
         this.cInputs = []
         this.cOutput = []
-        return inputs
+        return channelItems
       }
       let skipNext = false
       for (const i of [...Array(this.getCurSetup(this.cMixer)[setupKey])].keys()) {
@@ -124,7 +142,7 @@ export default {
           skipNext = false
           continue
         }
-        const input = {
+        const channelItem = {
           label: this.readRemoteMixerValue({
             socketId: this.cMixer,
             key: `${letter}.${i}.name`
@@ -132,9 +150,9 @@ export default {
           channels: [parseInt(i)],
           id: `myauxmix-${letter}-${i}`
         }
-        if (input.label === '') {
-          // TODO move generic missing label func somewhere else as we ofgten need this
-          input.label = `${labelFallback} ${input.channels[0] + 1}`
+        if (channelItem.label === '') {
+          // TODO move generic missing label func somewhere else as we often need this
+          channelItem.label = `${labelFallback} ${channelItem.channels[0] + 1}`
         }
         const stereoIndex = parseInt(
           this.readRemoteMixerValue({
@@ -142,14 +160,21 @@ export default {
             key: `${letter}.${i}.stereoIndex`
           })
         )
+
+        // stereoIndex -1 means mono channel
+        // stereoIndex 0 means left stereo channel
+        // stereoIndex 1 means right stereo channel
         if (stereoIndex === 0) {
-          input.label += ' (ST)'
-          input.channels.push(parseInt(i) + 1)
+          // stereoLink active! add linked(next) channel to this channelItem
+          channelItem.channels.push(parseInt(i) + 1)
+          // reflect stereo link in item label
+          channelItem.label += ' (ST)'
+          // make sure to skip next item as its already in use
           skipNext = true
         }
-        inputs.push(input)
+        channelItems.push(channelItem)
       }
-      return inputs
+      return channelItems
     },
     checkForPreselectMixer () {
       if (this.enabledSocketKeys.length === 1) {
@@ -157,7 +182,15 @@ export default {
       }
     }
   },
+  watch: {
+    cMixer () {
+      // reset already selected channels on mixer change as it may not be compatible (stereo settings)
+      this.cInputs = []
+      this.cOutput = []
+    }
+  },
   mounted () {
+    // in case only one mixer exists we can preselect it
     this.checkForPreselectMixer()
   }
 }
