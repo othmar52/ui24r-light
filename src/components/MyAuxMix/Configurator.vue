@@ -50,7 +50,6 @@
       -->
       <router-link :to="`${confAsUrlParam()}`">READY TO GO...</router-link><br>
       <qrcode :value="qrCodeUrl" :options="{ width: 200 }"></qrcode>
-
     </div>
     <div v-else>
       choose your channel(s)...
@@ -161,9 +160,10 @@ export default {
           })
         )
 
-        // stereoIndex -1 means mono channel
-        // stereoIndex 0 means left stereo channel
-        // stereoIndex 1 means right stereo channel
+        // possible stereoIndex values:
+        //   -1 means mono channel (no stereo link)
+        //    0 means left stereo channel
+        //    1 means right stereo channel
         if (stereoIndex === 0) {
           // stereoLink active! add linked(next) channel to this channelItem
           channelItem.channels.push(parseInt(i) + 1)

@@ -1,13 +1,18 @@
 <template>
   <div class="recmonitor__selector">
-    select mixer instance<br>
-    <router-link
-      v-for="(item, index) in enabledSocketKeys"
-      v-bind:key="index"
-      :to="{ name: 'RecmonitorShow', params: { socketId: item }}">
-       {{ item }}
-    </router-link><br>
-    <router-link :to="{ name: 'Home' }">back to menu</router-link>
+    <h2>Rec-monitor</h2>
+    <p>non-interactive GUI to keep track of the multitrack recording feature<br>
+    select the mixer instance</p>
+    <ul class="nav">
+      <li v-for="(item, index) in enabledSocketKeys" v-bind:key="index">
+          <router-link :to="{ name: 'RecmonitorShow', params: { socketId: item }}" class="btn">
+          {{ item }}
+          </router-link>
+      </li>
+      <li>
+        <router-link :to="{ name: 'Home' }" class="btn">back to menu</router-link>
+      </li>
+    </ul>
   </div>
 </template>
 

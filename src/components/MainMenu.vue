@@ -1,12 +1,26 @@
 <template>
   <div class="hello">
-    <h1>main menu</h1>
-    <ul>
+    <h1>ui24r light</h1>
+    <p>a custom lightweight web interface for <a href="https://www.soundcraft.com/en/products/ui24r" target="_blank">Soundcraft ui24r mixing console</a>.<br>
+    This is no (and is not going to be a) replacement for the powerful native web-GUI!</p>
+    <ul class="nav">
       <li>
-        <router-link :to="{ name: 'RecmonitorSelector' }">Rec-monitor</router-link>
+        <router-link :to="{ name: 'MyAuxMixConfigurator' }" class="btn">
+          My AUX mix
+          <p>improved version of ui24r's native <i>"more-me"</i> functionality</p>
+        </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'MyAuxMixConfigurator' }">My AUX mix</router-link>
+        <router-link :to="{ name: 'RecmonitorSelector' }" class="btn">
+          Rec-monitor
+          <p>non-interactive view to keep track of recording status</p>
+        </router-link>
+      </li>
+      <li>
+        <router-link :to="{ name: 'MyAuxMixConfigurator' }" class="btn">
+          Custom Faders
+          <p>limit your GUI to the faders you need</p>
+        </router-link>
       </li>
     </ul>
   </div>
@@ -21,20 +35,12 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+<style lang="scss">
+.hello {
+  p {
+    a {
+      text-decoration: underline;
+    }
+  }
 }
 </style>
