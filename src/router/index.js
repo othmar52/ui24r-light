@@ -6,6 +6,7 @@ import RecmonitorSelector from '@/components/Recmonitor/Selector.vue'
 import Recmonitor from '@/components/Recmonitor/Show.vue'
 import MyAuxMixConfigurator from '@/components/MyAuxMix/Configurator.vue'
 import MyAuxMixUrlConverter from '@/components/MyAuxMix/UrlConverter.vue'
+import CustomFadersConfigurator from '@/components/CustomFaders/Configurator.vue'
 
 Vue.use(VueRouter)
 
@@ -44,6 +45,17 @@ const routes = [
         path: ':myAuxMixUrlParams',
         name: 'MyAuxMixShow',
         component: MyAuxMixUrlConverter
+      }
+    ]
+  },
+  {
+    path: '/custom',
+    component: EmptyRouterView,
+    children: [
+      {
+        path: '',
+        name: 'CustomFadersConfigurator',
+        component: CustomFadersConfigurator
       }
     ]
   }

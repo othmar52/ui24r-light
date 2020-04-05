@@ -17,7 +17,7 @@
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'MyAuxMixConfigurator' }" class="btn">
+        <router-link :to="{ name: 'CustomFadersConfigurator' }" class="btn">
           Custom Faders
           <p>limit your GUI to the faders you need</p>
         </router-link>
