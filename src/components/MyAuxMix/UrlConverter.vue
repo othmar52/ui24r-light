@@ -3,6 +3,8 @@
     :socketId="socketId"
     :myInputChannels="myInputChannels"
     :myAuxChannel="myAuxChannel"
+    :showRec="showRec"
+    :noSleep="noSleep"
   />
 </template>
 
@@ -17,7 +19,9 @@ export default {
     return {
       socketId: '',
       myInputChannels: [],
-      myAuxChannel: []
+      myAuxChannel: [],
+      showRec: true,
+      noSleep: true
     }
   },
   computed: {
@@ -34,6 +38,8 @@ export default {
       this.socketId = urlJson[0]
       this.myInputChannels = urlJson[1]
       this.myAuxChannel = urlJson[2]
+      this.showRec = urlJson[3]
+      this.noSleep = urlJson[4]
     } catch (e) {
       // console.log('invalid json url param')
       this.$router.push({ name: 'MyAuxMixConfigurator' })

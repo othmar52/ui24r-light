@@ -1,5 +1,6 @@
 <template>
   <div class="slider__container">
+    <RecButton v-if="showRec" :socketId="socketId" />
     <!-- headphone(aux) volume -->
     <RangeSliderVu
       :socketId="socketId"
@@ -38,16 +39,20 @@
 <script>
 import RangeSliderVu from '@/components/RangeSliderVu.vue'
 import RangeSliderGroupMix from '@/components/RangeSliderGroupMix.vue'
+import RecButton from '@/components/RecButton.vue'
 export default {
   name: 'MyAuxMix',
   components: {
     RangeSliderVu,
-    RangeSliderGroupMix
+    RangeSliderGroupMix,
+    RecButton
   },
   props: {
     myInputChannels: Array,
     myAuxChannel: Array,
-    socketId: String
+    socketId: String,
+    showRec: Boolean,
+    noSleep: Boolean
   },
   computed: {
     auxDataKeys () {

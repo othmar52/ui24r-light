@@ -1,6 +1,7 @@
 <template>
 
   <div class="vumeter__container">
+    <RecButton :socketId="socketId" />
     <div class="labeled__vumeter labeled__vumeter-unarmed" v-if="currentArmedChannels.length === 0">
         No channels armed for recording
     </div>
@@ -19,11 +20,13 @@
 import { mapGetters } from 'vuex'
 import LabeledVuMeter from '@/components/LabeledVuMeter.vue'
 import RecStatus from '@/components/RecStatus.vue'
+import RecButton from '@/components/RecButton.vue'
 export default {
   name: 'RecMonitor',
   components: {
     LabeledVuMeter,
-    RecStatus
+    RecStatus,
+    RecButton
   },
   props: {
     armedChannels: Array
