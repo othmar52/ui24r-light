@@ -270,8 +270,8 @@ export default {
   &>div {
     padding: 5px;
     margin: 0;
-    min-width: 130px;
-    max-width: 130px;
+    min-width: 160px;
+    max-width: 160px;
   }
 }
 

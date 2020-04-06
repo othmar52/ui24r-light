@@ -29,6 +29,6 @@ export default {
 }
 
 .indicator-green {
-    background-color: green;
+    background-color: #5cb85c;
 }
 </style>
