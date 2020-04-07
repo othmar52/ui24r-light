@@ -12,9 +12,9 @@ var mixerConfig = {
     autoConnect: true
   },
   paramRecorder1: {
-    enabled: false,
-    ip: '10.0.1.112',
-    port: 8090,
+    enabled: true,
+    ip: '10.0.1.147',
+    port: 9801,
     autoConnect: true
   },
   paramRecorder2: {

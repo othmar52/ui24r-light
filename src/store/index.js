@@ -72,6 +72,8 @@ export default new Vuex.Store({
       context.state.haveValidConfig = true
       context.state.sockets.mixer1.config = mixerConfig.mixer1
       context.state.sockets.mixer2.config = mixerConfig.mixer2
+      context.state.sockets.paramRecorder1.config = mixerConfig.paramRecorder1
+      context.state.sockets.paramRecorder2.config = mixerConfig.paramRecorder2
     },
     connectAllEnabledSockets: function (context) {
       for (const [key, value] of Object.entries(context.state.sockets)) {
@@ -84,6 +86,15 @@ export default new Vuex.Store({
         if (typeof value.config.url === 'undefined') {
           continue
         }
+        if (typeof context.state.sockets[key].socket !== 'undefined') {
+          if (context.state.sockets[key].socket.readyState === 0) {
+            context.state.sockets[key].isConnected = false
+            // still in connecting state
+            continue
+          }
+        }
+
+        // console.log('connecting to ', value.config.url)
         const sock = new WebSocket(
           value.config.url
         )
@@ -101,16 +112,19 @@ export default new Vuex.Store({
           context.state.sockets[key].isConnected = false
           clearInterval(context.state.sockets[key].keepAliveInterval)
           context.state.sockets[key].keepAliveInterval = undefined
+          context.state.sockets[key].socket = undefined
         }
         sock.onerror = (event) => {
           // console.log('onError() ', event)
           context.state.sockets[key].isConnected = false
+          context.state.sockets[key].socket = undefined
         }
         sock.onmessage = (event) => {
           context.commit('receiveSocketMessage', { socketId: key, message: event.data })
         }
         context.state.sockets[key].socket = sock
       }
+      // todo increase interval to 60?? seconds after x failed attempts
       if (context.state.reconnectInterval === undefined) {
         context.state.reconnectInterval = setInterval(() => {
           context.dispatch('connectAllEnabledSockets')

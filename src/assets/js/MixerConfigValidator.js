@@ -38,6 +38,23 @@ const MixerConfigValidator = store => {
       }
     }
 
+    for (const subject of ['paramRecorder1', 'paramRecorder2']) {
+      if (typeof mixerConfig[subject] === 'undefined') {
+        isValid = false
+        continue
+      }
+      if (typeof mixerConfig[subject].enabled === 'undefined') {
+        isValid = false
+        continue
+      }
+      if (typeof mixerConfig[subject].enabled !== 'boolean') {
+        isValid = false
+        continue
+      }
+      // todo url schema of mixers(ui24r) vs. url of paramRecorder
+      mixerConfig[subject].url = `ws://${mixerConfig[subject].ip}:${mixerConfig[subject].port}`
+    }
+
     if (atLeastOneMixerEnabled === false) {
       isValid = false
     }

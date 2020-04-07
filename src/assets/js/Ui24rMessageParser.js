@@ -19,6 +19,9 @@ const Ui24rMessageParser = store => {
   function receiveMessage (data, socketId) {
     if (!data) { return }
 
+    if (socketId === 'paramRecorder1' || socketId === 'paramRecorder2') {
+      return receiveParamRecorderMessage(data, socketId)
+    }
     if (data.startsWith('SETD^')) {
       var b = data.split('^', 3)
       b.length < 3 || putValue(b[1], parseFloat(b[2]), socketId)
@@ -28,6 +31,19 @@ const Ui24rMessageParser = store => {
         : parseCommand(data, socketId)
     }
   }
+
+  function receiveParamRecorderMessage (data, socketId) {
+    let responseData
+    // try to parse response as json
+    try {
+      responseData = JSON.parse(data)
+    } catch (e) {
+      // console.log('not able to parse response as json', e, socketId, data)
+      return
+    }
+    store.commit('updateMixerData', { socketId: socketId, key: 'armed', data: responseData.armed })
+  }
+
   function putValue (paramName, paramValue, socketId) {
     store.commit('updateMixerData', { socketId: socketId, key: paramName, data: paramValue })
   }
