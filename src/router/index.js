@@ -4,8 +4,8 @@ import Home from '@/views/Home.vue'
 import EmptyRouterView from '@/views/EmptyRouterView.vue'
 import RecmonitorSelector from '@/components/Recmonitor/Selector.vue'
 import Recmonitor from '@/components/Recmonitor/Show.vue'
-import MyAuxMixConfigurator from '@/components/MyAuxMix/Configurator.vue'
-import MyAuxMixUrlConverter from '@/components/MyAuxMix/UrlConverter.vue'
+import MatrixMixerConfigurator from '@/components/MatrixMixer/Configurator.vue'
+import MatrixMixerShow from '@/components/MatrixMixer/Show.vue'
 import CustomFadersConfigurator from '@/components/CustomFaders/Configurator.vue'
 
 Vue.use(VueRouter)
@@ -33,18 +33,18 @@ const routes = [
     ]
   },
   {
-    path: '/mymix',
+    path: '/matrixmix',
     component: EmptyRouterView,
     children: [
       {
-        path: '',
-        name: 'MyAuxMixConfigurator',
-        component: MyAuxMixConfigurator
+        path: 'config',
+        name: 'MatrixMixerConfigurator',
+        component: MatrixMixerConfigurator
       },
       {
-        path: ':myAuxMixUrlParams',
-        name: 'MyAuxMixShow',
-        component: MyAuxMixUrlConverter
+        path: 'show',
+        name: 'MatrixMixerShow',
+        component: MatrixMixerShow
       }
     ]
   },

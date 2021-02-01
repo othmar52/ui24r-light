@@ -30,6 +30,7 @@ export default {
         socketId: this.socketId,
         key: vuKey
       })
+      // console.log(vuValue)
       if (typeof vuValue === 'undefined') {
         return 0
       }

@@ -30,6 +30,7 @@
 </template>
 
 <script>
+/* TODO: don't show "ready to record" in case no usb-stick/harddisk is attached to the mixer */
 import { mapGetters } from 'vuex'
 export default {
   name: 'RecStatus',

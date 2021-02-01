@@ -10,7 +10,9 @@
   "dependencies": {
     "@chenfengyuan/vue-qrcode": "^1.0.2",
     "core-js": "^3.6.4",
+    "nosleep.js": "^0.11.0",
     "pretty-checkbox-vue": "^1.1.9",
+    "sass": "^1.32.5",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",
     "vuex": "^3.1.2"
@@ -29,7 +31,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.1.2",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"
   }

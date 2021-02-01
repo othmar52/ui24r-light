@@ -1,4 +1,24 @@
-# ui24r-light
+# ui24r-spaceship
+
+welcome screen
+
+matrix mixer
+
+midi CC
+
+undo functionality??
+
+bestehende routen
+[nix]   -> [rmx1000:bypass] -> [digitakt:AKTIV]  -> [rc505:bypass]    ->  [ST3]
+[virus] -> [rmx1000:AKTIV]  -> [digitakt:bypass] -> [rc505:bypass]    ->  [ST2]
+[sys1]  -> [rmx1000:bypass] -> [digitakt:bypass] -> [rc505:AKTIV]     ->  [ST1]
+
+
+
+
+
+
+
 
 ## Project setup
 ```

@@ -5,21 +5,15 @@
     This is no (and is not going to be a) replacement for the powerful native web-GUI!</p>
     <ul class="nav">
       <li>
-        <router-link :to="{ name: 'MyAuxMixConfigurator' }" class="btn">
-          My AUX mix
-          <p>improved version of ui24r's native <i>"more-me"</i> functionality</p>
+        <router-link :to="{ name: 'MatrixMixerConfigurator' }" class="btn">
+          Matrix mixer
+          <p>I/O routing</p>
         </router-link>
       </li>
       <li>
         <router-link :to="{ name: 'RecmonitorSelector' }" class="btn">
           Rec-monitor
           <p>non-interactive view to keep track of recording status</p>
-        </router-link>
-      </li>
-      <li>
-        <router-link :to="{ name: 'CustomFadersConfigurator' }" class="btn">
-          Custom Faders
-          <p>limit your GUI to the faders you need</p>
         </router-link>
       </li>
     </ul>

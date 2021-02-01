@@ -58,6 +58,18 @@ const MixerConfigValidator = store => {
     if (atLeastOneMixerEnabled === false) {
       isValid = false
     }
+
+    // TODO: make sure we have no duplicates in channels coonfiguration
+    if (typeof mixerConfig.matrixInputsConf !== 'undefined') {
+      store.dispatch('setMatrixInputsConf', mixerConfig.matrixInputsConf)
+    }
+    if (typeof mixerConfig.matrixOutputsConf !== 'undefined') {
+      store.dispatch('setMatrixOutputsConf', mixerConfig.matrixOutputsConf)
+    }
+    if (typeof mixerConfig.matrixOverConf !== 'undefined') {
+      store.dispatch('setMatrixOverConf', mixerConfig.matrixOverConf)
+    }
+
     if (isValid === false) {
       return
     }
