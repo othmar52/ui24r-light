@@ -10,12 +10,22 @@
         <div v-for="(item, index) in getEnabledMatrixOutputs" v-bind:key="index+100">
           <div
             @click="chooseOutput"
-            :data-channels="item.outputChannels">
+            :data-channels="item.id">
             <OutputWithVu :item="item" />
           </div>
         </div>
+        <div>
+          <div
+            class="vuued__channel"
+            @click="removeRouteTarget"
+            :data-channels="undefined">
+            <span class="color-9">
+            NO OUTPUT
+            </span>
+          </div>
+        </div>
       </div>
-      <div @click="chooseOutput">cancel</div>
+      <div @click="cancelWizard">cancel</div>
     </div>
   </div>
 </template>
@@ -57,30 +67,30 @@ export default {
         // invalid configuration
         return
       }
+      // console.log('currentOutput before chooseOutput 1', this.routeOutput)
       this.$emit(
-        'setRouteOutput',
-        (this.routeOutput) ? undefined : this.getEnabledMatrixOutputs[0]
+        (this.routeOutput) ? 'removeRouteTarget' : 'addRouteTarget',
+        (this.routeOutput) ? this.routeOutput : this.getEnabledMatrixOutputs[0]
       )
     },
     chooseOutput (event) {
       this.wizardOpen = false
-      for (const item of this.getEnabledMatrixOutputs) {
-        if (event.currentTarget.dataset.channels !== item.outputChannels.join(',')) {
-          continue
-        }
-        this.$emit('setRouteOutput', item)
+      const newOutput = this.getEnabledMatrixOutputs.filter(function (item) {
+        return event.currentTarget.dataset.channels === item.id
+      })
+      // console.log('the new output is:', newOutput[0])
+      this.$emit('addRouteTarget', newOutput[0])
+    },
+    removeRouteTarget () {
+      this.wizardOpen = false
+      if (typeof this.routeOutput === 'undefined') {
         return
       }
-      this.$emit('setRouteOutput', undefined)
+      this.$emit('removeRouteTarget', this.routeOutput)
+    },
+    cancelWizard (event) {
+      this.wizardOpen = false
     }
-  },
-  created () {
-    // console.log('created Output', this.$store.state.matrixOvers)
-    // this.route.over = this.$store.state.matrixOvers
-  },
-  mounted () {
-    // console.log('mounted Output', this.$store.state.matrixOvers)
-    // this.route.over = this.$store.state.matrixOvers
   }
 }
 </script>

@@ -29,7 +29,6 @@ export default {
     InputWithVu
   },
   props: {
-    routeInputXXXX: Object,
     routeInput: {
       type: Object,
       default: function () {
@@ -63,14 +62,6 @@ export default {
       }
       this.$emit('setRouteInput', undefined)
     }
-  },
-  created () {
-    // console.log('created input', this.$store.state.matrixOvers)
-    // this.route.over = this.$store.state.matrixOvers
-  },
-  mounted () {
-    // console.log('mounted input', this.$store.state.matrixOvers)
-    // this.route.over = this.$store.state.matrixOvers
   }
 }
 </script>

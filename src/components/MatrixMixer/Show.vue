@@ -6,16 +6,28 @@
         v-for="(audioRoute, index) in getMatrixRoutes"
         v-bind:key="index+888"
         class="matrixroutes__row"
-        :routeId="index"
+        :routeId="audioRoute.id"
       />
       <AudioRoute class="matrixroutes__row" />
     </div>
     <!--NewRouteWizard v-if="newRouteWizardOpen" v-on:cancelWizard="cancelWizard" /-->
+    <span>amount routes: {{debugRoutesLength}}</span><br>
+    <span>amount targetChains: {{debugChainLength}}</span><br>
+    <span
+      v-for="(targetChain, index) in getMatrixTargetChains"
+      v-bind:key="index+8888"
+      class=""> {{targetChain.id}} (
+      <span
+        v-for="(target, index) in targetChain.chain"
+        v-bind:key="index+8988"
+        class=""> {{target.name}} ➡
+      </span>)<br />
+    </span>
+    <br/>
     <br>
     <br>
     <br>
     <br>
-
     <router-link :to="{ name: 'MatrixMixerConfigurator' }" class="btn">
       matrix config
     </router-link>
@@ -43,8 +55,15 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getMatrixRoutes'
-    ])
+      'getMatrixRoutes',
+      'getMatrixTargetChains'
+    ]),
+    debugChainLength () {
+      return Object.keys(this.getMatrixTargetChains).length
+    },
+    debugRoutesLength () {
+      return this.getMatrixRoutes.length
+    }
   },
   methods: {
     resetAudioRoutes () {

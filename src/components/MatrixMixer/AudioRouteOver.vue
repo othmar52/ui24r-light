@@ -20,25 +20,23 @@ export default {
     routeId: Number,
     overItem: Object
   },
-  data () {
-    return {
-      /*
-      route: this.$store.state.matrixRoutes.filter(function (item) {
-        return item.id === this.routeId
-      })[0]
-      */
-    }
-  },
   computed: {
     ...mapGetters([
-      'getEnabledMatrixOvers',
-      'getRouteById'
+      'getRouteById',
+      'getTargetChainById'
     ]),
     overActiveForRoute () {
-      // console.log(this.getRouteById(this.routeId))
+      if (typeof this.routeId === 'undefined') {
+        return false
+      }
+      const route = this.getRouteById(this.routeId)
+      const currentTargets = this.getTargetChainById(route.targetChainId)
+      if (typeof currentTargets === 'undefined') {
+        return false
+      }
       const that = this
-      return this.getRouteById(this.routeId).over.filter(function (item) {
-        return item.inputChannels.join(',') === that.overItem.inputChannels.join(',')
+      return currentTargets.chain.filter(function (item) {
+        return item.id === that.overItem.id
       }).length > 0
     }
   },
@@ -47,16 +45,11 @@ export default {
       this.wizardOpen = true
     },
     toggleBypassOver () {
-      this.$emit('toggleBypassOver', this.overItem)
+      this.$emit(
+        (this.overActiveForRoute) ? 'removeRouteTarget' : 'addRouteTarget',
+        this.overItem
+      )
     }
-  },
-  created () {
-    // console.log('created input', this.$store.state.matrixOvers)
-    // this.route.over = this.$store.state.matrixOvers
-  },
-  mounted () {
-    // console.log('mounted input', this.$store.state.matrixOvers)
-    // this.route.over = this.$store.state.matrixOvers
   }
 }
 </script>

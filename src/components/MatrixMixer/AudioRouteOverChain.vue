@@ -5,7 +5,8 @@
       v-bind:key="overIndex+100"
       :routeId="routeId"
       :overItem="overItem"
-      v-on:toggleBypassOver="toggleBypassOver"
+      v-on:addRouteTarget="addRouteTarget"
+      v-on:removeRouteTarget="removeRouteTarget"
     />
   </div>
 </template>
@@ -21,28 +22,18 @@ export default {
   props: {
     routeId: Number
   },
-  data () {
-    return {
-      wizardOpenXXXXXXXXXX: false
-    }
-  },
   computed: {
     ...mapGetters([
       'getEnabledMatrixOvers'
     ])
   },
   methods: {
-    toggleBypassOver (payload) {
-      this.$emit('toggleBypassOver', payload)
+    addRouteTarget (payload) {
+      this.$emit('addRouteTarget', payload)
+    },
+    removeRouteTarget (payload) {
+      this.$emit('removeRouteTarget', payload)
     }
-  },
-  created () {
-    // console.log('created input', this.$store.state.matrixOvers)
-    // this.route.over = this.$store.state.matrixOvers
-  },
-  mounted () {
-    // console.log('mounted input', this.$store.state.matrixOvers)
-    // this.route.over = this.$store.state.matrixOvers
   }
 }
 </script>

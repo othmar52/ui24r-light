@@ -1,24 +1,19 @@
 <template>
   <div class="matrixroutes__row dashed__border">
-    <div class="btxn dashed__border">MUTE {{routeId}}</div>
-    <div class="btxn dashed__border">HP</div>
-    <AudioRouteInput :routeInput="route.from.input" v-on:setRouteInput="setRouteInput"/>
-    <AudioRouteOverChain :routeId="routeId" v-on:toggleBypassOver="toggleBypassOver" />
-    <!--div v-for="(item, index) in route.over" v-bind:key="index+700">
-        <span
-          class="arrow"
-          @click="moveOverToLeft"
-          :data-channels="item.output.channels">
-          &#10145;</span>
-        over: {{ item.input.name }}<br>
-        <button
-          @click="bypassRouteOver"
-          :data-channels="item.output.channels">
-          bypass
-        </button>
-    </div-->
+    <div class="btxn dashed__border">MUTE<br> rid:{{routeId}}</div>
+    <div class="btxn dashed__border">HP<br>tid:{{route.targetChainId}}</div>
+    <AudioRouteInput :routeInput="route.input" v-on:setRouteInput="setRouteInput"/>
+    <AudioRouteOverChain
+      :routeId="routeId"
+      v-on:addRouteTarget="addRouteTarget"
+      v-on:removeRouteTarget="removeRouteTarget"
+    />
     <span class="arrow">&#10145;</span>
-    <AudioRouteOutput :routeOutput="route.to.output" v-on:setRouteOutput="setRouteOutput"/>
+    <AudioRouteOutput
+      :routeOutput="getRouteOutputTarget"
+      v-on:addRouteTarget="addRouteTarget"
+      v-on:removeRouteTarget="removeRouteTarget"
+    />
     <div class="btxn dashed__border" @click="deleteRoute">&#10006;</div>
   </div>
 </template>
@@ -41,66 +36,40 @@ export default {
   computed: {
     ...mapGetters([
       'getRouteById',
-      'getEnabledMatrixOvers'
+      'getEnabledMatrixOvers',
+      'getTargetChainById'
     ]),
     route () {
       return this.getRouteById(this.routeId)
+    },
+    getRouteOutputTarget () {
+      if (typeof this.route.targetChainId === 'undefined') {
+        return undefined
+      }
+      const targetChain = this.getTargetChainById(this.route.targetChainId)
+      if (typeof targetChain === 'undefined') {
+        return undefined
+      }
+      return targetChain.chain.filter(function (item) {
+        return item.type === 'output'
+      })[0]
     }
   },
   methods: {
-    bypassRouteOver () {
-      // console.log('bypassRouteOver')
-    },
     setRouteInput (payload) {
-      this.route.from.input = payload
+      this.route.input = payload
       this.saveRoute()
     },
-    setRouteOutput (payload) {
-      // TODO: consider to show conflicts before acually changing routes
-
-      // if we don't have any over
-      if (this.route.over.length === 0) {
-        // console.log('no overs within this route')
-        this.route.to.output = payload
-        this.saveRoute()
-        return
-      }
-      // otherwise apply routing target to last active item in over chain
-      const lastActiveOverWithinThisRoute = this.route.over[this.route.over.length - 1]
-      console.log('lastActiveOverWithinThisRoute', lastActiveOverWithinThisRoute.name)
-      this.route.to.output = payload // invalid!!!
-      this.saveRoute()
+    addRouteTarget (payload) {
+      this.route.addToTargetChain = payload
+      this.$store.commit('processRouteChange', this.route)
     },
-    toggleBypassOver (payload) {
-      // console.log('toggleBypassOver PARENT PARENT', payload)
-      if (typeof this.route.id === 'undefined') {
-        // we have a new route starting with an over (no input)
-        this.route.over.push(payload)
-        this.$store.commit('saveMatrixRoute', this.route)
-        this.$store.commit('setIsRoutedAttributes')
-        return
-      }
-      let overIsActiveIndex = -1
-      const that = this
-      this.route.over.forEach(function (over, idx) {
-        if (over.inputChannels.join(',') !== payload.inputChannels.join(',')) {
-          return
-        }
-        // we have an removal of over
-        overIsActiveIndex = idx
-        that.route.over = that.route.over.filter(function (item) {
-          return item.inputChannels.join(',') !== payload.inputChannels.join(',')
-        })
-        that.$store.commit('saveMatrixRoute', that.route)
-        that.$store.commit('setIsRoutedAttributes')
-      })
-      if (overIsActiveIndex !== -1) {
-        return
-      }
-      // TODO : apply rest of active over chain
-      this.route.over.push(payload)
+    removeRouteTarget (payload) {
+      this.route.removeFromTargetChain = payload
+      this.$store.commit('processRouteChange', this.route)
     },
     saveRoute () {
+      console.log('calling saveRoute() in AudioRoute.vue')
       this.$store.commit('saveMatrixRoute', this.route)
       this.$store.commit('setIsRoutedAttributes')
       this.$store.commit('applyOverChainsAndOutputs')
@@ -108,6 +77,7 @@ export default {
     deleteRoute () {
       this.$store.commit('deleteMatrixRouteById', this.route.id)
       this.$store.commit('setIsRoutedAttributes')
+      this.$store.commit('cleanupUnusedTargetChains')
     }
   },
   created () {
