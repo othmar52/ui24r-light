@@ -10,11 +10,13 @@ const AudioRouteModifier = store => {
     let removeFromTargetChainItem
     if (typeof route.addToTargetChain !== 'undefined') {
       addToTargetChainItem = route.addToTargetChain
-      addToTargetChain(route, state)
+      route.addToTargetChain = undefined
+      addToTargetChain(route, addToTargetChainItem, state)
     }
     if (typeof route.removeFromTargetChain !== 'undefined') {
       removeFromTargetChainItem = route.removeFromTargetChain
-      removeFromTargetChain(route, state)
+      route.removeFromTargetChain = undefined
+      removeFromTargetChain(route, removeFromTargetChainItem, state)
     }
     // TODO handle input toggle over this plugin as well?
     store.commit('saveMatrixRoute', route)
@@ -40,21 +42,20 @@ const AudioRouteModifier = store => {
     return newChain
   }
 
-  function addToTargetChain (route, state) {
+  function addToTargetChain (route, addToTargetChainItem, state) {
     let existingTargetChain = store.getters.getTargetChainById(route.targetChainId)
 
     if (typeof existingTargetChain === 'undefined') {
-      existingTargetChain = getOrCreateTargetChainByItems([route.addToTargetChain], state)
+      existingTargetChain = getOrCreateTargetChainByItems([addToTargetChainItem], state)
     }
 
     // if item to add is output simply add or replace output
-    if (route.addToTargetChain.type === 'output') {
+    if (addToTargetChainItem.type === 'output') {
       // console.log('we have an output')
       const newTargetChainItems = existingTargetChain.chain.filter(function (item) {
         return item.type !== 'output'
       })
-      newTargetChainItems.push(route.addToTargetChain)
-      route.addToTargetChain = undefined
+      newTargetChainItems.push(addToTargetChainItem)
       route.targetChainId = getOrCreateTargetChainByItems(newTargetChainItems, state).id
       return
     }
@@ -68,7 +69,7 @@ const AudioRouteModifier = store => {
         return item2.id === item.id
       }).length > 0
       // check if item goes active by current route change request
-      if (route.addToTargetChain.id === item.id) {
+      if (addToTargetChainItem.id === item.id) {
         itemExistsInRoute = true
       }
       if (itemExistsInRoute === true) {
@@ -81,21 +82,18 @@ const AudioRouteModifier = store => {
     if (existingOutput.length > 0) {
       newTargetChain.push(existingOutput[0])
     }
-    route.addToTargetChain = undefined
     route.targetChainId = getOrCreateTargetChainByItems(newTargetChain, state).id
   }
 
-  function removeFromTargetChain (route, state) {
+  function removeFromTargetChain (route, removeFromTargetChainItem, state) {
     const existingTargetChain = store.getters.getTargetChainById(route.targetChainId)
     if (typeof existingTargetChain === 'undefined') {
       route.targetChainId = undefined
-      route.removeFromTargetChain = undefined
       return
     }
     const newTargetChainItems = existingTargetChain.chain.filter(function (item) {
-      return item.id !== route.removeFromTargetChain.id
+      return item.id !== removeFromTargetChainItem.id
     })
-    route.removeFromTargetChain = undefined
     if (newTargetChainItems.length === 0) {
       route.targetChainId = undefined
       return
@@ -107,6 +105,50 @@ const AudioRouteModifier = store => {
     if (route.targetChainId === undefined) {
       return
     }
+
+    // if we have added an over and this over exists in other routes with appended targets
+    // append those in our route as well
+    if (addToTargetChainItem !== undefined) {
+      if (addToTargetChainItem.type !== 'ov-er') {
+        let longestTargetChain = []
+        const routesToModify = []
+        // let overItemIsAlreadyChainedInOtherAudioRoute = false
+        for (const otherRoute of store.getters.getMatrixRoutes) {
+          console.log('otherRoute', otherRoute.targetChainId)
+          const otherTargetChain = store.getters.getTargetChainById(otherRoute.targetChainId)
+          if (!otherTargetChain) {
+            continue
+          }
+          console.log('otherTargetChain', otherTargetChain.chain)
+          otherTargetChain.chain.forEach(function (overItemOtherRoute, idx) {
+            if (overItemOtherRoute.id !== addToTargetChainItem.id) {
+              return
+            }
+            routesToModify.push(otherRoute)
+            console.log('overItemOtherRoute', overItemOtherRoute.name, idx)
+            if (otherTargetChain.chain.length < idx) {
+              return
+            }
+            const otherTargetChainCopy = JSON.parse(JSON.stringify(otherTargetChain))
+            const restOfChainToApply = otherTargetChainCopy.chain.splice(idx + 1)
+            // const restOfChainToApply = otherTargetChainCopy
+            if (restOfChainToApply.length === 0) {
+              return
+            }
+            if (longestTargetChain.length < restOfChainToApply.length) {
+              longestTargetChain = restOfChainToApply
+            }
+            console.log('>>> apply items:', restOfChainToApply)
+          })
+          // if (overItemOtherRoute.id === )
+        }
+        if (longestTargetChain.length > 0) {
+          // console.log('we have to add chain tail', longestTargetChain, routesToModify)
+          applyAddTargetChainToMultipleRoutes(longestTargetChain, routesToModify, state)
+        }
+      }
+    }
+
     const targetChainOfTruth = store.getters.getTargetChainById(route.targetChainId)
     //  const targetChainOfTruthOutput = targetChainOfTruth.chain.filter(function (el) { return el.type === 'output' })[0]
     // const
@@ -114,6 +156,15 @@ const AudioRouteModifier = store => {
     for (const overItem of targetChainOfTruth.chain.filter(function (el) { return el.type === 'over' })) {
       console.log('overItem', overItem.name)
     }
+  }
+
+  function applyAddTargetChainToMultipleRoutes (itemsToAdd, routesToModify, state) {
+    for (const route of routesToModify) {
+      for (const addItem of itemsToAdd) {
+        addToTargetChain(route, addItem, state)
+      }
+    }
+    // console.log('### applyAddTargetChainToMultipleRoutes', itemsToAdd, routesToModify)
   }
 }
 

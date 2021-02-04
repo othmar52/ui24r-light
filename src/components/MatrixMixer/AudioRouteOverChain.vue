@@ -1,13 +1,15 @@
 <template>
   <div class="audioroute__overs">
-    <AudioRouteOver
-      v-for="(overItem, overIndex) in getEnabledMatrixOvers"
-      v-bind:key="overIndex+100"
-      :routeId="routeId"
-      :overItem="overItem"
-      v-on:addRouteTarget="addRouteTarget"
-      v-on:removeRouteTarget="removeRouteTarget"
-    />
+    <div class="audioroute__over-wrap">
+      <AudioRouteOver
+        v-for="(overItem, overIndex) in getEnabledMatrixOvers"
+        v-bind:key="overIndex+100"
+        :routeId="routeId"
+        :overItem="overItem"
+        v-on:addRouteTarget="addRouteTarget"
+        v-on:removeRouteTarget="removeRouteTarget"
+      />
+    </div>
   </div>
 </template>
 
@@ -39,7 +41,10 @@ export default {
 </script>
 
 <style lang="scss">
-.audioroute__overs {
+.audioroute__over-wrap {
   display: flex;
+  width: 100%;
+  align-items: stretch;
 }
+
 </style>

@@ -58,6 +58,8 @@ export default {
 .audioroute__over {
   display: flex;
   padding: 0 20px;
+  flex-grow: 1;
+  flex-shrink: 1;
   &.bypassed {
     opacity: 0.2;
   }

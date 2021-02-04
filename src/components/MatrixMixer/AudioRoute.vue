@@ -91,8 +91,11 @@ export default {
 
 <style lang="scss">
 .matrixroutes__row {
-  display: flex;
+  display: table-row;
   justify-content: center;
+  &>* {
+    display: table-cell;
+  }
 }
 
 .dashed__border {

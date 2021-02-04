@@ -82,5 +82,8 @@ export default {
 </script>
 
 <style lang="scss">
-
+.matrixroutes {
+  display: table;
+  width: 100%;
+}
 </style>
