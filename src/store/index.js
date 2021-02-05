@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import MixerConfigValidator from '../assets/js/MixerConfigValidator'
 import Ui24rMessageParser from '../assets/js/Ui24rMessageParser'
 import AudioRouteModifier from '../assets/js/AudioRouteModifier'
+import MatrixStateToMixer from '../assets/js/MatrixStateToMixer'
 // import AudioRoute from '../assets/js/AudioRoute'
 
 Vue.use(Vuex)
@@ -59,48 +60,20 @@ export default new Vuex.Store({
     matrixRoutesIdCounter: 0,
     matrixRoutes: [],
     matrixTargetChains: {},
-    /*
-
-      chainedOvers: [
-
-      ]
-      activeOverLinks: [
-        {
-          fromInputChannels:
-          toOutputChannels
-          outputChannels:
-          isChainedToNext: true|false
-          isChainedToOutput: true|false
-        }
-      ]
-    */
-
-    // chain can not be modified individually. signal flow will apply to all inputs within the chain
-    matrixOverChain: [],
-
-    exampleRoute: {
-      from: {
-        input: {},
-        muted: false,
-        toHeadphones: false
-      },
-      over: [],
-      to: {
-        output: {},
-        level: 0.5,
-        fx1: false,
-        fx2: false,
-        fx3: false,
-        fx4: false
-      }
-    }
+    enableMatrixHelper: true,
+    autoRouteSingleOutput: true,
+    hideOutputSectionOnSingleOutput: true
   },
   plugins: [
     MixerConfigValidator,
     Ui24rMessageParser,
-    AudioRouteModifier
+    AudioRouteModifier,
+    MatrixStateToMixer
   ],
   mutations: {
+    updateMixerByMatrixState: function () {
+      // @see src/assets/js/MatrixStateToMixer.js
+    },
     retrieveMixerConfig: function () {
       // @see src/assets/js/MixerConfigValidator.js
     },
@@ -109,6 +82,15 @@ export default new Vuex.Store({
     },
     updateMixerData (state, payload) {
       Vue.set(state.sockets[payload.socketId].mData, payload.key, payload.data)
+    },
+    toggleEnableAutoRoute (state) {
+      state.autoRouteSingleOutput = !state.autoRouteSingleOutput
+    },
+    toggleHideOutputOnSingleOutput (state) {
+      state.hideOutputSectionOnSingleOutput = !state.hideOutputSectionOnSingleOutput
+    },
+    toggleMatrixHelper (state) {
+      state.enableMatrixHelper = !state.enableMatrixHelper
     },
     toggleEnableMatrixInput (state, payload) {
       // iterate until we find the matching input item
@@ -211,6 +193,28 @@ export default new Vuex.Store({
                typeof item.targetChainId !== 'undefined'
       })
     },
+    cleanupRoutesWithoutOverOrInput (state) {
+      state.matrixRoutes = state.matrixRoutes.filter(function (item) {
+        return typeof item.input !== 'undefined' ||
+          state.matrixTargetChains[item.targetChainId].chain.filter(function (el) {
+            return el.type === 'over'
+          }).length > 0
+      })
+    },
+    cleanupDuplicateRoutes (state) {
+      const routeHelper = []
+      const matrixRoutesWithoutDupes = []
+      for (const route of state.matrixRoutes) {
+        const inputId = (typeof route.input === 'undefined') ? 'x' : route.input.id
+        const targetChainId = (typeof route.targetChainId === 'undefined') ? 'x' : route.targetChainId
+        if (typeof routeHelper[`${inputId}--${targetChainId}`] === 'undefined') {
+          matrixRoutesWithoutDupes.push(route)
+        }
+        routeHelper[`${inputId}--${targetChainId}`] = route.id
+      }
+      // console.log('routeHelper', routeHelper)
+      state.matrixRoutes = matrixRoutesWithoutDupes
+    },
     deleteMatrixRouteById (state, routeId) {
       state.matrixRoutes = state.matrixRoutes.filter(function (item) {
         return item.id !== routeId
@@ -232,19 +236,6 @@ export default new Vuex.Store({
         item.isRouted = routedInputs.includes(item.inputChannels.join(','))
       }
     },
-    /**
-     * tricky stuff: modify over chains and outputs of all audio routes if necessary
-     */
-    applyOverChainsAndOutputs (state) {
-      const overChains = []
-
-      for (let i = 0; i < state.matrixOvers.filter(function (item) { return item.enabled === true }).length; i++) {
-        overChains.push([])
-      }
-      console.log('overChains', overChains)
-      // for (const audioRoute of ) {
-      // }
-    },
     processRouteChange: function () {
       // @see src/assets/js/AudioRouteModifier.js
     }
@@ -263,7 +254,9 @@ export default new Vuex.Store({
       for (const item of matrixInputsConf) {
         item.enabledDefault = item.enabled
         item.type = 'input'
+        item.id = item.inputChannels.join(',')
         item.isRouted = false
+        item.defaultDbPos = (item.defaultDbPos) ? item.defaultDbPos : 0.7647058823529421
       }
       context.state.matrixInputs = matrixInputsConf
     },
@@ -280,6 +273,7 @@ export default new Vuex.Store({
         item.enabledDefault = item.enabled
         item.type = 'over'
         item.id = item.outputChannels.join(',')
+        item.defaultDbPos = (item.defaultDbPos) ? item.defaultDbPos : 0.7647058823529421
       }
       context.state.matrixOvers = matrixOverConf
     },
@@ -369,6 +363,9 @@ export default new Vuex.Store({
     getMatrixInputs: state => state.matrixInputs,
     getMatrixOutputs: state => state.matrixOutputs,
     getMatrixRoutes: state => state.matrixRoutes,
+    getMatrixHelperEnabled: state => state.enableMatrixHelper,
+    getAutoOutputRouteEnabled: state => state.autoRouteSingleOutput,
+    getHideOutputSectionOnSingleOutput: state => state.hideOutputSectionOnSingleOutput,
     getMatrixTargetChains: state => state.matrixTargetChains, // only for debugging
     socketConnected: (state) => (socketId) => { return state.sockets[socketId].isConnected },
     socketEnabled: (state) => (socketId) => { return state.sockets[socketId].config.enabled },
@@ -389,7 +386,9 @@ export default new Vuex.Store({
         toHeadphones: false,
         targetChainId: undefined,
         removeFromTargetChain: undefined,
-        addToTargetChain: undefined
+        addToTargetChain: undefined,
+        setInput: undefined,
+        removeInput: undefined
       }
     },
     readRemoteMixerValue: (state) => (args) => {
@@ -416,6 +415,11 @@ export default new Vuex.Store({
     getEnabledMatrixOvers: state => state.matrixOvers.filter(function (el) {
       return el.enabled === true
     }),
+    getEnabledMatrixTargets: state => state.matrixOvers.filter(function (el) {
+      return el.enabled === true
+    }).concat(state.matrixOutputs.filter(function (el) {
+      return el.enabled === true
+    })),
     getTargetChainById: (state) => (targetChainId) => {
       return state.matrixTargetChains[targetChainId]
     }

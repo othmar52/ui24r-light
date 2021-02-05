@@ -18,15 +18,42 @@ const AudioRouteModifier = store => {
       route.removeFromTargetChain = undefined
       removeFromTargetChain(route, removeFromTargetChainItem, state)
     }
-    // TODO handle input toggle over this plugin as well?
-    store.commit('saveMatrixRoute', route)
-    modifyAffectedRoutes(route, addToTargetChainItem, removeFromTargetChainItem, state)
+    if (typeof route.setInput !== 'undefined') {
+      setInput(route, route.setInput)
+      route.setInput = undefined
+    }
+    if (typeof route.removeInput !== 'undefined') {
+      removeInput(route)
+      route.removeInput = undefined
+    }
 
+    // auto route to output new routes in case it is required & possible
+    if (state.autoRouteSingleOutput === true && route.id === undefined) {
+      if (store.getters.getEnabledMatrixOutputs.length === 1) {
+        addToTargetChain(route, store.getters.getEnabledMatrixOutputs[0], state)
+      }
+    }
+
+    store.commit('saveMatrixRoute', route)
+    if (state.enableMatrixHelper === true) {
+      modifyAffectedRoutes(route, addToTargetChainItem, removeFromTargetChainItem, state)
+      store.commit('cleanupEmptyRoutes')
+      store.commit('cleanupRoutesWithoutOverOrInput')
+      store.commit('cleanupDuplicateRoutes')
+    }
     store.commit('cleanupUnusedTargetChains')
     store.commit('cleanupEmptyRoutes')
-    // TODO modify all affected routes
-    // TODO cleanupDuplicateRoutes
+    store.commit('setIsRoutedAttributes')
+    store.commit('updateMixerByMatrixState')
   })
+
+  function setInput (route, inputItem) {
+    route.input = inputItem
+  }
+
+  function removeInput (route) {
+    route.input = undefined
+  }
 
   function getOrCreateTargetChainByItems (items) {
     const chainIds = []
@@ -52,9 +79,9 @@ const AudioRouteModifier = store => {
     // if item to add is output simply add or replace output
     if (addToTargetChainItem.type === 'output') {
       // console.log('we have an output')
-      const newTargetChainItems = existingTargetChain.chain.filter(function (item) {
-        return item.type !== 'output'
-      })
+      const newTargetChainItems = existingTargetChain.chain.filter(
+        item => item.type !== 'output'
+      )
       newTargetChainItems.push(addToTargetChainItem)
       route.targetChainId = getOrCreateTargetChainByItems(newTargetChainItems, state).id
       return
@@ -65,9 +92,9 @@ const AudioRouteModifier = store => {
     // iterate over all "over"-items within defined chain sorting
     for (const item of store.getters.getEnabledMatrixOvers) {
       // check if available item has been active before
-      let itemExistsInRoute = existingTargetChain.chain.filter(function (item2) {
-        return item2.id === item.id
-      }).length > 0
+      let itemExistsInRoute = existingTargetChain.chain.filter(
+        item2 => item2.id === item.id
+      ).length > 0
       // check if item goes active by current route change request
       if (addToTargetChainItem.id === item.id) {
         itemExistsInRoute = true
@@ -76,9 +103,9 @@ const AudioRouteModifier = store => {
         newTargetChain.push(item)
       }
     }
-    const existingOutput = existingTargetChain.chain.filter(function (item) {
-      return item.type === 'output'
-    })
+    const existingOutput = existingTargetChain.chain.filter(
+      item => item.type === 'output'
+    )
     if (existingOutput.length > 0) {
       newTargetChain.push(existingOutput[0])
     }
@@ -91,9 +118,9 @@ const AudioRouteModifier = store => {
       route.targetChainId = undefined
       return
     }
-    const newTargetChainItems = existingTargetChain.chain.filter(function (item) {
-      return item.id !== removeFromTargetChainItem.id
-    })
+    const newTargetChainItems = existingTargetChain.chain.filter(
+      item => item.id !== removeFromTargetChainItem.id
+    )
     if (newTargetChainItems.length === 0) {
       route.targetChainId = undefined
       return
@@ -105,63 +132,188 @@ const AudioRouteModifier = store => {
     if (route.targetChainId === undefined) {
       return
     }
-
-    // if we have added an over and this over exists in other routes with appended targets
-    // append those in our route as well
     if (addToTargetChainItem !== undefined) {
-      if (addToTargetChainItem.type !== 'ov-er') {
-        let longestTargetChain = []
-        const routesToModify = []
-        // let overItemIsAlreadyChainedInOtherAudioRoute = false
-        for (const otherRoute of store.getters.getMatrixRoutes) {
-          console.log('otherRoute', otherRoute.targetChainId)
-          const otherTargetChain = store.getters.getTargetChainById(otherRoute.targetChainId)
-          if (!otherTargetChain) {
-            continue
-          }
-          console.log('otherTargetChain', otherTargetChain.chain)
-          otherTargetChain.chain.forEach(function (overItemOtherRoute, idx) {
-            if (overItemOtherRoute.id !== addToTargetChainItem.id) {
-              return
-            }
-            routesToModify.push(otherRoute)
-            console.log('overItemOtherRoute', overItemOtherRoute.name, idx)
-            if (otherTargetChain.chain.length < idx) {
-              return
-            }
-            const otherTargetChainCopy = JSON.parse(JSON.stringify(otherTargetChain))
-            const restOfChainToApply = otherTargetChainCopy.chain.splice(idx + 1)
-            // const restOfChainToApply = otherTargetChainCopy
-            if (restOfChainToApply.length === 0) {
-              return
-            }
-            if (longestTargetChain.length < restOfChainToApply.length) {
-              longestTargetChain = restOfChainToApply
-            }
-            console.log('>>> apply items:', restOfChainToApply)
-          })
-          // if (overItemOtherRoute.id === )
-        }
-        if (longestTargetChain.length > 0) {
-          // console.log('we have to add chain tail', longestTargetChain, routesToModify)
-          applyAddTargetChainToMultipleRoutes(longestTargetChain, routesToModify, state)
-        }
-      }
+      modifyAffectedRoutesByAddTargetChain(route, addToTargetChainItem, state)
     }
-
-    const targetChainOfTruth = store.getters.getTargetChainById(route.targetChainId)
-    //  const targetChainOfTruthOutput = targetChainOfTruth.chain.filter(function (el) { return el.type === 'output' })[0]
-    // const
-    console.log('updateAllAffectedTargetChains', 'id:', targetChainOfTruth.id, 'chain:', targetChainOfTruth.chain)
-    for (const overItem of targetChainOfTruth.chain.filter(function (el) { return el.type === 'over' })) {
-      console.log('overItem', overItem.name)
+    if (removeFromTargetChainItem !== undefined) {
+      modifyAffectedRoutesByRemoveFromTargetChain(route, removeFromTargetChainItem, state)
     }
   }
 
+  function modifyAffectedRoutesByRemoveFromTargetChain (route, removeFromTargetChainItem, state) {
+    // we have to check if removed item is linked to its previous left item somewhere else
+
+    const currentTargetChain = store.getters.getTargetChainById(route.targetChainId)
+    if (typeof currentTargetChain === 'undefined') {
+      return
+    }
+    const previousLeftItems = currentTargetChain.chain.filter(
+      el => el.type === 'over'
+    )
+    if (previousLeftItems.length === 0) {
+      return
+    }
+
+    let indexOfPreviousLeftItem = -1
+    let previousLeftItem
+    const indexOfRemovedItem = (removeFromTargetChainItem.type === 'over')
+      ? store.getters.getEnabledMatrixOvers.map(e => e.id).indexOf(removeFromTargetChainItem.id)
+      : store.getters.getEnabledMatrixOvers.length
+
+    for (const item of previousLeftItems) {
+      const tmpIndex = store.getters.getEnabledMatrixOvers.map(e => e.id).indexOf(item.id)
+      if (tmpIndex > indexOfPreviousLeftItem && tmpIndex < indexOfRemovedItem) {
+        indexOfPreviousLeftItem = tmpIndex
+        previousLeftItem = item
+      }
+    }
+
+    if (typeof previousLeftItem === 'undefined') {
+      // console.log('111 there was no previous left item. nothing to do...')
+      return
+    }
+
+    // console.log('search all routes for', previousLeftItem.name, removeFromTargetChainItem.name)
+    // apply same removeFromTarget that has the same part of chain
+    for (const otherRoute of store.getters.getMatrixRoutes) {
+      const otherTargetChain = store.getters.getTargetChainById(otherRoute.targetChainId)
+      if (!otherTargetChain) {
+        continue
+      }
+      if (otherTargetChain.chain.filter(
+        el => el.id === previousLeftItem.id || el.id === removeFromTargetChainItem.id
+      ).length < 2) {
+        continue
+      }
+      removeFromTargetChain(otherRoute, removeFromTargetChainItem, state)
+    }
+  }
+
+  function modifyAffectedRoutesByAddTargetChain (route, addToTargetChainItem, state) {
+    if (route.targetChainId === undefined) {
+      return
+    }
+    // if we have added an over and this over exists in other routes with appended targets
+    // append those in our route as well
+    // if we have linked over item to the left
+    // we have to link target item to the left in all routes
+    let weHaveLinkedLeftItem = false
+    const currentTargetChain = store.getters.getTargetChainById(route.targetChainId)
+    // console.log('currentTargetChain', currentTargetChain)
+    // console.log('XXXX store.getters.getEnabledMatrixTargets', store.getters.getEnabledMatrixTargets)
+    if (currentTargetChain.chain.length > 1) {
+      let leftItem
+      const enabledMatrixTargets = JSON.parse(JSON.stringify(store.getters.getEnabledMatrixOvers))
+      if (addToTargetChainItem.type === 'output') {
+        enabledMatrixTargets.push(addToTargetChainItem)
+      }
+      // BUG: dont check possible left item but previously linked left item
+      for (const enabledMatrixTarget of enabledMatrixTargets) {
+        if (typeof leftItem === 'undefined' || enabledMatrixTarget.id !== addToTargetChainItem.id) {
+          leftItem = enabledMatrixTarget
+          continue
+        }
+        if (currentTargetChain.chain.filter(el => enabledMatrixTarget.id === el.id).length > 0) {
+          if (currentTargetChain.chain.filter(el => leftItem.id === el.id).length > 0) {
+            weHaveLinkedLeftItem = leftItem
+            // console.log('AAAAA apply same change to all routes that has enabled', weHaveLinkedLeftItem.name)
+            break
+          }
+        }
+        leftItem = enabledMatrixTarget
+      }
+    }
+    if (weHaveLinkedLeftItem !== false) {
+      // apply same addToTarget that has the left item within its target chain
+      for (const otherRoute of store.getters.getMatrixRoutes) {
+        const otherTargetChain = store.getters.getTargetChainById(otherRoute.targetChainId)
+        if (!otherTargetChain) {
+          continue
+        }
+        if (otherTargetChain.chain.filter(el => el.id === weHaveLinkedLeftItem.id).length === 0) {
+          // left item is not in other target chain
+          continue
+        }
+        if (otherTargetChain.chain.filter(el => el.id === addToTargetChainItem.id).length > 0) {
+          // item to add is already in target chain
+          continue
+        }
+        addToTargetChain(otherRoute, addToTargetChainItem, state)
+      }
+    }
+
+    let longestTargetChain = []
+    const routesToModify = []
+    // let overItemIsAlreadyChainedInOtherAudioRoute = false
+    for (const otherRoute of store.getters.getMatrixRoutes) {
+      // console.log('otherRoute', otherRoute.targetChainId)
+      const otherTargetChain = store.getters.getTargetChainById(otherRoute.targetChainId)
+      if (!otherTargetChain) {
+        continue
+      }
+      // console.log('otherTargetChain', otherTargetChain.chain)
+      otherTargetChain.chain.forEach(function (overItemOtherRoute, idx) {
+        if (overItemOtherRoute.id !== addToTargetChainItem.id) {
+          return
+        }
+        routesToModify.push(otherRoute)
+        // console.log('overItemOtherRoute', overItemOtherRoute.name, idx)
+        if (otherTargetChain.chain.length < idx) {
+          return
+        }
+        const otherTargetChainCopy = JSON.parse(JSON.stringify(otherTargetChain))
+        const restOfChainToApply = otherTargetChainCopy.chain.splice(idx + 1)
+        // const restOfChainToApply = otherTargetChainCopy
+        if (restOfChainToApply.length === 0) {
+          return
+        }
+        if (longestTargetChain.length < restOfChainToApply.length) {
+          longestTargetChain = restOfChainToApply
+        }
+        // console.log('>>> apply items:', restOfChainToApply)
+      })
+      // if (overItemOtherRoute.id === )
+    }
+    if (longestTargetChain.length > 0) {
+      // console.log('we have to add chain tail', longestTargetChain, routesToModify)
+      applyAddTargetChainToMultipleRoutes(longestTargetChain, routesToModify, state)
+    }
+
+    if (addToTargetChainItem.type !== 'output') {
+      return
+    }
+    const currentChainOverItems = currentTargetChain.chain.filter(
+      el => el.type === 'over'
+    )
+    if (currentChainOverItems.length === 0) {
+      return
+    }
+    const lastOverItem = currentChainOverItems[currentChainOverItems.length - 1]
+    // apply same output to all routes that has the same last over item
+    for (const otherRoute of store.getters.getMatrixRoutes) {
+      // console.log('otherRoute', otherRoute.targetChainId)
+      const otherTargetChain = store.getters.getTargetChainById(otherRoute.targetChainId)
+      if (!otherTargetChain) {
+        continue
+      }
+      const otherOverItems = otherTargetChain.chain.filter(
+        el => el.type === 'over'
+      )
+      if (otherOverItems.length === 0) {
+        continue
+      }
+      const otherChainLastOverItem = otherOverItems[otherOverItems.length - 1]
+      // console.log('CCC otherChainLastOverItem', otherChainLastOverItem)
+      // console.log('CCC lastOverItem', lastOverItem)
+      if (otherChainLastOverItem.id === lastOverItem.id) {
+        addToTargetChain(otherRoute, addToTargetChainItem, state)
+      }
+    }
+  }
   function applyAddTargetChainToMultipleRoutes (itemsToAdd, routesToModify, state) {
-    for (const route of routesToModify) {
+    for (const routeToModify of routesToModify) {
       for (const addItem of itemsToAdd) {
-        addToTargetChain(route, addItem, state)
+        addToTargetChain(routeToModify, addItem, state)
       }
     }
     // console.log('### applyAddTargetChainToMultipleRoutes', itemsToAdd, routesToModify)

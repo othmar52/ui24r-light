@@ -51,6 +51,22 @@
               v-if="index<matrixOvers.length-1 && matrixOvers.length>1"
             >&#11020;</div>
           </div>
+
+          <button
+            :class="`btn btn-helper ${(getAutoOutputRouteEnabled) ? 'enabled' : ''}`"
+            @click="toggleAutoRoute"
+            v-if="getEnabledMatrixOutputs.length === 1"
+          >
+            AUTO ROUTE OUTPUT
+          </button>
+          <br>
+          <button
+            :class="`btn btn-helper ${(getHideOutputSectionOnSingleOutput) ? 'enabled' : ''}`"
+            @click="toggleHideOutput"
+            v-if="getEnabledMatrixOutputs.length === 1 && getAutoOutputRouteEnabled"
+          >
+            HIDE OUTPUT
+          </button>
         </div>
         <br><br><br><br>
 
@@ -121,13 +137,22 @@ export default {
       'getEnabledMixerSocketIds',
       'getMatrixInputs',
       'getMatrixOutputs',
-      'getCurSetup'
+      'getEnabledMatrixOutputs',
+      'getCurSetup',
+      'getAutoOutputRouteEnabled',
+      'getHideOutputSectionOnSingleOutput'
     ]),
     enabledSocketKeys () {
       return this.getEnabledMixerSocketIds
     }
   },
   methods: {
+    toggleAutoRoute () {
+      this.$store.commit('toggleEnableAutoRoute')
+    },
+    toggleHideOutput () {
+      this.$store.commit('toggleHideOutputOnSingleOutput')
+    },
     checkForPreselectMixer () {
       if (this.enabledSocketKeys.length === 1) {
         this.cMixer = this.enabledSocketKeys[0]

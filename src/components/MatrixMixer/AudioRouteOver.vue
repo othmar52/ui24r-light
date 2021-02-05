@@ -2,8 +2,7 @@
   <div :class="`audioroute__over ${overActiveForRoute ? '' : 'bypassed'}`">
     <span class="arrow">&#10145;</span>
     <div @click="toggleBypassOver" class="vcenter">
-      <InputWithVu :item="overItem" v-if="overActiveForRoute"/>
-      <div v-else>{{overItem.name}}</div>
+      <InputWithVu :item="overItem" />
     </div>
   </div>
 </template>
@@ -57,11 +56,16 @@ export default {
 <style lang="scss">
 .audioroute__over {
   display: flex;
-  padding: 0 20px;
+  padding: 0;
   flex-grow: 1;
   flex-shrink: 1;
+  max-width: 250px;
   &.bypassed {
     opacity: 0.2;
+    .vuued__channel>span {
+      background-color: #343440;
+      color: #FFF;
+    }
   }
 }
 </style>

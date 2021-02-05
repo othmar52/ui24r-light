@@ -14,8 +14,18 @@
             <InputWithVu :item="item" />
           </div>
         </div>
+        <div>
+          <div
+            class="vuued__channel"
+            @click="chooseInput"
+            :data-channels="undefined">
+            <span class="color-9">
+            NO INPUT
+            </span>
+          </div>
+        </div>
       </div>
-      <div @click="chooseInput">cancel</div>
+      <div @click="cancelWizard">cancel</div>
     </div>
   </div>
 </template>
@@ -61,6 +71,9 @@ export default {
         return
       }
       this.$emit('setRouteInput', undefined)
+    },
+    cancelWizard (event) {
+      this.wizardOpen = false
     }
   }
 }

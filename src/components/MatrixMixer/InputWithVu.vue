@@ -28,7 +28,11 @@ export default {
     VuMeterStereo
   },
   props: {
-    item: Object
+    item: Object,
+    data: {
+      type: String,
+      default: ''
+    }
   }
 }
 </script>

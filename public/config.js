@@ -143,7 +143,7 @@ var mixerConfig = {
         color: 3,
         outputChannels: [6],
         fakeStereo: false,
-        enabled: true
+        enabled: false
     }
   ],
 

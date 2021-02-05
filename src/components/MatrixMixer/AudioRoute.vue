@@ -8,13 +8,16 @@
       v-on:addRouteTarget="addRouteTarget"
       v-on:removeRouteTarget="removeRouteTarget"
     />
-    <span class="arrow">&#10145;</span>
+    <span class="arrow" v-if="!hideOutput">&#10145;</span>
     <AudioRouteOutput
+      v-if="!hideOutput"
       :routeOutput="getRouteOutputTarget"
       v-on:addRouteTarget="addRouteTarget"
       v-on:removeRouteTarget="removeRouteTarget"
     />
-    <div class="btxn dashed__border" @click="deleteRoute">&#10006;</div>
+    <div class="dashed__border">
+      <DelayedTrigger markup="&#10006;" v-on:actionTriggered="deleteRoute" />
+    </div>
   </div>
 </template>
 
@@ -23,12 +26,14 @@ import { mapGetters } from 'vuex'
 import AudioRouteInput from '@/components/MatrixMixer/AudioRouteInput.vue'
 import AudioRouteOutput from '@/components/MatrixMixer/AudioRouteOutput.vue'
 import AudioRouteOverChain from '@/components/MatrixMixer/AudioRouteOverChain.vue'
+import DelayedTrigger from '@/components/MatrixMixer/DelayedTrigger.vue'
 export default {
   name: 'AudioRoute',
   components: {
     AudioRouteInput,
     AudioRouteOutput,
-    AudioRouteOverChain
+    AudioRouteOverChain,
+    DelayedTrigger
   },
   props: {
     routeId: Number
@@ -37,10 +42,18 @@ export default {
     ...mapGetters([
       'getRouteById',
       'getEnabledMatrixOvers',
-      'getTargetChainById'
+      'getEnabledMatrixOutputs',
+      'getTargetChainById',
+      'getAutoOutputRouteEnabled',
+      'getHideOutputSectionOnSingleOutput'
     ]),
     route () {
       return this.getRouteById(this.routeId)
+    },
+    hideOutput () {
+      return this.getHideOutputSectionOnSingleOutput === true &&
+        this.getAutoOutputRouteEnabled === true &&
+        this.getEnabledMatrixOutputs.length === 1
     },
     getRouteOutputTarget () {
       if (typeof this.route.targetChainId === 'undefined') {
@@ -57,8 +70,13 @@ export default {
   },
   methods: {
     setRouteInput (payload) {
-      this.route.input = payload
-      this.saveRoute()
+      if (typeof payload === 'undefined') {
+        this.route.removeInput = true
+        this.$store.commit('processRouteChange', this.route)
+        return
+      }
+      this.route.setInput = payload
+      this.$store.commit('processRouteChange', this.route)
     },
     addRouteTarget (payload) {
       this.route.addToTargetChain = payload
@@ -68,16 +86,12 @@ export default {
       this.route.removeFromTargetChain = payload
       this.$store.commit('processRouteChange', this.route)
     },
-    saveRoute () {
-      console.log('calling saveRoute() in AudioRoute.vue')
-      this.$store.commit('saveMatrixRoute', this.route)
-      this.$store.commit('setIsRoutedAttributes')
-      this.$store.commit('applyOverChainsAndOutputs')
-    },
     deleteRoute () {
       this.$store.commit('deleteMatrixRouteById', this.route.id)
-      this.$store.commit('setIsRoutedAttributes')
       this.$store.commit('cleanupUnusedTargetChains')
+      this.$store.commit('setIsRoutedAttributes')
+      this.$store.commit('updateMixerByMatrixState')
+      this.$store.commit('setIsRoutedAttributes')
     }
   },
   created () {
