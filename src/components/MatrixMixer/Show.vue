@@ -1,7 +1,7 @@
 <template>
   <div class="slider__container">
     <header>
-    <h2>spaceship matrix audio router
+    <h2>AUDIO ROUTES
       <div class="btn__nav">
         <div>
           <button

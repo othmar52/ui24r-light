@@ -2,7 +2,9 @@
   <div class="audioroute__input">
     <div v-if="!wizardOpen" @click="showInputSelectorWizard">
       <InputWithVu :item="routeInput"  v-if="routeInput" />
-      <div v-else>no input defined</div>
+      <div v-else class="unrouted">
+        <div>no input</div>
+      </div>
     </div>
     <div v-else class="matrixconf__wizard matrixconf__wizard--input">
       select input source for audio route

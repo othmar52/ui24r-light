@@ -1,9 +1,9 @@
 <template>
-  <div class="matrixroutes__row dashed__border">
-    <div class="btxn dashed__bordedr">
+  <div :class="`matrixroutes__row dashed__border ${route.muted && 'matrixroutes__row--muted'}`">
+    <div class="btn--mute" @click="toggleMute" title="toggle mute/unmute">
       <IconMute />
     </div>
-    <div class="btxn dashed__border">
+    <div :class="`btn--headphones ${route.toHeadphones && 'headphones__active'}`" @click="toggleHeadphones">
       <IconHeadphones />
     </div>
     <AudioRouteInput :routeInput="route.input" v-on:setRouteInput="setRouteInput"/>
@@ -52,7 +52,8 @@ export default {
       'getEnabledMatrixOutputs',
       'getTargetChainById',
       'getAutoOutputRouteEnabled',
-      'getHideOutputSectionOnSingleOutput'
+      'getHideOutputSectionOnSingleOutput',
+      'getMatrixHelperEnabled'
     ]),
     route () {
       return this.getRouteById(this.routeId)
@@ -95,6 +96,24 @@ export default {
     },
     deleteRoute () {
       this.$store.commit('deleteMatrixRouteById', this.route.id)
+      this.finishRouteChange()
+    },
+    toggleMute () {
+      this.route.muted = !this.route.muted
+      this.$store.commit('saveMatrixRoute', this.route)
+      this.finishRouteChange()
+    },
+    toggleHeadphones () {
+      this.route.toHeadphones = !this.route.toHeadphones
+      this.$store.commit('saveMatrixRoute', this.route)
+      this.finishRouteChange()
+    },
+    finishRouteChange () {
+      if (this.getMatrixHelperEnabled === true) {
+        this.$store.commit('cleanupEmptyRoutes')
+        this.$store.commit('cleanupRoutesWithoutOverOrInput')
+        this.$store.commit('cleanupDuplicateRoutes')
+      }
       this.$store.commit('cleanupUnusedTargetChains')
       this.$store.commit('setIsRoutedAttributes')
       this.$store.commit('updateMixerByMatrixState')
@@ -117,7 +136,7 @@ export default {
   &>* {
     padding: 10px 0;
     display: table-cell;
-    border-bottom: 1px solid #4a8ec8;
+    border-bottom: 1px solid $spotColor;
   }
 }
 
@@ -126,7 +145,7 @@ export default {
   align-items: center;
   font-size: 50px;
   padding: 0 30px;
-  color: #4a8ec8;
+  color: $spotColor;
 }
 
 .vcenter {

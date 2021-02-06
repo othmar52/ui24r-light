@@ -8,8 +8,50 @@ const MatrixStateToMixer = store => {
     applyParamsToSocket(state)
   })
 
+  // hmmm should we solo (send to headphone) all items of route?
+  // for now mute only the last item in chain...
+  function getItemToHeadphone (audioRoute) {
+    if (audioRoute.toHeadphones === false) {
+      return false
+    }
+    const targetChain = store.getters.getTargetChainById(audioRoute.targetChainId)
+    if (typeof targetChain !== 'undefined') {
+      const targetChainOvers = targetChain.chain.filter(el => el.type === 'over')
+      if (targetChainOvers.length > 0) {
+        return targetChainOvers[targetChainOvers.length - 1]
+      }
+    }
+    if (typeof audioRoute.input !== 'undefined') {
+      // last item of audioroute is input
+      return audioRoute.input
+    }
+    return false
+  }
+
+  // hmmm should we mute all items of route?
+  // for now mute only the first item in chain...
+  function getItemToMute (audioRoute) {
+    if (audioRoute.muted === false) {
+      return false
+    }
+    if (typeof audioRoute.input !== 'undefined') {
+      // first item is input
+      return audioRoute.input
+    }
+    const targetChain = store.getters.getTargetChainById(audioRoute.targetChainId)
+    if (typeof targetChain === 'undefined') {
+      return false
+    }
+    if (typeof targetChain.chain[0] === 'undefined') {
+      return false
+    }
+    return targetChain.chain[0]
+  }
+
   function applyParamsToSocket (state) {
     const initialState = getInitialState()
+    let inputChannelsToMute = []
+    let inputChannelsToHeadphone = []
     for (const audioRoute of state.matrixRoutes.filter(el => typeof el !== 'undefined')) {
       /*
       try {
@@ -22,6 +64,14 @@ const MatrixStateToMixer = store => {
         continue
       }
       */
+      const itemToMute = getItemToMute(audioRoute)
+      if (itemToMute !== false) {
+        inputChannelsToMute = inputChannelsToMute.concat(itemToMute.inputChannels)
+      }
+      const itemToHeadphone = getItemToHeadphone(audioRoute)
+      if (itemToHeadphone !== false) {
+        inputChannelsToHeadphone = inputChannelsToHeadphone.concat(itemToHeadphone.inputChannels)
+      }
       const targetChain = store.getters.getTargetChainById(audioRoute.targetChainId)
       if (typeof targetChain === 'undefined') {
         continue
@@ -42,6 +92,15 @@ const MatrixStateToMixer = store => {
         // route all pairs we have in our targetChain
         // console.log('from', targetChain[1].chain[i].name, 'to:', targetChain[1].chain[i + 1].name)
         handleMonoStereoComboFromTo(targetChain[1].chain[i], targetChain[1].chain[i + 1], initialState)
+      }
+    }
+
+    const curSetup = store.getters.getCurSetup('mixer1')
+    // console.log('inputChannelsToMute', inputChannelsToMute)
+    for (let i = 0; i < curSetup.input; i++) {
+      initialState[`i.${i}.solo`] = (inputChannelsToHeadphone.includes(i)) ? 1 : 0
+      for (let a = 0; a < curSetup.aux; a++) {
+        initialState[`i.${i}.aux.${a}.mute`] = (inputChannelsToMute.includes(i)) ? 1 : 0
       }
     }
 
@@ -119,8 +178,10 @@ const MatrixStateToMixer = store => {
           initialState[`i.${i}.aux.${a}.value`] = 0
           initialState[`i.${i}.fx.${f}.post`] = 0
           initialState[`i.${i}.fx.${f}.value`] = 0
+          initialState[`i.${i}.fx.${f}.mute`] = 0
           initialState[`f.${f}.aux.${a}.post`] = 0
           initialState[`f.${f}.aux.${a}.value`] = 0
+          initialState[`f.${f}.aux.${a}.mute`] = 0
           initialState[`i.${i}.solo`] = 0
           initialState[`f.${f}.solo`] = 0
           if (i < 2) {
