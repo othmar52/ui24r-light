@@ -1,5 +1,6 @@
 <template>
   <div class="slider__container">
+    <header>
     <h2>spaceship matrix audio router
       <div class="btn__nav">
         <div>
@@ -15,9 +16,11 @@
           <div class="btn">
             <DelayedTrigger markup="remove all routes" v-on:actionTriggered="resetAudioRoutes" />
           </div>
+          <div>pegel</div>
         </div>
       </div>
     </h2>
+    </header>
     <div class="matrixroutes">
       <AudioRoute
         v-for="(audioRoute, index) in getMatrixRoutes"

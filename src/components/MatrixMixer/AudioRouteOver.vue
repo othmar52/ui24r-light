@@ -1,6 +1,6 @@
 <template>
   <div :class="`audioroute__over ${overActiveForRoute ? '' : 'bypassed'}`">
-    <span class="arrow">&#10145;</span>
+    <AudioRouteOverMover :overItem="overItem" />
     <div @click="toggleBypassOver" class="vcenter">
       <InputWithVu :item="overItem" />
     </div>
@@ -10,10 +10,12 @@
 <script>
 import { mapGetters } from 'vuex'
 import InputWithVu from '@/components/MatrixMixer/InputWithVu.vue'
+import AudioRouteOverMover from '@/components/MatrixMixer/AudioRouteOverMover.vue'
 export default {
   name: 'AudioRouteOver',
   components: {
-    InputWithVu
+    InputWithVu,
+    AudioRouteOverMover
   },
   props: {
     routeId: Number,

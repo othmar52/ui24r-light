@@ -39,8 +39,8 @@ export default {
 
 <style lang="scss">
 .vuued__channel {
-    min-width: 160px;
-    height: 60px;
+    min-width: 115px;
+    height: 35px;
     flex-grow: 1;
     flex-shrink: 1;
     display: flex;

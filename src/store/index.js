@@ -140,6 +140,24 @@ export default new Vuex.Store({
       // console.log('move over from index', itemPosition, 'to', itemPosition + 1)
       state.matrixOvers.splice(itemPosition + 1, 0, state.matrixOvers.splice(itemPosition, 1)[0])
     },
+    moveOverItemToLeft (state, inputChannels) {
+      if (state.matrixOvers.length < 2) {
+        // console.log('nothing to move left...')
+        return
+      }
+      let itemPosition
+      state.matrixOvers.forEach(function (over, idx) {
+        if (inputChannels === over.inputChannels.join(',')) {
+          itemPosition = idx
+        }
+      })
+      if (itemPosition === state.matrixOvers.length) {
+        // console.log('item is already very right')
+        return
+      }
+      // console.log('move over from index', itemPosition, 'to', itemPosition + 1)
+      state.matrixOvers.splice(itemPosition, 0, state.matrixOvers.splice(itemPosition - 1, 1)[0])
+    },
     setDefaultMatrixPreset (state) {
       // TODO remove all routes that includes disabled items (consider to keep with invalid flag)
       for (const item of state.matrixInputs) {
@@ -362,6 +380,7 @@ export default new Vuex.Store({
     haveValidConfig: state => state.haveValidConfig,
     getMatrixInputs: state => state.matrixInputs,
     getMatrixOutputs: state => state.matrixOutputs,
+    getMatrixOvers: state => state.matrixOvers,
     getMatrixRoutes: state => state.matrixRoutes,
     getMatrixHelperEnabled: state => state.enableMatrixHelper,
     getAutoOutputRouteEnabled: state => state.autoRouteSingleOutput,
@@ -408,6 +427,9 @@ export default new Vuex.Store({
     },
     getUnroutedMatrixInputs: state => state.matrixInputs.filter(function (el) {
       return el.enabled === true && el.isRouted === false
+    }),
+    getEnabledMatrixInputs: state => state.matrixInputs.filter(function (el) {
+      return el.enabled === true
     }),
     getEnabledMatrixOutputs: state => state.matrixOutputs.filter(function (el) {
       return el.enabled === true

@@ -1,14 +1,17 @@
 <template>
   <div class="matrixroutes__row dashed__border">
-    <div class="btxn dashed__border">MUTE<br> rid:{{routeId}}</div>
-    <div class="btxn dashed__border">HP<br>tid:{{route.targetChainId}}</div>
+    <div class="btxn dashed__bordedr">
+      <IconMute />
+    </div>
+    <div class="btxn dashed__border">
+      <IconHeadphones />
+    </div>
     <AudioRouteInput :routeInput="route.input" v-on:setRouteInput="setRouteInput"/>
     <AudioRouteOverChain
       :routeId="routeId"
       v-on:addRouteTarget="addRouteTarget"
       v-on:removeRouteTarget="removeRouteTarget"
     />
-    <span class="arrow" v-if="!hideOutput">&#10145;</span>
     <AudioRouteOutput
       v-if="!hideOutput"
       :routeOutput="getRouteOutputTarget"
@@ -27,13 +30,17 @@ import AudioRouteInput from '@/components/MatrixMixer/AudioRouteInput.vue'
 import AudioRouteOutput from '@/components/MatrixMixer/AudioRouteOutput.vue'
 import AudioRouteOverChain from '@/components/MatrixMixer/AudioRouteOverChain.vue'
 import DelayedTrigger from '@/components/MatrixMixer/DelayedTrigger.vue'
+import IconHeadphones from '@/assets/img/headphones.svg'
+import IconMute from '@/assets/img/mute.svg'
 export default {
   name: 'AudioRoute',
   components: {
     AudioRouteInput,
     AudioRouteOutput,
     AudioRouteOverChain,
-    DelayedTrigger
+    DelayedTrigger,
+    IconHeadphones,
+    IconMute
   },
   props: {
     routeId: Number
@@ -108,14 +115,10 @@ export default {
   display: table-row;
   justify-content: center;
   &>* {
+    padding: 10px 0;
     display: table-cell;
+    border-bottom: 1px solid #4a8ec8;
   }
-}
-
-.dashed__border {
-  border: 3px dashed #6b6b88;
-  padding: 5px;
-  margin-bottom: 5px;
 }
 
 .arrow {
@@ -123,6 +126,7 @@ export default {
   align-items: center;
   font-size: 50px;
   padding: 0 30px;
+  color: #4a8ec8;
 }
 
 .vcenter {

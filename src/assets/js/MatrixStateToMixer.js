@@ -151,7 +151,7 @@ const MatrixStateToMixer = store => {
       }
     }
 
-    for (const item of store.getters.getMatrixOutputs) {
+    for (const item of store.getters.getMatrixOutputs.concat(store.getters.getMatrixOvers)) {
       first = 0
       for (const chIndex of item.outputChannels) {
         initialState[`a.${chIndex}.name`] = item.name

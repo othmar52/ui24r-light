@@ -1,6 +1,7 @@
 <template>
   <div class="audioroute__output">
-    <div v-if="!wizardOpen" @click="showOutputSelectorWizard">
+    <div v-if="!wizardOpen" @click="showOutputSelectorWizard" class="vcenter">
+      <span class="arrow">&#10145;</span>
       <OutputWithVu :item="routeOutput"  v-if="routeOutput" />
       <div v-else>no output defined</div>
     </div>

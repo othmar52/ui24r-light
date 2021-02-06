@@ -7,7 +7,7 @@
     <div v-else class="matrixconf__wizard matrixconf__wizard--input">
       select input source for audio route
       <div class="matrixconf__inputs">
-        <div v-for="(item, index) in getUnroutedMatrixInputs" v-bind:key="index+100">
+        <div v-for="(item, index) in getAvailableMatrixInputs" v-bind:key="index+100">
           <div
             @click="chooseInput"
             :data-channels="item.inputChannels">
@@ -54,8 +54,15 @@ export default {
   computed: {
     ...mapGetters([
       'getMatrixInputs',
-      'getUnroutedMatrixInputs'
-    ])
+      'getEnabledMatrixInputs',
+      'getUnroutedMatrixInputs',
+      'getMatrixHelperEnabled'
+    ]),
+    getAvailableMatrixInputs () {
+      return (this.getMatrixHelperEnabled === true)
+        ? this.getUnroutedMatrixInputs
+        : this.getEnabledMatrixInputs
+    }
   },
   methods: {
     showInputSelectorWizard () {
