@@ -37,9 +37,17 @@ const AudioRouteModifier = store => {
     store.commit('saveMatrixRoute', route)
     if (state.enableMatrixHelper === true) {
       modifyAffectedRoutes(route, addToTargetChainItem, removeFromTargetChainItem, state)
+      if (state.swapOverMoverIsActive === true) {
+        // during removing and adding items we may have empty routes that we need to preserve
+        return
+      }
       store.commit('cleanupEmptyRoutes')
       store.commit('cleanupRoutesWithoutOverOrInput')
       store.commit('cleanupDuplicateRoutes')
+    }
+    if (state.swapOverMoverIsActive === true) {
+      // during removing and adding items we may have empty routes that we need to preserve
+      return
     }
     store.commit('cleanupUnusedTargetChains')
     store.commit('cleanupEmptyRoutes')

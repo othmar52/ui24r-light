@@ -4,6 +4,7 @@ import MixerConfigValidator from '../assets/js/MixerConfigValidator'
 import Ui24rMessageParser from '../assets/js/Ui24rMessageParser'
 import AudioRouteModifier from '../assets/js/AudioRouteModifier'
 import MatrixStateToMixer from '../assets/js/MatrixStateToMixer'
+import MatrixOverMover from '../assets/js/MatrixOverMover'
 // import AudioRoute from '../assets/js/AudioRoute'
 
 Vue.use(Vuex)
@@ -62,13 +63,17 @@ export default new Vuex.Store({
     matrixTargetChains: {},
     enableMatrixHelper: true,
     autoRouteSingleOutput: true,
-    hideOutputSectionOnSingleOutput: true
+    hideOutputSectionOnSingleOutput: true,
+
+    swapOverItemsForAllRoutes: [],
+    swapOverMoverIsActive: false
   },
   plugins: [
     MixerConfigValidator,
     Ui24rMessageParser,
     AudioRouteModifier,
-    MatrixStateToMixer
+    MatrixStateToMixer,
+    MatrixOverMover
   ],
   mutations: {
     updateMixerByMatrixState: function () {
@@ -76,6 +81,9 @@ export default new Vuex.Store({
     },
     retrieveMixerConfig: function () {
       // @see src/assets/js/MixerConfigValidator.js
+    },
+    moveOverItemToLeft (state, inputChannels) {
+      // @see src/assets/js/MatrixOverMover.js
     },
     receiveSocketMessage: function (state, data) {
       state.sockets[data.socketId].message = data.message
@@ -91,6 +99,12 @@ export default new Vuex.Store({
     },
     toggleMatrixHelper (state) {
       state.enableMatrixHelper = !state.enableMatrixHelper
+    },
+    setSwapOverMoverIsActiveTo (state, payload) {
+      state.swapOverMoverIsActive = payload
+    },
+    setMatrixOvers (state, matrixOvers) {
+      state.matrixOvers = matrixOvers
     },
     toggleEnableMatrixInput (state, payload) {
       // iterate until we find the matching input item
@@ -138,25 +152,9 @@ export default new Vuex.Store({
         return
       }
       // console.log('move over from index', itemPosition, 'to', itemPosition + 1)
+      state.swapOverItemsForAllRoutes.push(state.matrixOvers[itemPosition])
+      state.swapOverItemsForAllRoutes.push(state.matrixOvers[itemPosition + 1])
       state.matrixOvers.splice(itemPosition + 1, 0, state.matrixOvers.splice(itemPosition, 1)[0])
-    },
-    moveOverItemToLeft (state, inputChannels) {
-      if (state.matrixOvers.length < 2) {
-        // console.log('nothing to move left...')
-        return
-      }
-      let itemPosition
-      state.matrixOvers.forEach(function (over, idx) {
-        if (inputChannels === over.inputChannels.join(',')) {
-          itemPosition = idx
-        }
-      })
-      if (itemPosition === state.matrixOvers.length) {
-        // console.log('item is already very right')
-        return
-      }
-      // console.log('move over from index', itemPosition, 'to', itemPosition + 1)
-      state.matrixOvers.splice(itemPosition, 0, state.matrixOvers.splice(itemPosition - 1, 1)[0])
     },
     setDefaultMatrixPreset (state) {
       // TODO remove all routes that includes disabled items (consider to keep with invalid flag)

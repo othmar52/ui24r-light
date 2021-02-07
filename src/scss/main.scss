@@ -111,3 +111,35 @@ a {
         flex-shrink: 1;
     }
 }
+
+
+.audioroute__output,
+.audioroute__input {
+    position: relative;
+}
+
+.matrixconf__wizard {
+    position: absolute;
+    top: 0;
+    background: $headerBackground;
+    padding: 20px;
+    z-index: 10000;
+    .matrixconf__inputs,
+    .matrixconf__outputs {
+      display: flex;
+      flex-wrap: wrap;
+      &>* {
+        margin: 10px;
+      }
+    }
+
+    &.matrixconf__wizard--input {
+        width: 31vw;
+        right: -35vw;
+    }
+
+    &.matrixconf__wizard--output {
+        width: 21vw;
+        left: -23vw;
+    }
+  }

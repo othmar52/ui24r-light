@@ -136,7 +136,7 @@ var mixerConfig = {
         color: 3,
         outputChannels: [4,5],
         fakeStereo: true,
-        enabled: false
+        enabled: true
     },
     {
         name: "MONO",
@@ -164,7 +164,7 @@ var mixerConfig = {
     {
         name: "RMX-1000",
         outputChannels: [7],
-        color: 3,
+        color: 1,
         inputChannels: [18,19],
         defaultDbPos: 0.59,
         fakeStereo: false,

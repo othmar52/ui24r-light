@@ -1,13 +1,12 @@
 <template>
   <div class="audioroute__input">
-    <div v-if="!wizardOpen" @click="showInputSelectorWizard">
+    <div @click="toggleInputSelectorWizard">
       <InputWithVu :item="routeInput"  v-if="routeInput" />
       <div v-else class="unrouted">
         <div>no input</div>
       </div>
     </div>
-    <div v-else class="matrixconf__wizard matrixconf__wizard--input">
-      select input source for audio route
+    <div v-if="wizardOpen" class="matrixconf__wizard matrixconf__wizard--input">
       <div class="matrixconf__inputs">
         <div v-for="(item, index) in getAvailableMatrixInputs" v-bind:key="index+100">
           <div
@@ -67,8 +66,8 @@ export default {
     }
   },
   methods: {
-    showInputSelectorWizard () {
-      this.wizardOpen = true
+    toggleInputSelectorWizard () {
+      this.wizardOpen = !this.wizardOpen
     },
     chooseInput (event) {
       this.wizardOpen = false
@@ -89,19 +88,5 @@ export default {
 </script>
 
 <style lang="scss">
-.matrixconf__wizard {
-  position: absolute;
-  width: 80%;
-  height: 80%;
-  top: 10%;
-  left: 10%;
-  background: black;
-  padding: 20px;
-  z-index: 10000;
-  .matrixconf__inputs {
-    display: flex;
-    flex-wrap: wrap;
 
-  }
-}
 </style>

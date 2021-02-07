@@ -1,6 +1,6 @@
 <template>
   <div class="audioroute__output">
-    <div v-if="!wizardOpen" @click="showOutputSelectorWizard">
+    <div @click="showOutputSelectorWizard">
       <div class="vcenter" v-if="routeOutput" >
         <span class="arrow">&#10145;</span>
         <OutputWithVu :item="routeOutput" />
@@ -9,8 +9,7 @@
         <div>no output</div>
       </div>
     </div>
-    <div v-else class="matrixconf__wizard matrixconf__wizard--output">
-      select output target for audio route
+    <div v-if="wizardOpen" class="matrixconf__wizard matrixconf__wizard--output">
       <div class="matrixconf__outputs">
         <div v-for="(item, index) in getEnabledMatrixOutputs" v-bind:key="index+100">
           <div
