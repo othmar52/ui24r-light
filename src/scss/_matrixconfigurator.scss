@@ -1,0 +1,25 @@
+.matrix__configurator {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  &>* {
+    margin: 0 1vw;
+  }
+
+  .matrixconf__item {
+    opacity: 0.2;
+    margin-bottom: 5px;
+  }
+
+  .matrixconf__items .enabled {
+    opacity: 1;
+  }
+
+  .switches {
+    text-align: left;
+    &>* {
+      margin-bottom: 1em;
+      display:block;
+    }
+  }
+}

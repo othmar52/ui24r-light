@@ -5,6 +5,7 @@ body,
     margin: 0;
     padding: 0;
     color: $white;
+    box-sizing: border-box;
 }
 
 #app {
@@ -75,6 +76,24 @@ header {
     }
 }
 
+.nav__main {
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    &>* {
+        background-color: $spotColor;
+        flex-grow: 1;
+        flex-shrink: 1;
+        width: 100%;
+        margin: 5px;
+        &>* {
+            width: 100%;
+            height: 100%;
+            display: inline-block;
+        }
+    }
+}
+
 .pretty.p-switch.p-fill input:checked ~ .state:before {
     border-color: $spotColor;
     background-color: $spotColor !important;
@@ -94,6 +113,36 @@ header {
         width: 1px;
     }
 }
+
+.btn {
+    background-color: $spotColor;
+    color: white;
+    padding: 0.3em 1em;
+    &.btn-fullwidth {
+        width: 100%;
+        display: inline-block;
+    }
+}
+
+/* 1-11 are ui24r's colors, 12-16 are custom script extended colors */
+.color-1 { background-color: #111111; }
+.color-2 { background-color: #8B0000; }
+.color-3 { background-color: #FF0000; } /* red */
+.color-4 { background-color: #FFA500; }
+.color-5 { background-color: #FFFF00; color: #444;} /* yellow */
+.color-6 { background-color: #56DE43; color: #444;} /* green */
+.color-7 { background-color: #0091C2; } /* lightblue */
+.color-8 { background-color: #9400D3; }
+.color-9 { background-color: #808080; }
+.color-10 { background-color: #FFFFFF; }
+.color-11 { background-color: #FF1493; }
+.color-12 { background-color: #00FFFF; }
+.color-13 { background-color: #009688; }
+.color-14 { background-color: #3a4caf; }
+.color-15 { background-color: #966100; } /* brown */
+.color-16 { background-color: #ff9800; color: #333;} /* orange */
+.color-undefined { background-color: #000;} /* black */
+
 
 .centered__flex {
     display: flex;

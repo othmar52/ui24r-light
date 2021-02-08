@@ -2,7 +2,7 @@
   <div class="page page--matrixrouter">
     <header>
       <nav class="nav nav--subnav">
-        <router-link :to="{ name: 'Home' }" class="btn">
+        <router-link :to="{ name: 'Home' }" class="">
         <span class="arrow">&#11013;</span>
         </router-link>
       </nav>
@@ -90,7 +90,8 @@ export default {
       'getMatrixHelperEnabled',
       'getHideOutputSectionOnSingleOutput',
       'getAutoOutputRouteEnabled',
-      'getEnabledMatrixOutputs'
+      'getEnabledMatrixOutputs',
+      'getVuEnabled'
     ]),
     debugChainLength () {
       return Object.keys(this.getMatrixTargetChains).length
@@ -101,7 +102,8 @@ export default {
     showGlobalVuMeter () {
       return this.getHideOutputSectionOnSingleOutput === true &&
         this.getAutoOutputRouteEnabled === true &&
-        this.getEnabledMatrixOutputs.length === 1
+        this.getEnabledMatrixOutputs.length === 1 &&
+        this.getVuEnabled('mixer1') === true
     },
     getGlobalOutput () {
       return (this.showGlobalVuMeter) ? this.getEnabledMatrixOutputs[0] : {}

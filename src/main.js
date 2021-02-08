@@ -26,7 +26,7 @@ let initApp = false
 window.initialDataLoadInterval = window.setInterval(
   function () {
     // continue loop until we reach max tries or we get mixerConfig from external file...
-    if (loadAttempts > 3 || typeof mixerConfig !== 'undefined') {
+    if (loadAttempts > 10 || typeof mixerConfig !== 'undefined') {
       initApp = true
     }
     loadAttempts++
@@ -53,5 +53,5 @@ window.initialDataLoadInterval = window.setInterval(
       render: h => h(App)
     }).$mount('#app')
   },
-  10
+  100
 )

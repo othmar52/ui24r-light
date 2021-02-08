@@ -93,17 +93,20 @@ export default new Vuex.Store({
     updateMixerData (state, payload) {
       Vue.set(state.sockets[payload.socketId].mData, payload.key, payload.data)
     },
-    toggleEnableAutoRoute (state) {
-      state.autoRouteSingleOutput = !state.autoRouteSingleOutput
-    },
-    toggleHideOutputOnSingleOutput (state) {
-      state.hideOutputSectionOnSingleOutput = !state.hideOutputSectionOnSingleOutput
-    },
     toggleMatrixHelper (state) {
       state.enableMatrixHelper = !state.enableMatrixHelper
     },
     setMatrixHelper (state, payload) {
       state.enableMatrixHelper = payload
+    },
+    setEnableAutoRoute (state, payload) {
+      state.autoRouteSingleOutput = payload
+    },
+    setHideAutoRoute (state, payload) {
+      state.hideOutputSectionOnSingleOutput = payload
+    },
+    setVuEnabled (state, payload) {
+      state.sockets.mixer1.enableVu = payload
     },
     setSwapOverMoverIsActiveTo (state, payload) {
       state.swapOverMoverIsActive = payload
@@ -140,26 +143,6 @@ export default new Vuex.Store({
         item.enabled = payload.enabled !== 'true'
         return
       }
-    },
-    moveOverItemToRight (state, inputChannels) {
-      if (state.matrixOvers.length < 2) {
-        // console.log('nothing to move left...')
-        return
-      }
-      let itemPosition
-      state.matrixOvers.forEach(function (over, idx) {
-        if (inputChannels === over.inputChannels.join(',')) {
-          itemPosition = idx
-        }
-      })
-      if (itemPosition === state.matrixOvers.length) {
-        // console.log('item is already very right')
-        return
-      }
-      // console.log('move over from index', itemPosition, 'to', itemPosition + 1)
-      state.swapOverItemsForAllRoutes.push(state.matrixOvers[itemPosition])
-      state.swapOverItemsForAllRoutes.push(state.matrixOvers[itemPosition + 1])
-      state.matrixOvers.splice(itemPosition + 1, 0, state.matrixOvers.splice(itemPosition, 1)[0])
     },
     setDefaultMatrixPreset (state) {
       // TODO remove all routes that includes disabled items (consider to keep with invalid flag)
