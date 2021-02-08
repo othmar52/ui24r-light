@@ -1,5 +1,5 @@
 <template>
-  <div class="vuued__channel vuued__channel--input">
+  <div :class="`vuued__channel vuued__channel--input vuued__channel--${(vuEnabled) ? 'enabledvu' : 'disabledvu'}`">
     <span :class="`color-${item.color}`">
         {{ item.name }}
     </span>
@@ -19,6 +19,7 @@
 
 <script>
 
+import { mapGetters } from 'vuex'
 import VuMeter from '@/components/VuMeter.vue'
 import VuMeterStereo from '@/components/VuMeterStereo.vue'
 export default {
@@ -26,6 +27,14 @@ export default {
   components: {
     VuMeter,
     VuMeterStereo
+  },
+  computed: {
+    ...mapGetters([
+      'getVuEnabled'
+    ]),
+    vuEnabled () {
+      return this.getVuEnabled('mixer1')
+    }
   },
   props: {
     item: Object,

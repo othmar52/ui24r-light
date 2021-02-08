@@ -11,25 +11,27 @@
     </div>
     <div v-if="wizardOpen" class="matrixconf__wizard matrixconf__wizard--input">
       <div class="matrixconf__inputs">
-        <div v-for="(item, index) in getAvailableMatrixInputs" v-bind:key="index+100">
-          <div
-            @click="chooseInput"
-            :data-channels="item.inputChannels">
-            <InputWithVu :item="item" />
+        <div v-for="(itemPair, index) in getAvailableMatrixInputsPaired" v-bind:key="index+150">
+            <div v-for="(item, index) in itemPair" v-bind:key="index+450">
+            <div
+              @click="chooseInput"
+              :data-channels="item.inputChannels">
+              <InputWithVu :item="item" />
+            </div>
           </div>
         </div>
-        <div>
+        <div class="lastrow">
           <div
-            class="vuued__channel"
+            class="vuued__channel vuued__channel--disabledvu"
             @click="chooseInput"
             :data-channels="undefined">
             <span class="color-9">
             NO INPUT
             </span>
           </div>
+          <div @click="cancelWizard">cancel</div>
         </div>
       </div>
-      <div @click="cancelWizard">cancel</div>
     </div>
   </div>
 </template>
@@ -66,6 +68,22 @@ export default {
       return (this.getMatrixHelperEnabled === true)
         ? this.getUnroutedMatrixInputs
         : this.getEnabledMatrixInputs
+    },
+    // old mobile browser doesnt render correctly with display:flex so use display:table
+    getAvailableMatrixInputsPaired () {
+      const pairedItems = []
+      let currentPair = []
+      for (const item of this.getAvailableMatrixInputs) {
+        if (currentPair.length === 2) {
+          pairedItems.push(currentPair)
+          currentPair = []
+        }
+        currentPair.push(item)
+      }
+      if (currentPair.length > 0) {
+        pairedItems.push(currentPair)
+      }
+      return pairedItems
     }
   },
   methods: {

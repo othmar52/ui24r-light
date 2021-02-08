@@ -24,6 +24,7 @@ export default new Vuex.Store({
         socket: undefined,
         config: {},
         keepAliveInterval: undefined,
+        enableVu: false,
         mData: {}
       },
       mixer2: {
@@ -33,6 +34,7 @@ export default new Vuex.Store({
         socket: undefined,
         config: {},
         keepAliveInterval: undefined,
+        enableVu: false,
         mData: {}
       },
       paramRecorder1: {
@@ -391,6 +393,9 @@ export default new Vuex.Store({
     socketEnabled: (state) => (socketId) => { return state.sockets[socketId].config.enabled },
     getCurSetup: (state) => (socketId) => {
       return state.sockets[socketId].config.curSetup
+    },
+    getVuEnabled: (state) => (socketId) => {
+      return state.sockets[socketId].enableVu
     },
     getRouteById: (state) => (routeId) => {
       const filtered = state.matrixRoutes.filter(function (el) {

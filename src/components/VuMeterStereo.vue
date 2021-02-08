@@ -19,16 +19,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-
-.vumeter__stereo {
-  height: 100%;
-  display: flex;
-}
-.vumeter__stereo .vumeter{
-  width: 45%;
-  margin-left: 2.5%;
-}
-</style>

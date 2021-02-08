@@ -119,14 +119,14 @@ var mixerConfig = {
   matrixOutputsConf: [
     {
         name: "ST1",
-        color: 3,
+        color: 14,
         outputChannels: [0,1],
         fakeStereo: true,
         enabled: true
     },
     {
         name: "ST2",
-        color: 3,
+        color: 6,
         outputChannels: [2,3],
         fakeStereo: true,
         enabled: false
@@ -140,7 +140,7 @@ var mixerConfig = {
     },
     {
         name: "MONO",
-        color: 3,
+        color: 8,
         outputChannels: [6],
         fakeStereo: false,
         enabled: false

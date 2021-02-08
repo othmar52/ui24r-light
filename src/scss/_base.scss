@@ -98,6 +98,7 @@ header {
 .centered__flex {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .vuued__channel {
@@ -121,7 +122,53 @@ header {
         flex-grow: 1;
         flex-shrink: 1;
     }
+    // hide VU of disabledvu and give the label full width
+    &.vuued__channel--disabledvu {
+        .vumeter__stereo,
+        .vumeter {
+            display: none;
+        }
+        &>span {
+            width: 100%;
+        }
+    }
 }
+
+.vumeter__stereo {
+  height: 100%;
+  display: flex;
+}
+.vumeter__stereo .vumeter{
+  width: calc(50% - 1px);
+  margin-left: 1px;
+}
+
+
+.vumeter {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background: #343440;
+ }
+ 
+ .vumeter__in,
+ .vumeter__out {
+   width: 100%;
+   height: 0;
+   position: absolute;
+   bottom: 0;
+ }
+ 
+ .vumeter__in {
+   background: $spotColor;
+ }
+ .vumeter__out {
+   /* TODO how to make the gradient height independent? */
+
+   background: linear-gradient(to bottom, #ff1209,  #ff1209, #fd7d2e, #eef609, #10880a, #10880a, #10880a);
+   background-attachment: fixed;
+ }
+
   
 @media screen and (min-width: 1025px) {
     .vuued__channel {

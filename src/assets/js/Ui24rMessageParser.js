@@ -1,22 +1,22 @@
 /* todo: re-enable linter and fix this horrible file copied from original ui24r webinterface */
 /* eslint-disable no-unused-expressions, no-fallthrough, no-unused-vars, eqeqeq, no-sequences, camelcase */
 const Ui24rMessageParser = store => {
-  store.subscribe(mutation => {
-    // console.log(mutation.type)
+  store.subscribe((mutation, state) => {
+    // console.log('enableVu', state.sockets[mutation.payload.socketId].enableVu)
     if (mutation.type === 'receiveSocketMessage') {
       // console.log(mutation.payload.message)
-      receiveMessages(mutation.payload.message, mutation.payload.socketId)
+      receiveMessages(mutation.payload.message, mutation.payload.socketId, state.sockets[mutation.payload.socketId].enableVu)
     }
   })
 
-  function receiveMessages (data, socketId) {
+  function receiveMessages (data, socketId, enableVu) {
     data = data.split(/\n/)
     data.forEach(lineData => (
-      receiveMessage(lineData, socketId)
+      receiveMessage(lineData, socketId, enableVu)
     ))
   }
 
-  function receiveMessage (data, socketId) {
+  function receiveMessage (data, socketId, enableVu) {
     if (!data) { return }
 
     if (socketId === 'paramRecorder1' || socketId === 'paramRecorder2') {
@@ -28,7 +28,7 @@ const Ui24rMessageParser = store => {
     } else {
       data.startsWith('SETS^')
         ? (b = data.split('^', 3), b.length < 3 || putValue(b[1], b[2], socketId))
-        : parseCommand(data, socketId)
+        : parseCommand(data, socketId, enableVu)
     }
   }
 
@@ -48,11 +48,14 @@ const Ui24rMessageParser = store => {
     store.commit('updateMixerData', { socketId: socketId, key: paramName, data: paramValue })
   }
 
-  function parseCommand (msg, socketId) {
+  function parseCommand (msg, socketId, enableVu) {
     /// * eslint-disable no-unreachable */
     // return;
     switch (true) {
       case msg.startsWith('VU2^'):
+        if (enableVu !== true) {
+          return
+        }
         return parseVUdata(msg, socketId)
 
       case msg.startsWith('INIT^'):
@@ -89,7 +92,7 @@ const Ui24rMessageParser = store => {
   function parseVUdata (a, socketId) {
     // console.log("sxfghxh");
     // TODO: skip by configuration
-    // if (settings.disableVUs || settings.disableVUs2) {
+    // if (settings.enableVus || settings.enableVus2) {
     //    return;
     // }
 

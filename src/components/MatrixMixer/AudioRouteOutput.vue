@@ -21,7 +21,7 @@
         </div>
         <div>
           <div
-            class="vuued__channel"
+            class="vuued__channel vuued__channel--disabledvu"
             @click="removeRouteTarget"
             :data-channels="undefined">
             <span class="color-9">
@@ -29,8 +29,10 @@
             </span>
           </div>
         </div>
+        <div>
+          <div @click="cancelWizard">cancel</div>
+        </div>
       </div>
-      <div @click="cancelWizard">cancel</div>
     </div>
   </div>
 </template>
@@ -99,12 +101,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.matrixconf__wizard {
-  .matrixconf__outputs {
-    display: flex;
-    flex-wrap: wrap;
-  }
-}
-</style>
