@@ -1,12 +1,13 @@
 <template>
   <div class="audioroute__output">
     <div @click="showOutputSelectorWizard">
-      <div class="vcenter" v-if="routeOutput" >
+      <div class="centered__flex" v-if="routeOutput" >
         <span class="arrow">&#10145;</span>
         <OutputWithVu :item="routeOutput" />
       </div>
       <div v-else class="unrouted">
-        <div>no output</div>
+        <span class="arrow arrow--hidden">&#10145;</span>
+        no output
       </div>
     </div>
     <div v-if="wizardOpen" class="matrixconf__wizard matrixconf__wizard--output">

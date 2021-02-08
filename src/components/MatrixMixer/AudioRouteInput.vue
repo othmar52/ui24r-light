@@ -1,9 +1,12 @@
 <template>
-  <div class="audioroute__input">
-    <div @click="toggleInputSelectorWizard">
-      <InputWithVu :item="routeInput"  v-if="routeInput" />
+  <div class="audioroute__input centeXXXred__flex">
+    <div @click="toggleInputSelectorWizard" class="centered__flex">
+      <span class="arrow arrow--hidden">&#10145;</span>
+      <div v-if="routeInput" >
+        <InputWithVu :item="routeInput"/>
+      </div>
       <div v-else class="unrouted">
-        <div>no input</div>
+        no input
       </div>
     </div>
     <div v-if="wizardOpen" class="matrixconf__wizard matrixconf__wizard--input">

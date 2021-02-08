@@ -1,5 +1,5 @@
 <template>
-  <div :class="`audioroute__over ${overActiveForRoute ? '' : 'bypassed'}`">
+  <div :class="`audioroute__over centered__flex ${overActiveForRoute ? '' : 'bypassed'}`">
     <AudioRouteOverMover :overItem="overItem" />
     <div @click="toggleBypassOver" class="vcenter">
       <InputWithVu :item="overItem" />
@@ -56,18 +56,5 @@ export default {
 </script>
 
 <style lang="scss">
-.audioroute__over {
-  display: flex;
-  padding: 0;
-  flex-grow: 1;
-  flex-shrink: 1;
-  max-width: 250px;
-  &.bypassed {
-    opacity: 0.2;
-    .vuued__channel>span {
-      background-color: #343440;
-      color: #FFF;
-    }
-  }
-}
+
 </style>

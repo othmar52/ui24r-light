@@ -1,0 +1,131 @@
+html,
+body,
+#app {
+    background: $backgroundMain;
+    margin: 0;
+    padding: 0;
+    color: $white;
+}
+
+#app {
+  font-family: 'Open Sans', Verdana, Geneva, Tahoma, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: white;
+}
+
+header {
+    background: $headerBackground;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1vw;
+    &>* {
+        flex-grow: 0;
+        flex-shrink: 1;
+    }
+    h2 {
+        position: relative;
+        .trigger {
+            text-align: center;
+            position: absolute;
+            right: -3em;
+            top: 0.5em;
+        }
+    }
+}
+
+nav {
+    display: flex;
+    align-items: center;
+}
+
+h2 {
+    margin: 0;
+    padding: 0.5em;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+.icon {
+    width: calc(#{$matrixItemHeight} - 8px);
+    height: calc(#{$matrixItemHeight} - 8px);
+    display: inline-block;
+    fill: $backgroundMain;
+    background: $spotColorDarker;
+    padding: 4px;
+    &:hover {
+        cursor: pointer;
+        fill: white;
+    }
+    svg {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+header {
+    .icon {
+        fill: $headerBackground;
+        background: $spotColorDarker;
+    }
+}
+
+.pretty.p-switch.p-fill input:checked ~ .state:before {
+    border-color: $spotColor;
+    background-color: $spotColor !important;
+}
+
+
+.arrow {
+    display: flex;
+    align-items: center;
+    font-size: 36px;
+    padding: 0 4px;
+    color: $spotColor;
+    // vertical centering does not work on AudioInput without this dom element
+    &.arrow--hidden {
+        opacity: 0;
+        overflow: hidden;
+        width: 1px;
+    }
+}
+
+.centered__flex {
+    display: flex;
+    align-items: center;
+}
+
+.vuued__channel {
+    min-width: 129px;
+    max-width: 129px;
+    height: $matrixItemHeight;
+    flex-grow: 1;
+    flex-shrink: 1;
+    display: flex;
+    flex-wrap: wrap;
+    &>span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        width: calc(100% - #{$vuStripsWidth});
+    }
+    &>.vumeter,
+    &>.vumeter__stereo {
+        width: $vuStripsWidth;
+        flex-grow: 1;
+        flex-shrink: 1;
+    }
+}
+  
+@media screen and (min-width: 1025px) {
+    .vuued__channel {
+        min-width: 129px;
+        max-width: 450px;
+    }
+}

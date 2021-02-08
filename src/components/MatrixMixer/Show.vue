@@ -1,25 +1,34 @@
 <template>
-  <div class="slider__container">
+  <div class="page page--matrixrouter">
     <header>
-    <h2>AUDIO ROUTES
-      <div class="btn__nav">
-        <div>
-          <button
-            :class="`btn btn-helper ${(getMatrixHelperEnabled) ? 'enabled' : ''}`"
-            @click="toggleHelper"
-          >
-            HELPER
-          </button>
-          <router-link :to="{ name: 'MatrixMixerConfigurator' }" class="btn">
-            matrix config
-          </router-link>
-          <div class="btn">
-            <DelayedTrigger markup="remove all routes" v-on:actionTriggered="resetAudioRoutes" />
-          </div>
-          <div>pegel</div>
+      <nav class="nav nav--subnav">
+        <router-link :to="{ name: 'Home' }" class="btn">
+        <span class="arrow">&#11013;</span>
+        </router-link>
+      </nav>
+      <h2>
+        AUDIO ROUTES
+        <DelayedTrigger markup="" iconIdentifier="trash" v-on:actionTriggered="resetAudioRoutes" v-if="getMatrixRoutes.length > 0" />
+      </h2>
+      <nav class="nav nav--subnav">
+        <p-check class="p-switch p-fill" v-model="helperActive" @change="setMatrixHelperEnabled">Helper</p-check>
+        <router-link :to="{ name: 'MatrixMixerConfigurator' }" class="icon">
+          <IconCog />
+        </router-link>
+        <div v-if="showGlobalVuMeter" class="vuued__channel vuued__channel--output vuued__channel--global">
+          <VuMeter
+              v-if="getGlobalOutput.outputChannels.length === 1"
+              :keyVu="`vu.a.${getGlobalOutput.outputChannels[0]}.mix`"
+              socketId="mixer1"
+          />
+          <VuMeterStereo
+              v-else
+              :keyVuLeft="`a.${getGlobalOutput.outputChannels[0]}.mix`"
+              :keyVuRight="`a.${getGlobalOutput.outputChannels[1]}.mix`"
+              socketId="mixer1"
+          />
         </div>
-      </div>
-    </h2>
+      </nav>
     </header>
     <div class="matrixroutes">
       <AudioRoute
@@ -51,16 +60,25 @@
 import { mapGetters } from 'vuex'
 import AudioRoute from '@/components/MatrixMixer/AudioRoute.vue'
 import DelayedTrigger from '@/components/MatrixMixer/DelayedTrigger.vue'
+import VuMeter from '@/components/VuMeter.vue'
+import VuMeterStereo from '@/components/VuMeterStereo.vue'
+import IconCog from '@/assets/img/cog.svg'
+import IconTrash from '@/assets/img/trash.svg'
 export default {
   name: 'MatrixMixerShow',
   data () {
     return {
-      newRouteWizardOpen: false
+      newRouteWizardOpen: false,
+      helperActive: this.$store.state.enableMatrixHelper
     }
   },
   components: {
     DelayedTrigger,
-    AudioRoute
+    AudioRoute,
+    VuMeterStereo,
+    VuMeter,
+    IconCog,
+    IconTrash // eslint-disable-line
   },
   props: {
     myInputChannels: Array
@@ -69,13 +87,24 @@ export default {
     ...mapGetters([
       'getMatrixRoutes',
       'getMatrixTargetChains',
-      'getMatrixHelperEnabled'
+      'getMatrixHelperEnabled',
+      'getHideOutputSectionOnSingleOutput',
+      'getAutoOutputRouteEnabled',
+      'getEnabledMatrixOutputs'
     ]),
     debugChainLength () {
       return Object.keys(this.getMatrixTargetChains).length
     },
     debugRoutesLength () {
       return this.getMatrixRoutes.length
+    },
+    showGlobalVuMeter () {
+      return this.getHideOutputSectionOnSingleOutput === true &&
+        this.getAutoOutputRouteEnabled === true &&
+        this.getEnabledMatrixOutputs.length === 1
+    },
+    getGlobalOutput () {
+      return (this.showGlobalVuMeter) ? this.getEnabledMatrixOutputs[0] : {}
     }
   },
   methods: {
@@ -89,38 +118,16 @@ export default {
     cancelWizard () {
       this.newRouteWizardOpen = false
     },
-    toggleHelper () {
-      this.$store.commit('toggleMatrixHelper')
+    setMatrixHelperEnabled (val) {
+      this.$store.commit('setMatrixHelper', val)
     }
   },
   mounted () {
-
+    // this.foo = this.getMatrixHelperEnabled
   }
 }
 </script>
 
 <style lang="scss">
-.matrixroutes {
-  display: table;
-  width: 100%;
-}
 
-.btn.btn-helper {
-  opacity: 0.3;
-  color: white;
-  &.enabled {
-    opacity: 1;
-  }
-}
-
-.btn__nav {
-  display: inline-block;
-  &>div {
-    display: flex;
-    font-size: 14px;
-    &>* {
-      margin-left: 10px;
-    }
-  }
-}
 </style>

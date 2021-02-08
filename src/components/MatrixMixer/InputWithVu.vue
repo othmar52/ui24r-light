@@ -38,23 +38,5 @@ export default {
 </script>
 
 <style lang="scss">
-.vuued__channel {
-    min-width: 129px;
-    height: 35px;
-    flex-grow: 1;
-    flex-shrink: 1;
-    display: flex;
-    flex-wrap: wrap;
-    &>span {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        width: calc(100% - 30px);
-    }
-    &>.vumeter,
-    &>.vumeter__stereo {
-        width: 30px;
-    }
-}
+
 </style>

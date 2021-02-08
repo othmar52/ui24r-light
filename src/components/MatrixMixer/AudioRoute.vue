@@ -1,5 +1,5 @@
 <template>
-  <div :class="`matrixroutes__row dashed__border ${route.muted && 'matrixroutes__row--muted'}`">
+  <div :class="`matrixroutes__row ${route.muted && 'matrixroutes__row--muted'}`">
     <div class="btn--mute" @click="toggleMute" title="toggle mute/unmute">
       <IconMute />
     </div>
@@ -19,7 +19,7 @@
       v-on:removeRouteTarget="removeRouteTarget"
     />
     <div class="dashed__border">
-      <DelayedTrigger markup="&#10006;" v-on:actionTriggered="deleteRoute" />
+      <DelayedTrigger markup="" iconIdentifier="trash" v-on:actionTriggered="deleteRoute" v-if="routeId >= 0" />
     </div>
   </div>
 </template>
@@ -130,26 +130,5 @@ export default {
 </script>
 
 <style lang="scss">
-.matrixroutes__row {
-  display: table-row;
-  justify-content: center;
-  &>* {
-    padding: 10px 0;
-    display: table-cell;
-    border-bottom: 1px solid $spotColor;
-  }
-}
 
-.arrow {
-  display: flex;
-  align-items: center;
-  font-size: 50px;
-  padding: 0 30px;
-  color: $spotColor;
-}
-
-.vcenter {
-  display: flex;
-  align-items: center;
-}
 </style>

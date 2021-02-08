@@ -41,10 +41,5 @@ export default {
 </script>
 
 <style lang="scss">
-.audioroute__over-wrap {
-  display: flex;
-  width: 100%;
-  align-items: stretch;
-}
 
 </style>

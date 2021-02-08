@@ -136,7 +136,7 @@ var mixerConfig = {
         color: 3,
         outputChannels: [4,5],
         fakeStereo: true,
-        enabled: true
+        enabled: false
     },
     {
         name: "MONO",

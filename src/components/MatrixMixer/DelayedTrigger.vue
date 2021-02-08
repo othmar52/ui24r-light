@@ -1,20 +1,37 @@
 <template>
-  <div @click="triggerAction">
+  <div @click="triggerAction" class="trigger">
     <span v-if="delayActive">sure?</span>
-    <span v-else v-html="markup"></span>
+    <span v-else>
+      <span v-html="markup" v-if="markup"></span>
+      <span v-if="iconIdentifier" :class="`icon icon--${iconIdentifier}`">
+        <IconTrash v-if="iconIdentifier === 'trash'" />
+        <IconX v-if="iconIdentifier === 'x'" />
+      </span>
+    </span>
   </div>
 </template>
 
 <script>
+
+import IconTrash from '@/assets/img/trash.svg'
+import IconX from '@/assets/img/x.svg'
 export default {
   name: 'DelayedTrigger',
+  components: {
+    IconTrash,
+    IconX
+  },
   data () {
     return {
       delayActive: false
     }
   },
   props: {
-    markup: String
+    markup: String,
+    iconIdentifier: {
+      type: String,
+      default: null
+    }
   },
   methods: {
     triggerAction () {

@@ -47,7 +47,7 @@ export default {
       }
       this.delayActive = false
       this.$emit('actionTriggered')
-      console.log('moveOver')
+      // console.log('moveOver')
       this.$store.commit('moveOverItemToLeft', this.overItem.inputChannels.join(','))
       /*
       this.$emit(

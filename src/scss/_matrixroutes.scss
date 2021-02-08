@@ -1,0 +1,110 @@
+.matrixroutes {
+    display: table;
+    width: 98vw;
+    padding: 0 1vw;
+}
+
+.matrixroutes__row--muted {
+    background: $mutedRow;
+    .btn--mute {
+        .icon {
+            background: $spotColor;
+            fill: $white;
+        }
+    }
+}
+
+.matrixroutes__row {
+    display: table-row;
+    justify-content: center;
+    &>* {
+      padding: 5px 0;
+      display: table-cell;
+      border-bottom: 1px solid $spotColor;
+    }
+}
+
+.audioroute__over-wrap {
+    display: flex;
+    &>* {
+        flex-grow: 1;
+        flex-shrink: 1;
+    }
+}
+
+
+.audioroute__output,
+.audioroute__input {
+    position: relative;
+}
+.audioroute__over {
+    display: flex;
+    padding: 0;
+    flex-grow: 0;
+    flex-shrink: 0;
+    max-width: 250px;
+    &.bypassed {
+      opacity: 0.2;
+      .vuued__channel>span {
+        background-color: #343440;
+        color: #FFF;
+      }
+    }
+  }
+
+
+
+.btn--headphones.headphones__active {
+    .icon {
+        background: $spotColor;
+        fill: $white;
+    }
+}
+
+
+.unrouted {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    opacity: 0.2;
+    font-size: 20px;
+}
+
+
+.matrixconf__wizard {
+    position: absolute;
+    top: 0;
+    background: $headerBackground;
+    padding: 20px;
+    z-index: 10000;
+    .matrixconf__inputs,
+    .matrixconf__outputs {
+      display: flex;
+      flex-wrap: wrap;
+      &>* {
+        margin: 10px;
+      }
+    }
+
+    &.matrixconf__wizard--input {
+        width: 31vw;
+        right: -35vw;
+    }
+
+    &.matrixconf__wizard--output {
+        width: 21vw;
+        left: -23vw;
+    }
+  }
+
+  
+@media screen and (min-width: 1025px) {
+    .audioroute__over {
+        flex-grow: 1;
+        flex-shrink: 1;
+        max-width: 350px;
+      }
+}

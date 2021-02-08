@@ -3,15 +3,11 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import VueQrcode from '@chenfengyuan/vue-qrcode'
-
 // import PrettyInput from 'pretty-checkbox-vue/input'
 import PrettyCheck from 'pretty-checkbox-vue/check'
 import PrettyRadio from 'pretty-checkbox-vue/radio'
 
 Vue.config.productionTip = false
-
-Vue.component(VueQrcode.name, VueQrcode)
 
 // Vue.component('p-input', PrettyInput)
 Vue.component('p-check', PrettyCheck)

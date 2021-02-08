@@ -100,6 +100,9 @@ export default new Vuex.Store({
     toggleMatrixHelper (state) {
       state.enableMatrixHelper = !state.enableMatrixHelper
     },
+    setMatrixHelper (state, payload) {
+      state.enableMatrixHelper = payload
+    },
     setSwapOverMoverIsActiveTo (state, payload) {
       state.swapOverMoverIsActive = payload
     },
