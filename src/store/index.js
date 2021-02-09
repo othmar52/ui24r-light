@@ -24,7 +24,10 @@ export default new Vuex.Store({
         socket: undefined,
         config: {},
         keepAliveInterval: undefined,
-        enableVu: false,
+        enableVu: true,
+        debounceVu: false,
+        debounceInterval: 2000,
+        lastVuFetch: 0,
         mData: {}
       },
       mixer2: {
@@ -35,6 +38,9 @@ export default new Vuex.Store({
         config: {},
         keepAliveInterval: undefined,
         enableVu: false,
+        debounceVu: false,
+        debounceInterval: 2000,
+        lastVuFetch: 0,
         mData: {}
       },
       paramRecorder1: {
@@ -93,6 +99,20 @@ export default new Vuex.Store({
     updateMixerData (state, payload) {
       Vue.set(state.sockets[payload.socketId].mData, payload.key, payload.data)
     },
+    updateMixerDataVu (state, payload) {
+      for (const vuData of payload.vuData) {
+        if (typeof state.sockets[payload.socketId].mData[vuData.key] === 'undefined') {
+          // call Vue.set() only once instead of dozends times per second
+          Vue.set(state.sockets[payload.socketId].mData, vuData.key, vuData.data)
+          continue
+        }
+        state.sockets[payload.socketId].mData[vuData.key].pre = vuData.data.pre
+        state.sockets[payload.socketId].mData[vuData.key].post = vuData.data.post
+      }
+      if (state.sockets[payload.socketId].debounceVu === true) {
+        state.sockets[payload.socketId].lastVuFetch = Date.now()
+      }
+    },
     toggleMatrixHelper (state) {
       state.enableMatrixHelper = !state.enableMatrixHelper
     },
@@ -107,6 +127,9 @@ export default new Vuex.Store({
     },
     setVuEnabled (state, payload) {
       state.sockets.mixer1.enableVu = payload
+    },
+    setDebounceVu (state, payload) {
+      state.sockets.mixer1.debounceVu = payload
     },
     setSwapOverMoverIsActiveTo (state, payload) {
       state.swapOverMoverIsActive = payload
@@ -377,8 +400,14 @@ export default new Vuex.Store({
     getCurSetup: (state) => (socketId) => {
       return state.sockets[socketId].config.curSetup
     },
+    getIgnoreVuData: (state) => (socketId) => {
+      return Date.now() - state.sockets[socketId].lastVuFetch < state.sockets[socketId].debounceInterval
+    },
     getVuEnabled: (state) => (socketId) => {
       return state.sockets[socketId].enableVu
+    },
+    getDebounceVu: (state) => (socketId) => {
+      return state.sockets[socketId].debounceVu
     },
     getRouteById: (state) => (routeId) => {
       const filtered = state.matrixRoutes.filter(function (el) {

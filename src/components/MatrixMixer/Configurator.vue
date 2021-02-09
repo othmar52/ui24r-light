@@ -89,6 +89,13 @@
               >
               Enable VU
             </p-check>
+            <p-check class="p-switch p-fill"
+              v-model="debounceVuActive"
+              @change="setDebounceVu"
+              v-if="vuEnabled"
+              >
+              Debounce VU
+            </p-check>
             <!--
               TODO: implement tose as well
               <div class="choose__showrec">
@@ -112,7 +119,7 @@
             -->
           </div>
           <router-link :to="{ name: 'MatrixMixerShow' }" class="btn btn-fullwidth">
-            all done
+            all done<br>show routes
           </router-link>
       </div>
     </div>
@@ -142,7 +149,8 @@ export default {
       helperActive: this.$store.state.enableMatrixHelper,
       autoRouteActive: this.$store.state.autoRouteSingleOutput,
       hideAutoRouteActive: this.$store.state.hideOutputSectionOnSingleOutput,
-      vuEnabled: this.$store.state.sockets.mixer1.enableVu
+      vuEnabled: this.$store.state.sockets.mixer1.enableVu,
+      debounceVuActive: this.$store.state.sockets.mixer1.debounceVu
     }
   },
   computed: {
@@ -194,6 +202,9 @@ export default {
     },
     setVuEnabled (val) {
       this.$store.commit('setVuEnabled', val)
+    },
+    setDebounceVu (val) {
+      this.$store.commit('setDebounceVu', val)
     },
 
     setDefaultMatrixPreset () {

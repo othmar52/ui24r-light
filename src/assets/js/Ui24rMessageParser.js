@@ -2,21 +2,20 @@
 /* eslint-disable no-unused-expressions, no-fallthrough, no-unused-vars, eqeqeq, no-sequences, camelcase */
 const Ui24rMessageParser = store => {
   store.subscribe((mutation, state) => {
-    // console.log('enableVu', state.sockets[mutation.payload.socketId].enableVu)
     if (mutation.type === 'receiveSocketMessage') {
       // console.log(mutation.payload.message)
-      receiveMessages(mutation.payload.message, mutation.payload.socketId, state.sockets[mutation.payload.socketId].enableVu)
+      receiveMessages(mutation.payload.message, mutation.payload.socketId, state)
     }
   })
 
-  function receiveMessages (data, socketId, enableVu) {
+  function receiveMessages (data, socketId, state) {
     data = data.split(/\n/)
     data.forEach(lineData => (
-      receiveMessage(lineData, socketId, enableVu)
+      receiveMessage(lineData, socketId, state)
     ))
   }
 
-  function receiveMessage (data, socketId, enableVu) {
+  function receiveMessage (data, socketId, state) {
     if (!data) { return }
 
     if (socketId === 'paramRecorder1' || socketId === 'paramRecorder2') {
@@ -28,7 +27,7 @@ const Ui24rMessageParser = store => {
     } else {
       data.startsWith('SETS^')
         ? (b = data.split('^', 3), b.length < 3 || putValue(b[1], b[2], socketId))
-        : parseCommand(data, socketId, enableVu)
+        : parseCommand(data, socketId, state)
     }
   }
 
@@ -48,14 +47,21 @@ const Ui24rMessageParser = store => {
     store.commit('updateMixerData', { socketId: socketId, key: paramName, data: paramValue })
   }
 
-  function parseCommand (msg, socketId, enableVu) {
+  function parseCommand (msg, socketId, state) {
     /// * eslint-disable no-unreachable */
     // return;
     switch (true) {
       case msg.startsWith('VU2^'):
-        if (enableVu !== true) {
+        if (state.sockets[socketId].enableVu !== true) {
           return
         }
+        if (state.sockets[socketId].debounceVu === true) {
+          if (store.getters.getIgnoreVuData(socketId) === true) {
+            // console.log('skipping')
+            return
+          }
+        }
+        // console.log('processing')
         return parseVUdata(msg, socketId)
 
       case msg.startsWith('INIT^'):
@@ -92,9 +98,11 @@ const Ui24rMessageParser = store => {
   function parseVUdata (a, socketId) {
     // console.log("sxfghxh");
     // TODO: skip by configuration
-    // if (settings.enableVus || settings.enableVus2) {
+    // if (settings.states || settings.states2) {
     //    return;
     // }
+
+    const vuData = []
 
     a = atob(a.slice(4))
 
@@ -106,7 +114,8 @@ const Ui24rMessageParser = store => {
       var r = deconvertVU_comp((a.charCodeAt(l + 5) & 127) << 1)
       var p = (a.charCodeAt(l + 5) & 128) != 0
       // appData.vu["i." + g + ".mix"] = { pre: n, post: q };
-      store.commit('updateMixerData', { socketId: socketId, key: `vu.i.${g}.mix`, data: { pre: n, post: q } })
+      // store.commit('updateMixerData', { socketId: socketId, key: `vu.i.${g}.mix`, data: { pre: n, post: q } })
+      vuData.push({ key: `vu.i.${g}.mix`, data: { pre: n, post: q } })
     }
     l = e += 6 * a.charCodeAt(0)
     n = deconvertVU(a.charCodeAt(l + 1))
@@ -134,7 +143,8 @@ const Ui24rMessageParser = store => {
       // TODO: check if pushed values for submix are correct (maybe post: h )
       // globalVUvalues.STRIPS.SUB[g].vu = [n, h, q, m, r, r, p, p],
       // appData.vu["s." + g + ".mix"] = { pre: n, post: q };
-      store.commit('updateMixerData', { socketId: socketId, key: `vu.s.${g}.mix`, data: { pre: n, post: q } })
+      // store.commit('updateMixerData', { socketId: socketId, key: `vu.s.${g}.mix`, data: { pre: n, post: q } })
+      vuData.push({ key: `vu.s.${g}.mix`, data: { pre: n, post: q } })
     }
 
     e += 7 * a.charCodeAt(2)
@@ -150,7 +160,8 @@ const Ui24rMessageParser = store => {
       // TODO: check if pushed values for fx are correct
       // globalVUvalues.STRIPS.FX[g].vu = [n, h, q, m, r, r, p, p] (maybe post: h )
       // appData.vu["fx." + g + ".mix"] = { pre: n, post: q };
-      store.commit('updateMixerData', { socketId: socketId, key: `vu.fx.${g}.mix`, data: { pre: n, post: q } })
+      // store.commit('updateMixerData', { socketId: socketId, key: `vu.fx.${g}.mix`, data: { pre: n, post: q } })
+      vuData.push('updateMixerData', { key: `vu.fx.${g}.mix`, data: { pre: n, post: q } })
     }
 
     e += 7 * a.charCodeAt(3)
@@ -162,7 +173,8 @@ const Ui24rMessageParser = store => {
       p = (a.charCodeAt(l + 4) & 128) != 0,
 
       // appData.vu["a." + g + ".mix"] = { pre: n, post: q };
-      store.commit('updateMixerData', { socketId: socketId, key: `vu.a.${g}.mix`, data: { pre: n, post: q } })
+      // store.commit('updateMixerData', { socketId: socketId, key: `vu.a.${g}.mix`, data: { pre: n, post: q } })
+      vuData.push({ key: `vu.a.${g}.mix`, data: { pre: n, post: q } })
     }
 
     l = e += 5 * a.charCodeAt(4),
@@ -174,8 +186,10 @@ const Ui24rMessageParser = store => {
     m = deconvertVU(a.charCodeAt(l + 6)),
     g = deconvertVU_comp((a.charCodeAt(l + 9) & 127) << 1)
     var t = (a.charCodeAt(l + 9) & 128) != 0
-    store.commit('updateMixerData', { socketId: socketId, key: 'vu.m.0.mix', data: { pre: n, post: q } })
-    store.commit('updateMixerData', { socketId: socketId, key: 'vu.m.1.mix', data: { pre: h, post: m } })
+    // store.commit('updateMixerData', { socketId: socketId, key: 'vu.m.0.mix', data: { pre: n, post: q } })
+    // store.commit('updateMixerData', { socketId: socketId, key: 'vu.m.1.mix', data: { pre: h, post: m } })
+    vuData.push({ key: 'vu.m.0.mix', data: { pre: n, post: q } })
+    vuData.push({ key: 'vu.m.1.mix', data: { pre: h, post: m } })
     // appData.vu["m.0.mix"] = { pre: n, post: q };
     // appData.vu["m.1.mix"] = { pre: h, post: m };
 
@@ -197,6 +211,7 @@ const Ui24rMessageParser = store => {
     // appData.vu["l.1.mix"] = { pre: n, post: q };
 
     // app.updateVuStrips();
+    store.commit('updateMixerDataVu', { socketId: socketId, vuData: vuData })
   }
 
   function deconvertVU (value) {
