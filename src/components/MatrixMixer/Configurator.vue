@@ -3,7 +3,7 @@
     <header>
       <nav class="nav nav--subnav">
         <router-link :to="{ name: 'Home' }" class="">
-        <span class="arrow">&#11013;</span>
+          <span class="arrow flipped__text">&#x27A1;</span>
         </router-link>
       </nav>
       <h2>
@@ -84,6 +84,13 @@
               Hide Auto route
             </p-check>
             <p-check class="p-switch p-fill"
+              v-model="showOutputsInlineActive"
+              @change="setShowOutputsInline"
+              v-if="getEnabledMatrixOutputs.length > 1"
+              >
+              Show outputs inline
+            </p-check>
+            <p-check class="p-switch p-fill"
               v-model="vuEnabled"
               @change="setVuEnabled"
               >
@@ -95,6 +102,13 @@
               v-if="vuEnabled"
               >
               Debounce VU
+            </p-check>
+            <p-check class="p-switch p-fill"
+              v-model="enableRouteBuilder"
+              @change="setEnableRouteBuilder"
+              v-if="vuEnabled"
+              >
+              Route Builder
             </p-check>
             <!--
               TODO: implement tose as well
@@ -149,8 +163,10 @@ export default {
       helperActive: this.$store.state.enableMatrixHelper,
       autoRouteActive: this.$store.state.autoRouteSingleOutput,
       hideAutoRouteActive: this.$store.state.hideOutputSectionOnSingleOutput,
+      showOutputsInlineActive: this.$store.state.showOutputsInline,
       vuEnabled: this.$store.state.sockets.mixer1.enableVu,
-      debounceVuActive: this.$store.state.sockets.mixer1.debounceVu
+      debounceVuActive: this.$store.state.sockets.mixer1.debounceVu,
+      enableRouteBuilder: this.$store.state.enableRouteBuilder
     }
   },
   computed: {
@@ -206,7 +222,12 @@ export default {
     setDebounceVu (val) {
       this.$store.commit('setDebounceVu', val)
     },
-
+    setShowOutputsInline (val) {
+      this.$store.commit('setShowOutputsInline', val)
+    },
+    setEnableRouteBuilder (val) {
+      this.$store.commit('setEnableRouteBuilder', val)
+    },
     setDefaultMatrixPreset () {
       this.$store.commit('setDefaultMatrixPreset')
       // console.log('model matrixInputs', this.matrixInputs)

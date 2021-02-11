@@ -5,6 +5,7 @@ import Ui24rMessageParser from '../assets/js/Ui24rMessageParser'
 import AudioRouteModifier from '../assets/js/AudioRouteModifier'
 import MatrixStateToMixer from '../assets/js/MatrixStateToMixer'
 import MatrixOverMover from '../assets/js/MatrixOverMover'
+import AudioRouteBuilder from '../assets/js/AudioRouteBuilder'
 // import AudioRoute from '../assets/js/AudioRoute'
 
 Vue.use(Vuex)
@@ -26,7 +27,7 @@ export default new Vuex.Store({
         keepAliveInterval: undefined,
         enableVu: true,
         debounceVu: false,
-        debounceInterval: 2000,
+        debounceInterval: 700,
         lastVuFetch: 0,
         mData: {}
       },
@@ -39,7 +40,7 @@ export default new Vuex.Store({
         keepAliveInterval: undefined,
         enableVu: false,
         debounceVu: false,
-        debounceInterval: 2000,
+        debounceInterval: 700,
         lastVuFetch: 0,
         mData: {}
       },
@@ -70,18 +71,25 @@ export default new Vuex.Store({
     matrixRoutes: [],
     matrixTargetChains: {},
     enableMatrixHelper: true,
+    enableRouteBuilder: false,
     autoRouteSingleOutput: true,
     hideOutputSectionOnSingleOutput: true,
+    showOutputsInline: true,
 
     swapOverItemsForAllRoutes: [],
-    swapOverMoverIsActive: false
+    swapOverMoverIsActive: false,
+
+    routeBuilderKeys: undefined,
+    routeBuilderActive: false,
+    emptyRoute: {}
   },
   plugins: [
     MixerConfigValidator,
     Ui24rMessageParser,
     AudioRouteModifier,
     MatrixStateToMixer,
-    MatrixOverMover
+    MatrixOverMover,
+    AudioRouteBuilder
   ],
   mutations: {
     updateMixerByMatrixState: function () {
@@ -92,6 +100,9 @@ export default new Vuex.Store({
     },
     moveOverItemToLeft (state, inputChannels) {
       // @see src/assets/js/MatrixOverMover.js
+    },
+    checkRouteBuilder (state, payload) {
+      // @see src/assets/js/AudioRouteBuilder.js
     },
     receiveSocketMessage: function (state, data) {
       state.sockets[data.socketId].message = data.message
@@ -125,14 +136,23 @@ export default new Vuex.Store({
     setHideAutoRoute (state, payload) {
       state.hideOutputSectionOnSingleOutput = payload
     },
+    setShowOutputsInline (state, payload) {
+      state.showOutputsInline = payload
+    },
     setVuEnabled (state, payload) {
       state.sockets.mixer1.enableVu = payload
     },
     setDebounceVu (state, payload) {
       state.sockets.mixer1.debounceVu = payload
     },
+    setRouteBuilderActive (state, payload) {
+      state.routeBuilderActive = payload
+    },
     setSwapOverMoverIsActiveTo (state, payload) {
       state.swapOverMoverIsActive = payload
+    },
+    setEnableRouteBuilder (state, payload) {
+      state.enableRouteBuilder = payload
     },
     setMatrixOvers (state, matrixOvers) {
       state.matrixOvers = matrixOvers
@@ -183,6 +203,41 @@ export default new Vuex.Store({
       if (route.input) {
         route.input.isRouted = true
       }
+      // recalculate stats begin
+      const newStats = JSON.parse(JSON.stringify(state.emptyRoute.stats))
+      if (typeof route.input !== 'undefined') {
+        newStats.inputId = route.input.id
+        newStats[`hasInputId.${route.input.id}`] = true
+        for (const inputChannel of route.input.inputChannels) {
+          newStats[`hasInputChannel.${inputChannel}`] = true
+        }
+      }
+
+      if (typeof route.targetChainId !== 'undefined') {
+        const targetChain = state.matrixTargetChains[route.targetChainId]
+        for (const item of targetChain.chain) {
+          if (item.type === 'over') {
+            newStats.hasOvers = true
+            newStats[`hasOverId.${item.id}`] = true
+            for (const inputChannel of item.inputChannels) {
+              newStats[`hasInputChannel.${inputChannel}`] = true
+            }
+          }
+          if (item.type === 'output') {
+            newStats.hasOutput = true
+            newStats[`hasOutputId.${item.id}`] = true
+            newStats.outputId = item.id
+          }
+          for (const outputChannel of item.outputChannels) {
+            newStats[`hasOutputChannel.${outputChannel}`] = true
+          }
+        }
+      }
+      // console.log('newStats', newStats)
+      // recalculate stats end
+
+      route.stats = newStats
+
       if (typeof route.id === 'undefined') {
         route.id = state.matrixRoutesIdCounter
         state.matrixRoutesIdCounter++
@@ -247,6 +302,16 @@ export default new Vuex.Store({
         return item.id !== routeId
       })
     },
+    muteAllAudioRoutes (state) {
+      for (const route of state.matrixRoutes.filter(el => typeof el.id !== 'undefined')) {
+        route.muted = true
+      }
+    },
+    unmuteAllAudioRoutes (state) {
+      for (const route of state.matrixRoutes) {
+        route.muted = false
+      }
+    },
     resetAudioRoutes (state) {
       state.matrixRoutes = []
       state.matrixTargetChains = []
@@ -263,8 +328,14 @@ export default new Vuex.Store({
         item.isRouted = routedInputs.includes(item.inputChannels.join(','))
       }
     },
+    setRouteBuilderKeys (state, payload) {
+      state.routeBuilderKeys = payload
+    },
     processRouteChange: function () {
       // @see src/assets/js/AudioRouteModifier.js
+    },
+    setEmptyRouteTemplate (state, emptyRoute) {
+      state.emptyRoute = emptyRoute
     }
   },
   actions: {
@@ -383,6 +454,12 @@ export default new Vuex.Store({
         'sendMessage',
         data
       )
+    },
+    createEmptyRoute ({ getters }) {
+      this.commit(
+        'setEmptyRouteTemplate',
+        getters.getRouteById()
+      )
     }
   },
   getters: {
@@ -394,6 +471,8 @@ export default new Vuex.Store({
     getMatrixHelperEnabled: state => state.enableMatrixHelper,
     getAutoOutputRouteEnabled: state => state.autoRouteSingleOutput,
     getHideOutputSectionOnSingleOutput: state => state.hideOutputSectionOnSingleOutput,
+    getShowOutputsInline: state => state.showOutputsInline,
+    getRouteBuilderActive: state => state.routeBuilderActive,
     getMatrixTargetChains: state => state.matrixTargetChains, // only for debugging
     socketConnected: (state) => (socketId) => { return state.sockets[socketId].isConnected },
     socketEnabled: (state) => (socketId) => { return state.sockets[socketId].config.enabled },
@@ -409,7 +488,7 @@ export default new Vuex.Store({
     getDebounceVu: (state) => (socketId) => {
       return state.sockets[socketId].debounceVu
     },
-    getRouteById: (state) => (routeId) => {
+    getRouteById: (state, getters) => (routeId) => {
       const filtered = state.matrixRoutes.filter(function (el) {
         return el.id === routeId
       })
@@ -425,8 +504,45 @@ export default new Vuex.Store({
         removeFromTargetChain: undefined,
         addToTargetChain: undefined,
         setInput: undefined,
-        removeInput: undefined
+        removeInput: undefined,
+        stats: getters.getEmptyRouteStats
       }
+    },
+    getRouteStartingWithItem: (state) => (startItem) => {
+      // start from input
+      const filtered = state.matrixRoutes.filter(function (el) {
+        return typeof el.input !== 'undefined' && el.input.id === startItem.id
+      })
+      if (filtered.length > 0) {
+        return filtered[0]
+      }
+      // start from first target chain item
+      for (const route of state.matrixRoutes.filter(el => typeof el.input === 'undefined' && typeof el.targetChainId !== 'undefined')) {
+        const targetChain = state.matrixTargetChains[route.targetChainId]
+        if (!targetChain.chain) {
+          continue
+        }
+        if (targetChain.chain[0].id === startItem.id) {
+          return route
+        }
+      }
+      return undefined
+    },
+    getMatrixItemByInputChannel: (state) => (inputChannel) => {
+      for (const item of state.matrixInputs.concat(state.matrixOvers)) {
+        if (item.inputChannels.includes(inputChannel)) {
+          return item
+        }
+      }
+      return undefined
+    },
+    getMatrixItemByOutputChannel: (state) => (outputChannel) => {
+      for (const item of state.matrixOutputs.concat(state.matrixOvers)) {
+        if (item.outputChannels.includes(outputChannel)) {
+          return item
+        }
+      }
+      return undefined
     },
     readRemoteMixerValue: (state) => (args) => {
       // console.log('args', args)
@@ -462,6 +578,41 @@ export default new Vuex.Store({
     })),
     getTargetChainById: (state) => (targetChainId) => {
       return state.matrixTargetChains[targetChainId]
+    },
+    getIsAnyRouteMuted: (state) => {
+      return state.matrixRoutes.filter(function (el) {
+        return el.muted === true
+      }).length > 0
+    },
+    getRouteBuilderKeys: state => state.routeBuilderKeys,
+    // set tons of properties to increase performance (reduce iterations)
+    getEmptyRouteStats: (state) => {
+      const curSetup = state.sockets.mixer1.config.curSetup
+      const emptyStats = {
+        inputId: -1,
+        outputId: -1,
+        hasOvers: false,
+        hasOutput: false
+      }
+
+      for (var i = 0; i < curSetup.input; i++) {
+        emptyStats[`hasInputChannel.${i}`] = false
+      }
+
+      for (var a = 0; a < curSetup.aux; a++) {
+        emptyStats[`hasOutputChannel.${a}`] = false
+      }
+      for (const matrixInput of state.matrixInputs) {
+        emptyStats[`hasInputId.${matrixInput.id}`] = false
+      }
+      for (const matrixOutput of state.matrixOutputs) {
+        emptyStats[`hasOutputId.${matrixOutput.id}`] = false
+      }
+      for (const matrixOver of state.matrixOvers) {
+        emptyStats[`hasOutputId.${matrixOver.id}`] = false
+        emptyStats[`hasOverId.${matrixOver.id}`] = false
+      }
+      return emptyStats
     }
   },
   modules: {

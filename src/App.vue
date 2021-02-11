@@ -21,6 +21,7 @@ export default {
   },
   mounted () {
     if (this.haveValidConfig) {
+      this.$store.dispatch('createEmptyRoute')
       this.$store.dispatch('connectAllEnabledSockets')
     }
   }

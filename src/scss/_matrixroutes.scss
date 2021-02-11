@@ -118,3 +118,26 @@
         max-width: 350px;
       }
 }
+
+
+.audioroute__output--inline {
+  display: flex;
+  // justify-content: center;
+  align-items: center;
+  .vuued__channel {
+    min-width: 50px;
+    max-width: 50px;
+    opacity: 0.1;
+  }
+  .arrow {
+    opacity: 0.2;
+    &.active {
+      opacity: 1;
+    }
+  }
+  .active {
+    .vuued__channel {
+      opacity: 1;
+    }
+  }
+}

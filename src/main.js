@@ -16,7 +16,7 @@ Vue.component('p-radio', PrettyRadio)
 // due to the requirement of supporting file:// protocol we can't
 // perform an ajax call. but we can load a script during runtime by creating a DOM node...
 const configJsNode = document.createElement('script')
-configJsNode.setAttribute('src', './config.js')
+configJsNode.setAttribute('src', './config.js?v=4')
 document.head.appendChild(configJsNode)
 
 // helper vars

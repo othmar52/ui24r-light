@@ -2,10 +2,10 @@
   <div>
     <div class="arrow" v-if="isFirstEnabledOverItem">&#10145;</div>
     <div v-else @click="moveOver">
-      <div v-if="delayActive" class="arrow arrow--confirm"><br>sure?</div>
+      <div v-if="delayActive" class="arrow arrow--confirm">sure?</div>
       <div class="arrow--hovertoggle" v-else>
-        <span class="arrow">&#10145;</span>
-        <span class="arrow arrow--double">&#11020;</span>
+        <span class="arrow">&#x27A1;</span>
+        <span class="arrow arrow--double">&#x2B0C;</span>
       </div>
     </div>
   </div>

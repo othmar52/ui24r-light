@@ -2,9 +2,15 @@
   <div class="page page--matrixrouter">
     <header>
       <nav class="nav nav--subnav">
-        <router-link :to="{ name: 'Home' }" class="">
-        <span class="arrow">&#11013;</span>
+        <router-link :to="{ name: 'Home' }">
+          <span class="arrow flipped__text">&#x27A1;</span>
         </router-link>
+        <div class="btn" @click="muteAllAudioRoutes">
+          Mute all
+        </div>
+        <div class="btn" @click="unmuteAllAudioRoutes" v-if="getIsAnyRouteMuted">
+          Unmute all
+        </div>
       </nav>
       <h2>
         AUDIO ROUTES
@@ -63,7 +69,8 @@ import DelayedTrigger from '@/components/MatrixMixer/DelayedTrigger.vue'
 import VuMeter from '@/components/VuMeter.vue'
 import VuMeterStereo from '@/components/VuMeterStereo.vue'
 import IconCog from '@/assets/img/cog.svg'
-import IconTrash from '@/assets/img/trash.svg'
+// import IconMute from '@/assets/img/mute.svg'
+
 export default {
   name: 'MatrixMixerShow',
   data () {
@@ -77,8 +84,8 @@ export default {
     AudioRoute,
     VuMeterStereo,
     VuMeter,
-    IconCog,
-    IconTrash // eslint-disable-line
+    // IconMute,
+    IconCog
   },
   props: {
     myInputChannels: Array
@@ -91,7 +98,8 @@ export default {
       'getHideOutputSectionOnSingleOutput',
       'getAutoOutputRouteEnabled',
       'getEnabledMatrixOutputs',
-      'getVuEnabled'
+      'getVuEnabled',
+      'getIsAnyRouteMuted'
     ]),
     debugChainLength () {
       return Object.keys(this.getMatrixTargetChains).length
@@ -122,6 +130,14 @@ export default {
     },
     setMatrixHelperEnabled (val) {
       this.$store.commit('setMatrixHelper', val)
+    },
+    muteAllAudioRoutes (val) {
+      this.$store.commit('muteAllAudioRoutes')
+      this.$store.commit('updateMixerByMatrixState')
+    },
+    unmuteAllAudioRoutes (val) {
+      this.$store.commit('unmuteAllAudioRoutes')
+      this.$store.commit('updateMixerByMatrixState')
     }
   },
   mounted () {

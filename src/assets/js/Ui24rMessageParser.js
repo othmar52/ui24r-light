@@ -45,6 +45,7 @@ const Ui24rMessageParser = store => {
 
   function putValue (paramName, paramValue, socketId) {
     store.commit('updateMixerData', { socketId: socketId, key: paramName, data: paramValue })
+    store.commit('checkRouteBuilder', { socketId: socketId, key: paramName, data: paramValue })
   }
 
   function parseCommand (msg, socketId, state) {

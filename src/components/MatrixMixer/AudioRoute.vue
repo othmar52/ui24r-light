@@ -14,6 +14,7 @@
     />
     <AudioRouteOutput
       v-if="!hideOutput"
+      :routeId="routeId"
       :routeOutput="getRouteOutputTarget"
       v-on:addRouteTarget="addRouteTarget"
       v-on:removeRouteTarget="removeRouteTarget"
@@ -56,6 +57,7 @@ export default {
       'getMatrixHelperEnabled'
     ]),
     route () {
+      // console.log(this.getRouteById(this.routeId))
       return this.getRouteById(this.routeId)
     },
     hideOutput () {

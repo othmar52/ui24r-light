@@ -14,8 +14,16 @@ bestehende routen
 [sys1]  -> [rmx1000:bypass] -> [digitakt:bypass] -> [rc505:AKTIV]     ->  [ST1]
 
 
+altes iPad für routing
+  ios 8.0.2
+  chrome 47.0.2526.107
+  1024 x 768
 
-chrome 47 ios 9
+altes samsung galaxy tab für routing
+  Android 7.1.2
+  firefox 85.0
+  960 x 600
+
 
 
 
