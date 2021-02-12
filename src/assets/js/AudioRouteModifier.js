@@ -28,7 +28,7 @@ const AudioRouteModifier = store => {
     }
 
     // auto route to output new routes in case it is required & possible
-    if (state.autoRouteSingleOutput === true && route.id === undefined) {
+    if (state.autoRouteSingleOutput === true && route.id === undefined && state.enableAllInputsAlwaysVisible === false) {
       if (store.getters.getEnabledMatrixOutputs.length === 1) {
         addToTargetChain(route, store.getters.getEnabledMatrixOutputs[0], state)
       }
@@ -90,7 +90,7 @@ const AudioRouteModifier = store => {
       existingTargetChain = getOrCreateTargetChainByItems([addToTargetChainItem], state)
     }
 
-    // if item to add is output simply add or replace output
+    // if item to add is output simply add or replace eyisting output
     if (addToTargetChainItem.type === 'output') {
       // console.log('we have an output')
       const newTargetChainItems = existingTargetChain.chain.filter(

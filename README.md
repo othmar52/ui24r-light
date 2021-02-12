@@ -15,7 +15,7 @@ bestehende routen
 
 
 altes iPad für routing
-  ios 8.0.2
+  ios  9.3.5
   chrome 47.0.2526.107
   1024 x 768
 

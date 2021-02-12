@@ -70,7 +70,9 @@ export default new Vuex.Store({
     matrixRoutesIdCounter: 0,
     matrixRoutes: [],
     matrixTargetChains: {},
+
     enableMatrixHelper: true,
+    enableAllInputsAlwaysVisible: true,
     enableRouteBuilder: false,
     autoRouteSingleOutput: true,
     hideOutputSectionOnSingleOutput: true,
@@ -147,6 +149,9 @@ export default new Vuex.Store({
     },
     setRouteBuilderActive (state, payload) {
       state.routeBuilderActive = payload
+    },
+    setEnableAllInputsAlwaysVisible (state, payload) {
+      state.enableAllInputsAlwaysVisible = payload
     },
     setSwapOverMoverIsActiveTo (state, payload) {
       state.swapOverMoverIsActive = payload
@@ -464,15 +469,19 @@ export default new Vuex.Store({
   },
   getters: {
     haveValidConfig: state => state.haveValidConfig,
+
     getMatrixInputs: state => state.matrixInputs,
     getMatrixOutputs: state => state.matrixOutputs,
     getMatrixOvers: state => state.matrixOvers,
     getMatrixRoutes: state => state.matrixRoutes,
+
     getMatrixHelperEnabled: state => state.enableMatrixHelper,
     getAutoOutputRouteEnabled: state => state.autoRouteSingleOutput,
     getHideOutputSectionOnSingleOutput: state => state.hideOutputSectionOnSingleOutput,
     getShowOutputsInline: state => state.showOutputsInline,
     getRouteBuilderActive: state => state.routeBuilderActive,
+    getEnableAllInputsAlwaysVisible: state => state.enableAllInputsAlwaysVisible,
+
     getMatrixTargetChains: state => state.matrixTargetChains, // only for debugging
     socketConnected: (state) => (socketId) => { return state.sockets[socketId].isConnected },
     socketEnabled: (state) => (socketId) => { return state.sockets[socketId].config.enabled },

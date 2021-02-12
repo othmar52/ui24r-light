@@ -70,16 +70,22 @@
               Helper
             </p-check>
             <p-check class="p-switch p-fill"
+              v-model="enableAllInputsAlwaysVisible"
+              @change="setShowOutputsInline"
+              >
+              Always show all inputs
+            </p-check>
+            <p-check class="p-switch p-fill"
               v-model="autoRouteActive"
               @change="setAutoRouteEnabled"
-              v-if="getEnabledMatrixOutputs.length === 1"
+              v-if="getEnabledMatrixOutputs.length === 1 && enableAllInputsAlwaysVisible === false"
               >
               Auto route
             </p-check>
             <p-check class="p-switch p-fill"
               v-model="hideAutoRouteActive"
               @change="setHideAutoRouteEnabled"
-              v-if="getEnabledMatrixOutputs.length === 1 && autoRouteActive"
+              v-if="getEnabledMatrixOutputs.length === 1 && autoRouteActive && enableAllInputsAlwaysVisible === false"
               >
               Hide Auto route
             </p-check>
@@ -166,7 +172,8 @@ export default {
       showOutputsInlineActive: this.$store.state.showOutputsInline,
       vuEnabled: this.$store.state.sockets.mixer1.enableVu,
       debounceVuActive: this.$store.state.sockets.mixer1.debounceVu,
-      enableRouteBuilder: this.$store.state.enableRouteBuilder
+      enableRouteBuilder: this.$store.state.enableRouteBuilder,
+      enableAllInputsAlwaysVisible: this.$store.state.enableAllInputsAlwaysVisible
     }
   },
   computed: {
@@ -227,6 +234,9 @@ export default {
     },
     setEnableRouteBuilder (val) {
       this.$store.commit('setEnableRouteBuilder', val)
+    },
+    setEnableAllInputsAlwaysVisible (val) {
+      this.$store.commit('setEnableAllInputsAlwaysVisible', val)
     },
     setDefaultMatrixPreset () {
       this.$store.commit('setDefaultMatrixPreset')

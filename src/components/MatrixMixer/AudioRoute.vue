@@ -49,12 +49,15 @@ export default {
   computed: {
     ...mapGetters([
       'getRouteById',
-      'getEnabledMatrixOvers',
+      'getEnabledMatrixInputs',
       'getEnabledMatrixOutputs',
+      'getEnabledMatrixOvers',
+      'getMatrixRoutes',
       'getTargetChainById',
       'getAutoOutputRouteEnabled',
       'getHideOutputSectionOnSingleOutput',
-      'getMatrixHelperEnabled'
+      'getMatrixHelperEnabled',
+      'getEnableAllInputsAlwaysVisible'
     ]),
     route () {
       // console.log(this.getRouteById(this.routeId))
@@ -63,7 +66,8 @@ export default {
     hideOutput () {
       return this.getHideOutputSectionOnSingleOutput === true &&
         this.getAutoOutputRouteEnabled === true &&
-        this.getEnabledMatrixOutputs.length === 1
+        this.getEnabledMatrixOutputs.length === 1 &&
+        this.getEnableAllInputsAlwaysVisible === false
     },
     getRouteOutputTarget () {
       if (typeof this.route.targetChainId === 'undefined') {
@@ -126,7 +130,6 @@ export default {
 
   },
   mounted () {
-
   }
 }
 </script>

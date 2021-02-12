@@ -92,12 +92,14 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'getRouteById',
       'getMatrixRoutes',
       'getMatrixTargetChains',
       'getMatrixHelperEnabled',
       'getHideOutputSectionOnSingleOutput',
       'getAutoOutputRouteEnabled',
       'getEnabledMatrixOutputs',
+      'getEnabledMatrixInputs',
       'getVuEnabled',
       'getIsAnyRouteMuted'
     ]),
@@ -142,6 +144,13 @@ export default {
   },
   mounted () {
     // this.foo = this.getMatrixHelperEnabled
+    for (const inputItem of this.getEnabledMatrixInputs) {
+      if (this.getMatrixRoutes.filter(el => el.inputId === inputItem.id).length === 0) {
+        const newRoute = this.getRouteById()
+        newRoute.setInput = inputItem
+        this.$store.commit('processRouteChange', newRoute)
+      }
+    }
   }
 }
 </script>
