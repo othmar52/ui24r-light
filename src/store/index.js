@@ -6,7 +6,6 @@ import AudioRouteModifier from '../assets/js/AudioRouteModifier'
 import MatrixStateToMixer from '../assets/js/MatrixStateToMixer'
 import MatrixOverMover from '../assets/js/MatrixOverMover'
 import AudioRouteBuilder from '../assets/js/AudioRouteBuilder'
-// import AudioRoute from '../assets/js/AudioRoute'
 
 Vue.use(Vuex)
 
@@ -78,7 +77,6 @@ export default new Vuex.Store({
     hideOutputSectionOnSingleOutput: true,
     showOutputsInline: true,
 
-    swapOverItemsForAllRoutes: [],
     swapOverMoverIsActive: false,
 
     routeBuilderKeys: undefined,
@@ -115,7 +113,7 @@ export default new Vuex.Store({
     updateMixerDataVu (state, payload) {
       for (const vuData of payload.vuData) {
         if (typeof state.sockets[payload.socketId].mData[vuData.key] === 'undefined') {
-          // call Vue.set() only once instead of dozends times per second
+          // call Vue.set() only once per property instead of dozends times per second
           Vue.set(state.sockets[payload.socketId].mData, vuData.key, vuData.data)
           continue
         }
