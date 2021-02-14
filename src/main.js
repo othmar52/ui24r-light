@@ -7,6 +7,8 @@ import store from './store'
 import PrettyCheck from 'pretty-checkbox-vue/check'
 import PrettyRadio from 'pretty-checkbox-vue/radio'
 
+import VuePapaParse from 'vue-papa-parse'
+Vue.use(VuePapaParse)
 Vue.config.productionTip = false
 
 // Vue.component('p-input', PrettyInput)

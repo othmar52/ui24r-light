@@ -1,0 +1,35 @@
+CC#,Parameter,Transmitted CC,Recognized CC
+5,Glide,5 + 37,5 + 37
+6,Mod.Vco,6 + 38,6 + 38
+8,Pulse,8 + 40,8 + 40
+9,Rate1,9 + 41,9 + 41
+10,Interval 1,10 + 42,10 + 42
+11,Interval 2,11 + 43,11 + 43
+12,Rate2,12 + 44,12 + 44
+13,Level VCO1,13 + 45,13 + 45
+14,Level VCO2,14 + 46,14 + 46
+15,Level VCO3,15 + 47,15 + 47
+16,Level Noise,16 + 48,16 + 48
+17,Audio In,17 + 49,17 + 49
+18,Mod.VCF,18 + 50,18 + 50
+19,Mod.VCA,19 + 51,19 + 51
+20,KeyFollow,20 + 52,20 + 52
+21,Cutoff,21 + 53,21 + 53
+22,Emphasis,22 + 54,22 + 54
+23,Contour,23 + 55,23 + 55
+24,Attack1,24 + 56,24 + 56
+25,Decay1,25 + 57,25 + 57
+26,Sustain1,26 + 58,26 + 58
+27,Release1,27 + 59,27 + 59
+28,Attack2,28 + 60,28 + 60
+29,Decay2,29 + 61,29 + 61
+30,Sustain2,30 + 62,30 + 62
+31,Release2,31 + 63,31 + 63
+80,Octave1,80,80
+81,Wave1,81,81
+82,Octave2,82,82
+83,Wave2,83,83
+84,Octave3,84,84
+85,Wave3,85,85
+86,Wave.Mod1,86,86
+87,Wave.Mod2,87,87

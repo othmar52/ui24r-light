@@ -8,6 +8,17 @@ midi CC
 
 undo functionality??
 
+
+TODO
+  csv is not possible with file:/// protocol
+    show hint?
+    convert to json during build?
+
+
+thanks to
+https://raw.githubusercontent.com/usercamp/midi/main/Waldorf/Blofeld.csv
+
+
 bestehende routen
 [nix]   -> [rmx1000:bypass] -> [digitakt:AKTIV]  -> [rc505:bypass]    ->  [ST3]
 [virus] -> [rmx1000:AKTIV]  -> [digitakt:bypass] -> [rc505:bypass]    ->  [ST2]

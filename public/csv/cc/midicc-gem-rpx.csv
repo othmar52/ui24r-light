@@ -1,0 +1,25 @@
+CC#,Parameter
+"0,32",Bank Select
+1,Modulation
+5,Portamento time
+"6,38",Data Entry
+7,Volume
+10,Pan Pot
+11,Expression
+64,Sustain
+65,Portamento
+66,Sostenuto
+67,Soft
+71,Filter Resonance
+72,Release time
+73,Attack Time
+74,Filter Cut Off
+75,Decay Time
+76,Vibrato Rate
+77,Vibrato Depht
+78,Vibrato Delay
+84,Portamento control
+91,Reverb send level
+93,Chorus send level
+"98, 99","NRPN LSB, MSB"
+"100, 101","RPN LSB, MSB"

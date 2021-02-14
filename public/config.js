@@ -34,7 +34,9 @@ var mixerConfig = {
         inputChannels: [2,3],
         midiChannels: [11],
         defaultDbPos: 0.62,
-        enabled: true
+        enabled: true,
+        // cccsv: 'csv/cc/midicc-waldorf-blofeld.csv'
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Waldorf/Blofeld.csv'
     },
     {
         name: "GEM Rp-x",
@@ -42,7 +44,9 @@ var mixerConfig = {
         inputChannels: [4,5],
         midiChannels: [4],
         defaultDbPos: 0.45,
-        enabled: true
+        enabled: true,
+        // cccsv: 'csv/cc/midicc-gem-rpx.csv'
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/GEM/rp-x.csv'
     },
     {
         name: "MicroKORG",
@@ -50,7 +54,9 @@ var mixerConfig = {
         inputChannels: [6],
         midiChannels: [6],
         defaultDbPos: 0.8,
-        enabled: true
+        enabled: true,
+        // cccsv: 'csv/cc/midicc-korg-microkorg.csv'
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/KORG/micro KORG.csv'
     },
     {
         name: "System1",
@@ -58,14 +64,18 @@ var mixerConfig = {
         inputChannels: [7],
         midiChannels: [5],
         defaultDbPos: 0.37,
-        enabled: true
+        enabled: true,
+        // cccsv: 'csv/cc/midicc-roland-system1.csv'
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Roland/System-1.csv'
     },
     {
         name: "Virus",
         color: 2,
         inputChannels: [8,9],
         midiChannels: [7],
-        enabled: true
+        enabled: true,
+        // cccsv: 'csv/cc/midicc-access-virus.csv'
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Access/Virus A.csv'
     },
     {
         name: "Axoloti",
@@ -81,7 +91,8 @@ var mixerConfig = {
         inputChannels: [11],
         midiChannels: [1,2,3],
         defaultDbPos: 0.6,
-        enabled: true
+        enabled: true,
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Roland/JD-Xi.csv'
     },
     {
         name: "TB-3",
@@ -89,7 +100,9 @@ var mixerConfig = {
         inputChannels: [14],
         midiChannels: [9],
         defaultDbPos: 0.6,
-        enabled: true
+        enabled: true,
+        // cccsv: 'csv/cc/midicc-roland-tb3.csv'
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Roland/TB-3.csv'
     },
     {
         name: "MFB Synth",
@@ -97,7 +110,8 @@ var mixerConfig = {
         inputChannels: [15],
         midiChannels: [8],
         defaultDbPos: 0.42,
-        enabled: false
+        enabled: false,
+        cccsv: 'csv/cc/midicc-mfb-synth2.csv'
     },
     {
         name: "iPad",

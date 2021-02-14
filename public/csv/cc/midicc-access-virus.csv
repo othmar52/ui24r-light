@@ -1,0 +1,95 @@
+CC#,Parameter,Range,Value Range,Remarks
+0,Bank Select,0...1,0...1,"0:Bank A, 1:BankB"
+1,Modulation Wheel,0...127,0...127,
+5,Portamento Time,0...127,0...127,
+7,Channel Volume,0...127,0...127,
+10,Panorama,0...127,-64...0...+63,Left..Center..Right
+17,Osc1 Shape,0...127,-64...0...+63,Wave..Saw..Pulse
+18,Osc1 Pulsewidth,0...127,0...127,
+19,Osc1 Wave Select,0...64,0...64,"Sine, Triangle, Wave 3..64"
+20,Osc1 Semitone,0...127,-64...+63,
+21,Osc1 Keyfollow,0...127,-64...+63,Default: 32
+22,Osc2 Shape,0...127,-64...0...+63,Wave..Saw..Pulse
+23,Osc2 Pulsewidth,0...127,0...127,
+24,Osc2 Wave Select,0...64,0...64,"Sine, Triangle, Wave 3..64"
+25,Osc2 Semitone,0...127,-64...+63,
+26,Osc2 Detune,0...127,0...127,
+27,Osc2 FM Amount,0...127,0...127,
+28,Osc2 Sync,0...1,0...1,0:Off 1:On
+29,Osc2 Filt Env Amt,0...127,-64...+63,
+30,FM Filt Env Amt,0...127,-64...+63,
+31,Osc2 Keyfollow,0...127,-64...+63,Default: 32
+32,Bank Select,0...1,0...1,"0: Bank A, 1: Bank B"
+33,Osc Balance,0...127,-64...+63,Osc1..Osc1+2..Osc2
+34,Suboscillator Volume,0...127,0...127,
+35,Suboscillator Shape,0...1,0...1,0:Square 1:Triangle
+36,Osc Mainvolume,0...127,0...127,
+37,Noise Volume,0...127,0...127,
+40,Cutoff,0...127,0...127,
+41,Cutoff2,0...127,-64...+63,
+42,Filter1 Resonance,0...127,0...127,
+43,Filter2 Resonance,0...127,0...127,
+44,Filter1 Env Amt,0...127,0...127,
+45,Filter2 Env Amt,0...127,0...127,
+46,Filter1 Keyfollow,0...127,-64...+63,
+47,Filter2 Keyfollow,0...127,-64...+63,
+48,Filter Balance,0...127,-64...+63,
+49,Saturation Curve,0...6,0...6,0:Off 1:Light 2:Soft 3:Middle 4:Hard 5:Digital 6:Shaper
+51,Filter1 Mode,0...3,0...3,0:LP 1:HP 2:BP 3:BS
+52,Filter2 Mode,0...3,0...3,0:LP 1:HP 2:BP 3:BS
+53,Filter Routing,0...3,0...3,0:Ser 4 1:Ser 6 2:Par 4 3:Split
+54,Filter Env Attack,0...127,0...127,
+55,Filter Env Decay,0...127,0...127,
+56,Filter Env Sustain,0...127,0...127,
+57,Filter Env Sustain Time,0...127,-64...+63,Fall...Infinite...Rise
+58,Filter Env Release,0...127,0...127,
+59,Amp Env Attack,0...127,0...127,
+60,Amp Env Decay,0...127,0...127,
+61,Amp Env Sustain,0...127,0...127,
+62,Amp Env Sustain Time,0...127,-64...+63,Fall...Infinite...Rise
+63,Amp Env Release,0...127,0...127,
+64,Hold Pedal,0...127,,
+67,Lfo1 Rate,0...127,0...127,
+68,Lfo1 Shape,0...5,0...5,0:Sine 1:Tri 2:Saw 3:Square 4:S&H 5:S&G
+69,Lfo1 Env Mode,0...1,0...1,0:Off 1:On
+70,Lfo1 Mode,0...1,0...1,0:Poly 1:Mono
+71,Lfo1 Symmetry,0...127,-64...+63,
+72,Lfo1 Keyfollow Amt,0...127,0...127,
+74,Osc1 Lfo1 Amount,0...127,-64...+63,
+75,Osc2 Lfo1 Amount,0...127,-64...+63,
+76,PW Lfo1 Amount,0...127,-64...+63,
+77,Reso Lfo1 Amount,0...127,-64...+63,
+78,FiltGain Lfo1 Amount,0...127,-64...+63,
+79,Lfo2 Rate,0...127,0...127,
+80,Lfo2 Shape,0...5,0...5,0:Sine 1:Tri 2:Saw 3:Square 4:S&H 5:S&G
+81,Lfo2 Env Mode,0...1,0...1,0:Off 1:On
+82,Lfo2 Mode,0...1,0...1,0:Poly 1:Mono
+83,Lfo2 Symmetry,0...127,-64...+63,
+85,Lfo2 Keytrigger,0...127,0...127,"0:Off,1..127 Keytrigger Phase"
+86,OscShape Lfo2 Amount,0...127,-64...+63,
+87,FmAmount Lfo2 Amount,0...127,-64...+63,
+88,Cutoff1 Lfo2 Amount,0...127,-64...+63,
+89,Cutoff2 Lfo2 Amount,0...127,-64...+63,
+90,Panorama Lfo2 Amount,0...127,-64...+63,
+91,Patch Volume,0...127,0...127,
+93,Transpose,0...127,-64...+63,
+94,Key Mode,0...4,0...4,0:Poly 1..4: Mono1-4
+97,Twin Mode,0...1,0...1,0:Off 1:On
+98,Twin Detune,0...127,0...127,
+99,Panorama Spread,0...127,0...127,
+100,Twin Lfo Phase,0...127,-64...+63,
+101,Input Mode,0...2,0...2,0:Off 1:Dynamic 2:Static
+102,Input Select,0...8,0...8,0:In1L 1:In1L+R 2:In1R...
+105,Chorus Mix,0...127,-64...+63,
+106,Chorus Rate,0...127,0...127,
+107,Chorus Depth,0...127,0...127,
+108,Chorus Delay,0...127,0...127,
+109,Chorus Feedback,0...127,0...127,
+110,Chorus Lfo Shape,0...127,0...5,0:Sine 1:Tri 2:Saw 3:Square 4:S&H 5:S&G
+113,Effect Send,0...127,0...127,
+114,Delay Time,0...127,0...127,
+115,Delay Feedback,0...127,0...127,
+116,Delay Rate,0...127,0...127,
+117,Delay Depth,0...127,0...127,
+118,Delay Lfo Shape,0...5,0...5,0:Sine 1:Tri 2:Saw 3:Square 4:S&H 5:S&G
+123,All Notes Off,0,,

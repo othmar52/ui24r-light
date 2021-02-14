@@ -31,6 +31,11 @@
           </div>
           <div @click="cancelWizard">cancel</div>
         </div>
+        <div class="lastrow" v-if="haveCsvLinkCC">
+          <router-link :to="{ name: 'CcTablesShow', params: { deviceId: routeInput.id } }" class="btn">
+            {{routeInput.name}} CC table
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -84,6 +89,15 @@ export default {
         pairedItems.push(currentPair)
       }
       return pairedItems
+    },
+    haveCsvLinkCC () {
+      if (!this.routeInput) {
+        return false
+      }
+      if (typeof this.routeInput.cccsv === 'undefined') {
+        return false
+      }
+      return true
     }
   },
   methods: {

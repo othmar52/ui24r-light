@@ -151,6 +151,10 @@ header {
 .color-16 { background-color: #ff9800; color: #333;} /* orange */
 .color-undefined { background-color: #000;} /* black */
 
+.color--spot {
+    color: $spotColor;
+    font-weight: bold;
+}
 
 .centered__flex {
     display: flex;
@@ -219,6 +223,7 @@ header {
  .vumeter__in {
    background: $spotColor;
  }
+
  .vumeter__out {
    /* TODO how to make the gradient height independent? */
 
@@ -231,5 +236,52 @@ header {
     .vuued__channel {
         min-width: 129px;
         max-width: 450px;
+    }
+}
+
+
+table {
+  // table-layout: fixed;
+  &.table--fullwidth {
+    width: 100%;
+  }
+  margin-bottom: 1.5em;
+}
+
+tr {
+  &:nth-child(odd) {
+      background: $headerBackground;
+  }
+}
+
+th {
+  border-bottom: 1px solid $spotColor;
+}
+
+th, td {
+    padding: 0.3em 1em;
+    width: auto;
+    max-width: 100%;
+    // word-wrap: break-word;
+    white-space: pre;
+    &:first-child {
+        text-align: right;
+    }
+    &:last-child {
+        text-align: left;
+        width: 100%;
+        max-width: 100%;
+        white-space: unset;
+    }
+}
+
+.page--midicc {
+    h2 {
+      text-align: left;
+      color: $spotColor;
+    }
+
+    header h2 span {
+        color: white;
     }
 }

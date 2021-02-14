@@ -7,6 +7,8 @@ import Recmonitor from '@/components/Recmonitor/Show.vue'
 import MatrixMixerConfigurator from '@/components/MatrixMixer/Configurator.vue'
 import MatrixMixerShow from '@/components/MatrixMixer/Show.vue'
 import CustomFadersConfigurator from '@/components/CustomFaders/Configurator.vue'
+import DeviceList from '@/components/CcTables/DeviceList.vue'
+import CcTablesShow from '@/components/CcTables/Show.vue'
 
 Vue.use(VueRouter)
 
@@ -45,6 +47,22 @@ const routes = [
         path: 'show',
         name: 'MatrixMixerShow',
         component: MatrixMixerShow
+      }
+    ]
+  },
+  {
+    path: '/cctables',
+    component: EmptyRouterView,
+    children: [
+      {
+        path: '',
+        name: 'DeviceList',
+        component: DeviceList
+      },
+      {
+        path: 'cctable/:deviceId',
+        name: 'CcTablesShow',
+        component: CcTablesShow
       }
     ]
   },

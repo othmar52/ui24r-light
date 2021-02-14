@@ -1,0 +1,53 @@
+CC#,,Parameter,Parameter (Vocoder),Values (Recieve)
+5,PITCH,Portamento,Portamento,0...127
+77,OSC 1,Wave,Wave,"0...15: Saw, 16...31: Pulse, 32...47: Tri, 48...63: Sin, 64...79: Vox Wave,
+80...95: DWGS, 96...111: Noise, 112...127: Audio In"
+14,OSC 1,Control1,Control1,0...127
+15,OSC 1,Control2,Control2,0...127 * OSC 1 Wave=DWGS; seite S.57
+78,"OSC 2
+Audio in 1",Wave,---,"0...42: Saw, 43...85: Squ, 86...127:Tri"
+82,"OSC 2
+Audio in 1",OSC Mod,---,"0...31: OFF, 32...63: Ring, 64...95: Sync, 96...127: RingSync"
+18,"OSC 2
+Audio in 1",Semitone,HPF Level,"Synth; seite S.57
+Vocoder; 0... 127"
+19,"OSC 2
+Audio in 1",Tune,Threshold,"Synth; 0 / 1: –63, 2: –62...63: –1, 64: 0, 65: +1...127: +63
+Vocoder; 0...127"
+20,MIXER,OSC 1 Level,OSC 1 Level,0...127
+21,MIXER,OSC 2 Level,Inst Level,0...127
+22,MIXER,Noise Level,Noise Level,0...127
+83,FILTER,Type,Formant Shift,"Synth; 0...31: –24LPF, 32...63: –12LPF, 64...95: –12BPF, 96...127:
+–12HPF"
+74,FILTER,Cutoff,Cutoff,"Synth; 0...127
+Vocoder; 0 / 1: –63, 2: –62...63: –1, 64: 0, 65: +1...127: +63"
+71,FILTER,Resonance,Resonance,0...127
+79,FILTER,Filter EG Int,Mod Int,"0 / 1: –63, 2:–62...63: –1, 64: 0, 65: +1...127: +63"
+85,FILTER,KBD Track,E.F.Sense,"Synth; 0 / 1: –63, 2: –62...63: –1, 64: 0, 65: +1...127: +63
+Vocoder; 0...127"
+23,F. EG,Attack,---,0...127
+24,F. EG,Decay,---,0...127
+25,F. EG,Sustain,---,0...127
+26,F. EG,Release,---,0...127
+7,AMP,Level,Level,0...127
+10,AMP,Panpot,Direct Level,"Synth; 0 / 1: L63, 2: L62...63: L01, 64: CNT, 65: R01...127: R63
+Vocoder; 0...127"
+92,AMP,Distortion,Distortion,"0...63: OFF, 64...127: ON"
+73,A. EG,Attack,Attack,0...127
+75,A. EG,Decay,Decay,0...127
+70,A. EG,Sustain,Sustain,0...127
+72,A. EG,Release,Release,0...127
+87,LFO 1,Wave,Wave,"0...31: Saw, 32...63: Squ1, 64...95: Tri, 96...127: S/H"
+27,LFO 1,Frequency,Frequency,"0...127, Tempo Sync=ON; seite S.57"
+88,LFO 2,Wave,Wave,"0...31: Saw, 32...63: Squ2, 64...95: Sin, 96...127: S/H"
+76,LFO 2,Frequency,Frequency,"0...127, Tempo Sync=ON; seite S.57"
+28,PATCH 1,Intensity,---,"0 / 1: –63, 2: –62...63: –1, 64: 0, 65: +1...127: +63"
+29,PATCH 2,Intensity,---,"0 / 1: –63, 2: –62...63: –1, 64: 0, 65: +1...127: +63"
+30,PATCH 3,Intensity,---,"0 / 1: –63, 2: –62...63: –1, 64: 0, 65: +1...127: +63"
+31,PATCH 4,Intensity,---,"0 / 1: –63, 2: –62...63: –1, 64: 0, 65: +1...127: +63"
+12,MOD FX,LFO Speed,LFO Speed,0...127
+93,MOD FX,Depth,Depth,0...127
+13,DELAY,Delay Time,Delay Time,"0...127, Tempo Sync=ON; seite S.57"
+94,DELAY,Depth,Depth,0...127
+95,(MIDI),Timbre Select,---,"0:Timbre1, 1:Timbre1&2(Sync), 2...127:Timbre2"
+90,(MIDI),Sync Ctr,Sync Ctr,"0...63:OFF, 64...127:ON"
