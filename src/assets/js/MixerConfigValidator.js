@@ -69,6 +69,9 @@ const MixerConfigValidator = store => {
     if (typeof mixerConfig.matrixOverConf !== 'undefined') {
       store.dispatch('setMatrixOverConf', mixerConfig.matrixOverConf)
     }
+    if (typeof mixerConfig.additionalDevices !== 'undefined') {
+      store.dispatch('setAdditionalDevices', mixerConfig.additionalDevices)
+    }
 
     if (isValid === false) {
       return

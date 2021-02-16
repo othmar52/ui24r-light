@@ -11,11 +11,28 @@
         <span v-if="processedCsv">{{csvData.data[1][0]}} - {{csvData.data[1][1]}}</span>
       </h2>
       <nav class="nav nav--subnav">
+        <router-link :to="{ name: 'DeviceList' }" class="color--spot">
+          all cc tables
+        </router-link>
       </nav>
     </header>
     <div v-if="processedCsv">
+      <nav class="nav nav--scrollnav" v-if="groups.length > 1">
+         <div
+           v-for="(groupName, index) in groups"
+           v-bind:key="index+11"
+           class="btn"
+           @click="scrollToSection"
+           :data-section="`#section-${index}`"
+          >
+            {{groupName}} ({{dataRows[groupName].length}})
+          </div>
+      </nav>
       <div v-for="(groupName, index) in groups" v-bind:key="index+88" class="xx">
-        <h2>{{groupName}}</h2>
+        <h2 :id="`section-${index}`">
+          {{groupName}}
+          <span class="link--top" @click="scrollToSection" data-section="body" v-if="index > 0">to top</span>
+        </h2>
         <table class="table table--fullwidth">
           <tr class="tr">
             <th v-for="(header, index2) in headerRows[groupName]" v-bind:key="index2+444" class="th td">
@@ -30,15 +47,9 @@
         </table>
       </div>
     </div>
-    <!--
-    <div v-if="csvData" class="table table--fullwidth">
-      <div v-for="(csvLine, index) in csvData.data" v-bind:key="index+888" class="tr">
-        <div v-for="(csvField, index2) in csvLine" v-bind:key="index2+8888" :class="index === 0 ? 'th' : 'td'">
-          {{csvField}}
-        </div>
-      </div>
+    <div>
+      <h3>All CC data provided by <a class="color--spot" href="https://midi.user.camp/" target="_blank">MIDI CC &amp; NRPN database</a> (<a class="color--spot" href="https://github.com/usercamp/midi" target="_blank">Github</a>)</h3>
     </div>
-    -->
   </div>
 </template>
 
@@ -65,7 +76,8 @@ export default {
   computed: {
     ...mapGetters([
       'getMatrixInputs',
-      'getMatrixOvers'
+      'getMatrixOvers',
+      'getAdditionalDevices'
     ]),
     deviceId () {
       return this.$route.params.deviceId
@@ -81,6 +93,11 @@ export default {
     const over = this.getMatrixOvers.filter(el => el.id === this.deviceId)
     if (over.length === 1) {
       this.device = over[0]
+      this.parseCsv()
+    }
+    const additional = this.getAdditionalDevices.filter(el => el.id === this.deviceId)
+    if (additional.length === 1) {
+      this.device = additional[0]
       this.parseCsv()
     }
   },
@@ -167,6 +184,9 @@ export default {
         return headers[index]
       }
       return index
+    },
+    scrollToSection (event) {
+      this.$scrollTo(event.currentTarget.dataset.section)
     }
   },
   created () {

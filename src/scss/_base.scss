@@ -279,9 +279,24 @@ th, td {
     h2 {
       text-align: left;
       color: $spotColor;
+      position: relative;
     }
 
     header h2 span {
         color: white;
+    }
+    .link--top {
+        position: absolute;
+        right: 1em;
+    }
+
+    .nav--scrollnav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        .btn {
+            margin-bottom: 0.7em;
+            white-space: nowrap;
+        }
     }
 }

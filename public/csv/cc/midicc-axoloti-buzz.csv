@@ -1,0 +1,9 @@
+manufacturer,device,section,parameter_name,parameter_description,cc_msb,cc_lsb,cc_min_value,cc_max_value,nrpn_msb,nrpn_lsb,nrpn_min_value,nrpn_max_value,orientation,notes
+Axoloti,MPE-Buzz,Fader 1 - Fader 8,Shape control,,19,,0,127,,,,,0-based,similar filter cutoff
+Axoloti,MPE-Buzz,Fader 1 - Fader 8,Shape mod Y amount,,18,,0,127,,,,,0-based,
+Axoloti,MPE-Buzz,Fader 1 - Fader 8,Strike intensity,,17,,0,127,,,,,0-based,"similar velocity curve (without strike, only the pressure affects the volume)"
+Axoloti,MPE-Buzz,Fader 1 - Fader 8,Strike decay,,16,,0,127,,,,,0-based,similar amp release
+Axoloti,MPE-Buzz,Fader 1 - Fader 8,Overall brightness,,15,,0,127,,,,,0-based,similar filter cutoff
+Axoloti,MPE-Buzz,Fader 1 - Fader 8,Reverb & delay brightness,,14,,0,127,,,,,0-based,
+Axoloti,MPE-Buzz,Fader 1 - Fader 8,Reverb size & delay time,,13,,0,127,,,,,0-based,
+Axoloti,MPE-Buzz,Fader 1 - Fader 8,Reverb & delay mix,,12,,0,127,,,,,0-based,

@@ -83,7 +83,8 @@ var mixerConfig = {
         inputChannels: [10],
         midiChannels: [],
         defaultDbPos: 0.57,
-        enabled: true
+        enabled: true,
+        cccsv: 'csv/cc/midicc-axoloti-buzz.csv'
     },
     {
         name: "JD-Xi",
@@ -111,7 +112,8 @@ var mixerConfig = {
         midiChannels: [8],
         defaultDbPos: 0.42,
         enabled: false,
-        cccsv: 'csv/cc/midicc-mfb-synth2.csv'
+        // cccsv: 'csv/cc/midicc-mfb-synth2.csv'
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/MFB/Synth II.csv'
     },
     {
         name: "iPad",
@@ -173,7 +175,8 @@ var mixerConfig = {
         color: 5,
         fakeStereo: false,
         groupUnique: false,
-        enabled: true
+        enabled: true,
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Elektron/Digitakt.csv'
     },
     {
         name: "RMX-1000",
@@ -192,6 +195,30 @@ var mixerConfig = {
         color: 3,
         fakeStereo: false,
         enabled: true
+    }
+  ],
+
+  /**
+   * those are only for CC csvs and not part of the mixer
+   */
+  additionalDevices: [
+    {
+        name: "System8",
+        color: 6,
+        inputChannels: [99],
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Roland/System-8.csv'
+    },
+    {
+        name: "MS2000",
+        color: 13,
+        inputChannels: [100],
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/KORG/MS2000.csv'
+    },
+    {
+        name: "Casio CT-S300",
+        color: 1,
+        inputChannels: [101],
+        cccsv: 'csv/cc/midicc-casio-cts300.csv'
     }
   ]
 }

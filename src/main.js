@@ -8,7 +8,9 @@ import PrettyCheck from 'pretty-checkbox-vue/check'
 import PrettyRadio from 'pretty-checkbox-vue/radio'
 
 import VuePapaParse from 'vue-papa-parse'
+import VueScrollTo from 'vue-scrollto'
 Vue.use(VuePapaParse)
+Vue.use(VueScrollTo)
 Vue.config.productionTip = false
 
 // Vue.component('p-input', PrettyInput)
@@ -18,7 +20,7 @@ Vue.component('p-radio', PrettyRadio)
 // due to the requirement of supporting file:// protocol we can't
 // perform an ajax call. but we can load a script during runtime by creating a DOM node...
 const configJsNode = document.createElement('script')
-configJsNode.setAttribute('src', './config.js?v=4')
+configJsNode.setAttribute('src', './config.js?v=5')
 document.head.appendChild(configJsNode)
 
 // helper vars

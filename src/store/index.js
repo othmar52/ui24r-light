@@ -65,6 +65,7 @@ export default new Vuex.Store({
     matrixInputs: [],
     matrixOutputs: [],
     matrixOvers: [],
+    additionalDevices: [],
 
     matrixRoutesIdCounter: 0,
     matrixRoutes: [],
@@ -378,6 +379,14 @@ export default new Vuex.Store({
       }
       context.state.matrixOvers = matrixOverConf
     },
+    setAdditionalDevices: function (context, additionalDevices) {
+      for (const item of additionalDevices) {
+        item.enabledDefault = item.enabled
+        item.type = 'additional'
+        item.id = item.inputChannels.join(',')
+      }
+      context.state.additionalDevices = additionalDevices
+    },
     connectAllEnabledSockets: function (context) {
       for (const [key, value] of Object.entries(context.state.sockets)) {
         if (value.config.enabled === false) {
@@ -471,6 +480,7 @@ export default new Vuex.Store({
     getMatrixInputs: state => state.matrixInputs,
     getMatrixOutputs: state => state.matrixOutputs,
     getMatrixOvers: state => state.matrixOvers,
+    getAdditionalDevices: state => state.additionalDevices,
     getMatrixRoutes: state => state.matrixRoutes,
 
     getMatrixHelperEnabled: state => state.enableMatrixHelper,
@@ -590,6 +600,11 @@ export default new Vuex.Store({
       return state.matrixRoutes.filter(function (el) {
         return el.muted === true
       }).length > 0
+    },
+    getAreAllRoutesMuted: (state) => {
+      return state.matrixRoutes.filter(function (el) {
+        return el.muted === false && typeof el.id !== 'undefined'
+      }).length === 0
     },
     getRouteBuilderKeys: state => state.routeBuilderKeys,
     // set tons of properties to increase performance (reduce iterations)

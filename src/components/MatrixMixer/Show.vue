@@ -5,7 +5,7 @@
         <router-link :to="{ name: 'Home' }">
           <span class="arrow flipped__text">&#x27A1;</span>
         </router-link>
-        <div class="btn" @click="muteAllAudioRoutes">
+        <div class="btn" @click="muteAllAudioRoutes" v-if="!getAreAllRoutesMuted">
           Mute all
         </div>
         <div class="btn" @click="unmuteAllAudioRoutes" v-if="getIsAnyRouteMuted">
@@ -101,7 +101,8 @@ export default {
       'getEnabledMatrixOutputs',
       'getEnabledMatrixInputs',
       'getVuEnabled',
-      'getIsAnyRouteMuted'
+      'getIsAnyRouteMuted',
+      'getAreAllRoutesMuted'
     ]),
     debugChainLength () {
       return Object.keys(this.getMatrixTargetChains).length
