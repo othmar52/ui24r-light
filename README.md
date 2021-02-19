@@ -1,5 +1,16 @@
 # ui24r-spaceship
 
+broken on old ipad
+
+last working commit
+  commit d765cf27d7e4ca0516efcdef40eb54f714d147c9
+  Author: othmar52 <othmar52@users.noreply.github.com>
+  Date:   Fri Feb 12 09:21:38 2021 +0100
+
+      sydghsdf
+
+
+
 welcome screen
 
 matrix mixer
@@ -7,17 +18,6 @@ matrix mixer
 midi CC
 
 undo functionality??
-
-
-TODO
-  csv is not possible with file:/// protocol
-    show hint?
-    convert to json during build?
-
-
-thanks to
-https://raw.githubusercontent.com/usercamp/midi/main/Waldorf/Blofeld.csv
-
 
 bestehende routen
 [nix]   -> [rmx1000:bypass] -> [digitakt:AKTIV]  -> [rc505:bypass]    ->  [ST3]

@@ -6,10 +6,8 @@ import store from './store'
 // import PrettyInput from 'pretty-checkbox-vue/input'
 import PrettyCheck from 'pretty-checkbox-vue/check'
 import PrettyRadio from 'pretty-checkbox-vue/radio'
-
-import VuePapaParse from 'vue-papa-parse'
 import VueScrollTo from 'vue-scrollto'
-Vue.use(VuePapaParse)
+
 Vue.use(VueScrollTo)
 Vue.config.productionTip = false
 

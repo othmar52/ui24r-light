@@ -300,3 +300,10 @@ th, td {
         }
     }
 }
+
+.outlined {
+    // border: 2px solid rgba($spotColor, 0.3);
+    background: rgba($spotColor, 0.2);
+    padding: 0.1em 0.4em;
+    margin-right: 0.4em;
+}

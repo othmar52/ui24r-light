@@ -41,7 +41,10 @@
           </tr>
           <tr v-for="(csvLine, index2) in dataRows[groupName]" v-bind:key="index2+333" class="tr">
             <td v-for="(csvField, index3) in csvLine" v-bind:key="index3+777" class="td">
-              <div :class="index3 === 1 ? 'color--spot' : ''">{{csvField}}</div>
+              <div :class="index3 === 1 ? 'color--spot' : ''">
+                <div v-if="index3 !== csvLine.length-1">{{csvField}}</div>
+                <NotesColumn v-else :fieldData="csvField" />
+              </div>
             </td>
           </tr>
         </table>
@@ -54,10 +57,14 @@
 </template>
 
 <script>
-
+import * as Papa from 'papaparse'
 import { mapGetters } from 'vuex'
+import NotesColumn from '@/components/CcTables/NotesColumn.vue'
 export default {
   name: 'CcTablesShow',
+  components: {
+    NotesColumn
+  },
   data () {
     return {
       device: null,
@@ -69,9 +76,6 @@ export default {
       dataRows: {},
       processedCsv: false
     }
-  },
-  props: {
-    // deviceId: String
   },
   computed: {
     ...mapGetters([
@@ -111,7 +115,7 @@ export default {
           that.postProcessCsv(results)
         }
       }
-      this.$papa.parse(
+      Papa.parse(
         this.device.cccsv,
         parseConfig
       )
