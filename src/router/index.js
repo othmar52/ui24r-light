@@ -9,6 +9,8 @@ import MatrixMixerShow from '@/components/MatrixMixer/Show.vue'
 import CustomFadersConfigurator from '@/components/CustomFaders/Configurator.vue'
 import DeviceList from '@/components/CcTables/DeviceList.vue'
 import CcTablesShow from '@/components/CcTables/Show.vue'
+import PatchListShow from '@/components/PatchList/Show.vue'
+import PatchSetList from '@/components/PatchList/PatchSetList.vue'
 
 Vue.use(VueRouter)
 
@@ -63,6 +65,22 @@ const routes = [
         path: 'cctable/:deviceId',
         name: 'CcTablesShow',
         component: CcTablesShow
+      }
+    ]
+  },
+  {
+    path: '/patchlist',
+    component: EmptyRouterView,
+    children: [
+      {
+        path: '',
+        name: 'PatchSetList',
+        component: PatchSetList
+      },
+      {
+        path: 'patches/:deviceId',
+        name: 'PatchListShow',
+        component: PatchListShow
       }
     ]
   },

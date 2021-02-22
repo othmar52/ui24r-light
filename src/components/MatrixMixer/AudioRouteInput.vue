@@ -36,6 +36,11 @@
             {{routeInput.name}} CC table
           </router-link>
         </div>
+        <div class="lastrow" v-if="haveCsvLinkPatchList">
+          <router-link :to="{ name: 'PatchListShow', params: { deviceId: routeInput.id } }" class="btn">
+            {{routeInput.name}} Patchlist
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -98,6 +103,12 @@ export default {
         return false
       }
       return true
+    },
+    haveCsvLinkPatchList () {
+      if (!this.routeInput) {
+        return false
+      }
+      return this.routeInput.patchcsv.length > 0
     }
   },
   methods: {

@@ -35,8 +35,13 @@ var mixerConfig = {
         midiChannels: [11],
         defaultDbPos: 0.62,
         enabled: true,
-        // cccsv: 'csv/cc/midicc-waldorf-blofeld.csv'
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Waldorf/Blofeld.csv'
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Waldorf/Blofeld.csv',
+        patchcsv: [
+            {
+                displayName: 'Analog',
+                url: 'https://raw.githubusercontent.com/othmar52/patchlist/main/Waldorf/Blofeld/Waldorf - Blofeld (Factory presets 2012).csv'
+            }
+        ]
     },
     {
         name: "GEM Rp-x",
@@ -45,8 +50,13 @@ var mixerConfig = {
         midiChannels: [4],
         defaultDbPos: 0.45,
         enabled: true,
-        // cccsv: 'csv/cc/midicc-gem-rpx.csv'
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/GEM/rp-x.csv'
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/GEM/rp-x.csv',
+        patchcsv: [
+            {
+                displayName: 'Analog',
+                url: 'https://raw.githubusercontent.com/othmar52/patchlist/main/GEM/rp-x/GEM - rp-x (Factory presets 2006).csv'
+            }
+        ]
     },
     {
         name: "MicroKORG",
@@ -55,8 +65,17 @@ var mixerConfig = {
         midiChannels: [6],
         defaultDbPos: 0.8,
         enabled: true,
-        // cccsv: 'csv/cc/midicc-korg-microkorg.csv'
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/KORG/micro KORG.csv'
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/KORG/micro KORG.csv',
+        patchcsv: [
+            {
+                displayName: 'Cuckoo',
+                url: 'https://raw.githubusercontent.com/othmar52/patchlist/main/KORG/micro KORG/KORG - micro KORG (Cuckoo patches 2018).csv'
+            },
+            {
+                displayName: 'Factory',
+                url: 'https://raw.githubusercontent.com/othmar52/patchlist/main/KORG/micro KORG/KORG - micro KORG (Factory presets 2002).csv'
+            }
+        ]
     },
     {
         name: "System1",
@@ -65,8 +84,17 @@ var mixerConfig = {
         midiChannels: [5],
         defaultDbPos: 0.37,
         enabled: true,
-        // cccsv: 'csv/cc/midicc-roland-system1.csv'
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Roland/System-1.csv'
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Roland/System-1.csv',
+        patchcsv: [
+            {
+                displayName: 'System-1',
+                url: 'https://raw.githubusercontent.com/othmar52/patchlist/main/Roland/System-1/Roland - System-1 (Factory presets 2014).csv'
+            },
+            {
+                displayName: 'Promars',
+                url: 'https://raw.githubusercontent.com/othmar52/patchlist/main/Roland/System-1/Roland - System1 - Promars Plugout (Factory presets 2015).csv'
+            }
+        ]
     },
     {
         name: "Virus",
@@ -74,8 +102,13 @@ var mixerConfig = {
         inputChannels: [8,9],
         midiChannels: [7],
         enabled: true,
-        // cccsv: 'csv/cc/midicc-access-virus.csv'
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Access/Virus A.csv'
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Access/Virus A.csv',
+        patchcsv: [
+            {
+                displayName: 'Factory',
+                url: 'https://raw.githubusercontent.com/othmar52/patchlist/main/Access/Virus A/Access - Virus A (Factory presets 1997).csv'
+            }
+        ]
     },
     {
         name: "Axoloti",
@@ -93,7 +126,17 @@ var mixerConfig = {
         midiChannels: [1,2,3],
         defaultDbPos: 0.6,
         enabled: true,
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Roland/JD-Xi.csv'
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Roland/JD-Xi.csv',
+        patchcsv: [
+            {
+                displayName: 'Analog',
+                url: 'https://raw.githubusercontent.com/othmar52/patchlist/main/Roland/JD-Xi/Roland - JD-Xi (Factory presets 2015 analog).csv'
+            },
+            {
+                displayName: 'Digital',
+                url: 'https://raw.githubusercontent.com/othmar52/patchlist/main/Roland/JD-Xi/Roland - JD-Xi (Factory presets 2015 digital).csv'
+            }
+        ]
     },
     {
         name: "TB-3",
@@ -113,7 +156,13 @@ var mixerConfig = {
         defaultDbPos: 0.42,
         enabled: false,
         // cccsv: 'csv/cc/midicc-mfb-synth2.csv'
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/MFB/Synth II.csv'
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/MFB/Synth II.csv',
+        patchcsv: [
+            {
+                displayName: 'Analog',
+                url: 'https://raw.githubusercontent.com/othmar52/patchlist/main/MFB/Synth II/MFB - Synth II (Factory presets 2004).csv'
+            }
+        ]
     },
     {
         name: "iPad",
@@ -212,7 +261,12 @@ var mixerConfig = {
         name: "MS2000",
         color: 13,
         inputChannels: [100],
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/KORG/MS2000.csv'
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/KORG/MS2000.csv',
+        patchcsv: [
+            {
+                url: 'https://raw.githubusercontent.com/othmar52/patchlist/main/KORG/MS2000/KORG - MS2000 (Factory presets 2000).csv'
+            }
+        ]
     },
     {
         name: "Casio CT-S300",

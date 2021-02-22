@@ -359,6 +359,7 @@ export default new Vuex.Store({
         item.id = item.inputChannels.join(',')
         item.isRouted = false
         item.defaultDbPos = (item.defaultDbPos) ? item.defaultDbPos : 0.7647058823529421
+        item.patchcsv = item.patchcsv || []
       }
       context.state.matrixInputs = matrixInputsConf
     },
@@ -376,6 +377,7 @@ export default new Vuex.Store({
         item.type = 'over'
         item.id = item.outputChannels.join(',')
         item.defaultDbPos = (item.defaultDbPos) ? item.defaultDbPos : 0.7647058823529421
+        item.patchcsv = item.patchcsv || []
       }
       context.state.matrixOvers = matrixOverConf
     },
@@ -384,6 +386,7 @@ export default new Vuex.Store({
         item.enabledDefault = item.enabled
         item.type = 'additional'
         item.id = item.inputChannels.join(',')
+        item.patchcsv = item.patchcsv || []
       }
       context.state.additionalDevices = additionalDevices
     },
