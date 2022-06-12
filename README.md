@@ -1,42 +1,9 @@
-# ui24r-spaceship
+# ui24r-light
 
-broken on old ipad
+alternative audio routing for soundcraft ui24r's native web interface  
+simple webgui for using ui24r only as a matrix router    
 
-last working commit
-  commit d765cf27d7e4ca0516efcdef40eb54f714d147c9
-  Author: othmar52 <othmar52@users.noreply.github.com>
-  Date:   Fri Feb 12 09:21:38 2021 +0100
-
-      sydghsdf
-
-
-
-welcome screen
-
-matrix mixer
-
-midi CC
-
-undo functionality??
-
-bestehende routen
-[nix]   -> [rmx1000:bypass] -> [digitakt:AKTIV]  -> [rc505:bypass]    ->  [ST3]
-[virus] -> [rmx1000:AKTIV]  -> [digitakt:bypass] -> [rc505:bypass]    ->  [ST2]
-[sys1]  -> [rmx1000:bypass] -> [digitakt:bypass] -> [rc505:AKTIV]     ->  [ST1]
-
-
-altes iPad für routing
-  ios  9.3.5
-  chrome 47.0.2526.107
-  1024 x 768
-
-altes samsung galaxy tab für routing
-  Android 7.1.2
-  firefox 85.0
-  960 x 600
-
-
-
+[<img src="media/soundcraft-ui24r-matrix-audio-router.png" height="260" />](https://github.com/othmar52/ui24r-light/blob/master/media/soundcraft-ui24r-matrix-audio-router.png?raw=true)
 
 
 ## Project setup
