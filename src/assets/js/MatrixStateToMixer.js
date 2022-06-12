@@ -230,6 +230,8 @@ const MatrixStateToMixer = store => {
         // TODO: check if this AUX panning is correct
         for (const inputItem of store.getters.getMatrixInputs) {
           if (inputItem.inputChannels.length === 1) {
+            initialState[`i.${inputItem.inputChannels[0]}.aux.${item.outputChannels[0]}.pan`] = 0.5
+            initialState[`i.${inputItem.inputChannels[0]}.aux.${item.outputChannels[1]}.pan`] = 0.5
             continue
           }
           initialState[`i.${inputItem.inputChannels[1]}.aux.${item.outputChannels[0]}.pan`] = 1

@@ -222,7 +222,7 @@ var mixerConfig = {
         inputChannels: [18,19],
         // defaultDbPos: 0.59,
         // defaultDbPos: 1,
-        fakeStereo: true,
+        fakeStereo: false,
         enabled: true
     },
     {
@@ -232,7 +232,7 @@ var mixerConfig = {
         // defaultDbPos: 0.7,
         // defaultDbPos: 1,
         color: 3,
-        fakeStereo: true,
+        fakeStereo: false,
         enabled: true
     }
   ],
