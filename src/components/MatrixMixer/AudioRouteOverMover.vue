@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="disable-dbl-tap-zoom">
     <div class="arrow" v-if="isFirstEnabledOverItem">&#10145;</div>
     <div v-else @click="moveOver">
       <div v-if="delayActive" class="arrow arrow--confirm">sure?</div>

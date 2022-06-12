@@ -117,6 +117,7 @@ const AudioRouteModifier = store => {
         newTargetChain.push(item)
       }
     }
+    // if we have had an output before modification make sure to append it as very last item
     const existingOutput = existingTargetChain.chain.filter(
       item => item.type === 'output'
     )

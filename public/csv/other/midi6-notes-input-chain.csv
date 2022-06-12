@@ -1,0 +1,6 @@
+Source,,Cable,Colors,Target,,Notes
+Keystep,DIN OUT,,,Zaquencer,DIN IN,
+Zaquencer,DIN OUT 1,,,MIDI Looper 3 (right),DIN IN,
+MIDI Looper 3 (right),DIN OUT,,,MIDI Looper 2 (middle),DIN IN,
+MIDI Looper 2 (middle),DIN OUT,,,MIDI Looper 1 (left),DIN IN,
+MIDI Looper 1 (left),DIN OUT,,,MioXL (rear),DIN 6 IN,

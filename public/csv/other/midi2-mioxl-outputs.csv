@@ -1,0 +1,13 @@
+Source,,Cable,Colors,Target,,Notes
+MioXL (rear),DIN 1 OUT,black,,MioXL (rear),DIN 1 IN,Bridge to share config over different clock sources
+MioXL (rear),DIN 2 OUT,blue,yellow,Kenton THRU-5,DIN IN,Notes and clock to several DIN connected synths
+MioXL (rear),DIN 3 OUT,gray;green,blue;red,Miditech Thru 4,DIN IN,clock/realtime only
+MioXL (rear),DIN 4 OUT,red,yellow,GEM Rp-x,DIN IN,for isolating to Channel 4
+MioXL (rear),DIN 5 OUT,yellow,black;black,Zaquencer,DIN IN,
+MioXL (rear),DIN 6 OUT,black,,MioXL (rear),DIN 6 IN,Bridge to build a bypass route as a workaround for Digitakt limitations @see https://www.elektronauts.com/t/digitakt-midi-routing-issue/153414
+MioXL (front),DIN 7 OUT,,,MOTU 128,DIN 1 IN,optional: notes to software blazing baton
+MioXL (front),DIN 8 OUT,,,WIDI Master,DIN IN,optional: notes via bluetooth to software blazing baton (WIDI Master receiver -> MOTU 128)
+MioXL (front),DIN 9 OUT,,,,,optional: isolated clock/realtime
+MioXL (front),DIN 10 OUT,,,,,optional: isolated clock/realtime
+MioXL (front),DIN 11 OUT,,,,,optional: notes (+cc +pitch etc.) + clock/realtime
+MioXL (front),DIN 12 OUT,,,,,optional: only notes (+cc +pitch etc.) without clock/realtime

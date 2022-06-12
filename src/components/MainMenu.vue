@@ -17,6 +17,12 @@
       <router-link :to="{ name: 'DeviceList' }" class="btn">
         CC Tables
       </router-link>
+      <router-link :to="{ name: 'User1Show' }" class="btn">
+        Documentation
+      </router-link>
+      <router-link :to="{ name: 'PatchSetList' }" class="btn">
+        PatchList
+      </router-link>
       <!--
       <router-link :to="{ name: 'RecmonitorSelector' }" class="btn">
         Rec-monitor

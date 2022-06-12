@@ -1,0 +1,38 @@
+Stage 1
+    ipad
+    iOdock
+    soundbite
+    lft desk
+
+Stage 2
+    ui24r
+    doepfer LMK
+    GEM rpx
+    mioXL
+
+Stage 3
+    rest
+
+
+USB midi ohne power supply über USB
+    Digitakt
+    JD-Xi
+    ioDock (iPad)
+    ChannelModifier (Arduino)
+    NoteRecorder (Arduino)
+
+
+Power supply via USB inkl MIDI
+    Linnstrument
+    KeyStep
+    BeatStep ???
+
+
+Power supply via USB ohne MIDI
+    Axoloti
+    MIDI Looper 3 x
+    Baton LED Wurst
+    XiMIDI (Spanier) -> oder doch class compliant? -> flashbar?
+
+
+    

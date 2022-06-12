@@ -72,10 +72,10 @@ export default new Vuex.Store({
     matrixTargetChains: {},
 
     enableMatrixHelper: true,
-    enableAllInputsAlwaysVisible: true,
+    enableAllInputsAlwaysVisible: false,
     enableRouteBuilder: false,
     autoRouteSingleOutput: true,
-    hideOutputSectionOnSingleOutput: true,
+    hideOutputSectionOnSingleOutput: false,
     showOutputsInline: true,
 
     swapOverMoverIsActive: false,
@@ -560,6 +560,22 @@ export default new Vuex.Store({
       for (const item of state.matrixOutputs.concat(state.matrixOvers)) {
         if (item.outputChannels.includes(outputChannel)) {
           return item
+        }
+      }
+      return undefined
+    },
+    getColorIndexForInputChannel: (state) => (inputChannel) => {
+      for (const item of state.matrixInputs.concat(state.matrixOvers)) {
+        if (item.inputChannels.includes(inputChannel)) {
+          return item.color
+        }
+      }
+      return undefined
+    },
+    getColorIndexForOutputChannel: (state) => (outputChannel) => {
+      for (const item of state.matrixOutputs.concat(state.matrixOvers)) {
+        if (item.outputChannels.includes(outputChannel)) {
+          return item.color
         }
       }
       return undefined

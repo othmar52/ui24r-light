@@ -132,21 +132,25 @@ header {
     }
 }
 
+.disable-dbl-tap-zoom {
+    touch-action: manipulation;
+}
+
 /* 1-11 are ui24r's colors, 12-16 are custom script extended colors */
-.color-1 { background-color: #111111; }
+.color-1, .color-black { background-color: #111111; }
 .color-2 { background-color: #8B0000; }
-.color-3 { background-color: #FF0000; } /* red */
+.color-3, .color-red { background-color: #FF0000; } /* red */
 .color-4 { background-color: #FFA500; }
-.color-5 { background-color: #FFFF00; color: #444;} /* yellow */
-.color-6 { background-color: #56DE43; color: #444;} /* green */
+.color-5, .color-yellow { background-color: #FFFF00; color: #444;} /* yellow */
+.color-6, .color-green { background-color: #56DE43; color: #444;} /* green */
 .color-7 { background-color: #0091C2; } /* lightblue */
 .color-8 { background-color: #9400D3; }
-.color-9 { background-color: #808080; }
-.color-10 { background-color: #FFFFFF; }
+.color-9, .color-gray  { background-color: #808080; }
+.color-10, .color-white { background-color: #FFFFFF; }
 .color-11 { background-color: #FF1493; }
 .color-12 { background-color: #00FFFF; }
-.color-13 { background-color: #009688; }
-.color-14 { background-color: #3a4caf; }
+.color-13, .color-ocean { background-color: #009688; }
+.color-14, .color-blue { background-color: #3a4caf; }
 .color-15 { background-color: #966100; } /* brown */
 .color-16 { background-color: #ff9800; color: #333;} /* orange */
 .color-undefined { background-color: #000;} /* black */
@@ -156,6 +160,15 @@ header {
     font-weight: bold;
 }
 
+.colorcodes {
+    display: flex;
+    justify-content: center;
+    &>* {
+        min-width: 15px;
+        min-height: 15px;
+        margin: 3px;
+    }
+}
 .centered__flex {
     display: flex;
     align-items: center;
@@ -301,6 +314,13 @@ th, td {
     }
 }
 
+.column-usage {
+    display: flex;
+    flex-wrap: wrap;
+    &>* {
+        margin: 0.2em;
+    }
+}
 .outlined {
     // border: 2px solid rgba($spotColor, 0.3);
     background: rgba($spotColor, 0.2);

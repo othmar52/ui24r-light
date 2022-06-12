@@ -42,7 +42,7 @@
           <tr v-for="(csvLine, index2) in dataRows[groupName]" v-bind:key="index2+333" class="tr">
             <td v-for="(csvField, index3) in csvLine" v-bind:key="index3+777" class="td">
               <div :class="index3 === 1 ? 'color--spot' : ''">
-                <div v-if="index3 !== csvLine.length-1">{{csvField}}</div>
+                <div v-if="headerRows[groupName][index3] !== 'Usage'">{{csvField}}</div>
                 <NotesColumn v-else :fieldData="csvField" />
               </div>
             </td>
@@ -123,6 +123,7 @@ export default {
     postProcessCsv (csvData) {
       for (const entry of csvData.data) {
         if (entry[0] === 'manufacturer') {
+          // skip header row
           continue
         }
         const groupName = entry[2]
@@ -131,7 +132,7 @@ export default {
         }
         if (typeof this.groupedData[groupName] === 'undefined') {
           this.groupedData[groupName] = []
-          this.goupedDataKeys[groupName] = { 14: true } // always add last column "notes"
+          this.goupedDataKeys[groupName] = {}
           this.headerRows[groupName] = []
           this.dataRows[groupName] = []
         }
@@ -140,6 +141,14 @@ export default {
             this.goupedDataKeys[groupName][i] = true
           }
         }
+
+        // if we dont have "notes" or "usage" column add it
+        // so the last column can expand to viewport width
+        if (typeof this.goupedDataKeys[groupName][14] === 'undefined' &&
+            typeof this.goupedDataKeys[groupName][15] === 'undefined') {
+          this.goupedDataKeys[groupName] = { 15: true } // add column "usage"
+        }
+
         this.groupedData[groupName].push(entry)
         // console.log('csv post process', entry, grouped)
       }
@@ -182,7 +191,8 @@ export default {
         nrpn_min_value: 'NRPN min',
         nrpn_max_value: 'NRPN max',
         orientation: 'Orientation',
-        notes: 'Notes'
+        notes: 'Notes',
+        usage: 'Usage'
       }
       if (typeof headers[index] !== 'undefined') {
         return headers[index]

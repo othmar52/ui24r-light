@@ -11,6 +11,7 @@ import DeviceList from '@/components/CcTables/DeviceList.vue'
 import CcTablesShow from '@/components/CcTables/Show.vue'
 import PatchListShow from '@/components/PatchList/Show.vue'
 import PatchSetList from '@/components/PatchList/PatchSetList.vue'
+import User1Show from '@/components/User1/Show.vue'
 
 Vue.use(VueRouter)
 
@@ -94,6 +95,11 @@ const routes = [
         component: CustomFadersConfigurator
       }
     ]
+  },
+  {
+    path: '/user1',
+    name: 'User1Show',
+    component: User1Show
   }
 ]
 

@@ -1,0 +1,25 @@
+Ui24R,Colors,PB A,PB B,Colors,Target,Notes
+AUX 1,blue;red;red,A 1,B 1,,Endpoint STEREO 1 L,digitally wired to 2nd Ui24R IN 11
+AUX 2,blue;green;yellow,A 2,B 2,,Endpoint STEREO 1 R,digitally wired to 2nd Ui24R IN 12
+AUX 3,blue;green;red,A 3,B 3,,Endpoint STEREO 2 L,digitally wired to 2nd Ui24R IN 13
+AUX 4,blue;yellow;white,A 4,B 4,,Endpoint STEREO 2 R,digitally wired to 2nd Ui24R IN 14
+AUX 5,blue;white;green,A 5,B 5,,Endpoint MONO,digitally wired to 2nd Ui24R IN 15
+AUX 6,blue;yellow;yellow,A 6,B 6,blue,Digitakt IN L,
+AUX 7,blue;white;white,A 7,B 7,yellow;yellow,RMX-1000 IN L,
+AUX 8,blue;black;red,A 8,B 8,yellow;yellow,RMX-1000 IN R,
+MASTER L,blue;black;black,A 9,B 9,,RC-505 IN L,MASTER L internally routed to AUX 9
+MASTER R,blue;green;green,A 10,B 10,red,RC-505 IN R,MASTER R internally routed to AUX 10
+,,A 11,B 11,,,
+,,A 12,B 12,,,
+,,A 13,B 13,,,
+,,A 14,B 14,,,
+,,A 15,B 15,,,
+KP3+ IN L,green;green,A 16,B 16,,,Other patchbay A7 (MicroKORG OUT L)
+KP3+ IN R,green;green,A 17,B 17,,,Other patchbay A8 (MicroKORG OUT R)
+KP3+ OUT L,red;red;yellow,A 18,B 18,,,Other patchbay B7 (Ui24R IN 7)
+KP3+ OUT R,red;red;yellow,A 19,B 19,,,Other patchbay B8 (Ui24R IN 8)
+,,A 20,B 20,,,
+,,A 21,B 21,,,
+,,A 22,B 22,,,
+,,A 23,B 23,,,
+,,A 24,B 24,,,

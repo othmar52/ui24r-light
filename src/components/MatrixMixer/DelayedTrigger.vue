@@ -1,5 +1,5 @@
 <template>
-  <div @click="triggerAction" class="trigger">
+  <div @click="triggerAction" class="trigger disable-dbl-tap-zoom">
     <span v-if="delayActive">sure?</span>
     <span v-else>
       <span v-html="markup" v-if="markup"></span>

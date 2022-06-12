@@ -33,9 +33,10 @@ var mixerConfig = {
         color: 15,
         inputChannels: [2,3],
         midiChannels: [11],
-        defaultDbPos: 0.62,
+        // defaultDbPos: 0.62,
+        // defaultDbPos: 1,
         enabled: true,
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Waldorf/Blofeld.csv',
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/usagecolumn/Waldorf/Blofeld.csv',
         patchcsv: [
             {
                 displayName: 'Analog',
@@ -48,9 +49,10 @@ var mixerConfig = {
         color: 9,
         inputChannels: [4,5],
         midiChannels: [4],
-        defaultDbPos: 0.45,
+        // defaultDbPos: 0.45,
+        // defaultDbPos: 1,
         enabled: true,
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/GEM/rp-x.csv',
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/usagecolumn/GEM/rp-x.csv',
         patchcsv: [
             {
                 displayName: 'Analog',
@@ -61,11 +63,12 @@ var mixerConfig = {
     {
         name: "MicroKORG",
         color: 13,
-        inputChannels: [6],
+        inputChannels: [6,7],
         midiChannels: [6],
-        defaultDbPos: 0.8,
+        // defaultDbPos: 0.8,
+        // defaultDbPos: 1,
         enabled: true,
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/KORG/micro KORG.csv',
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/usagecolumn/KORG/micro KORG.csv',
         patchcsv: [
             {
                 displayName: 'Cuckoo',
@@ -80,11 +83,12 @@ var mixerConfig = {
     {
         name: "System1",
         color: 6,
-        inputChannels: [7],
+        inputChannels: [15],
         midiChannels: [5],
-        defaultDbPos: 0.37,
+        defaultDbPos: 0.5,
+        // defaultDbPos: 1,
         enabled: true,
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Roland/System-1.csv',
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/usagecolumn/Roland/System-1.csv',
         patchcsv: [
             {
                 displayName: 'System-1',
@@ -101,8 +105,9 @@ var mixerConfig = {
         color: 2,
         inputChannels: [8,9],
         midiChannels: [7],
+        // defaultDbPos: 1,
         enabled: true,
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Access/Virus A.csv',
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/usagecolumn/Access/Virus A.csv',
         patchcsv: [
             {
                 displayName: 'Factory',
@@ -115,7 +120,8 @@ var mixerConfig = {
         color: 8,
         inputChannels: [10],
         midiChannels: [],
-        defaultDbPos: 0.57,
+        // defaultDbPos: 0.57,
+        // defaultDbPos: 1,
         enabled: true,
         cccsv: 'csv/cc/midicc-axoloti-buzz.csv'
     },
@@ -124,9 +130,10 @@ var mixerConfig = {
         color: 16,
         inputChannels: [11],
         midiChannels: [1,2,3],
-        defaultDbPos: 0.6,
+        // defaultDbPos: 0.6,
+        // defaultDbPos: 1,
         enabled: true,
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Roland/JD-Xi.csv',
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/usagecolumn/Roland/JD-Xi.csv',
         patchcsv: [
             {
                 displayName: 'Analog',
@@ -143,33 +150,19 @@ var mixerConfig = {
         color: 6,
         inputChannels: [14],
         midiChannels: [9],
-        defaultDbPos: 0.6,
+        // defaultDbPos: 0.6,
+        // defaultDbPos: 1,
         enabled: true,
         // cccsv: 'csv/cc/midicc-roland-tb3.csv'
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Roland/TB-3.csv'
-    },
-    {
-        name: "MFB Synth",
-        color: 14,
-        inputChannels: [15],
-        midiChannels: [8],
-        defaultDbPos: 0.42,
-        enabled: false,
-        // cccsv: 'csv/cc/midicc-mfb-synth2.csv'
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/MFB/Synth II.csv',
-        patchcsv: [
-            {
-                displayName: 'Analog',
-                url: 'https://raw.githubusercontent.com/othmar52/patchlist/main/MFB/Synth II/MFB - Synth II (Factory presets 2004).csv'
-            }
-        ]
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/usagecolumn/Roland/TB-3.csv'
     },
     {
         name: "iPad",
         color: 11,
         inputChannels: [16,17],
         midiChannels: [12,13,14,15],
-        defaultDbPos: 0.44,
+        // defaultDbPos: 0.44,
+        // defaultDbPos: 1,
         enabled: true
     },
     {
@@ -177,6 +170,7 @@ var mixerConfig = {
         color: 7,
         inputChannels: [20,21],
         midiChannels: [],
+        // defaultDbPos: 1,
         enabled: false
     }
   ],
@@ -197,71 +191,67 @@ var mixerConfig = {
         enabled: false
     },
     {
-        name: "3",
-        color: 3,
-        outputChannels: [4,5],
-        fakeStereo: true,
-        enabled: false
-    },
-    {
         name: "M",
         color: 8,
-        outputChannels: [6],
+        outputChannels: [4],
         fakeStereo: false,
         enabled: false
     }
   ],
 
   /**
-   * inputChannels & outputChannels are from ui24'rs point of view!!!
+   * inputChannels & outputChannels are from Ui24R's point of view!!!
    */
   matrixOverConf: [
     {
         name: "DigiTakt",
-        outputChannels: [9],
+        outputChannels: [5],
         inputChannels: [0,1],
-        defaultDbPos: 0.62,
+        // defaultDbPos: 0.62,
+        // defaultDbPos: 1,
         color: 5,
-        fakeStereo: false,
+        fakeStereo: true,
         groupUnique: false,
         enabled: true,
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Elektron/Digitakt.csv'
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/usagecolumn/Elektron/Digitakt.csv'
     },
     {
         name: "RMX-1000",
-        outputChannels: [7],
+        outputChannels: [6,7],
         color: 1,
         inputChannels: [18,19],
-        defaultDbPos: 0.59,
-        fakeStereo: false,
+        // defaultDbPos: 0.59,
+        // defaultDbPos: 1,
+        fakeStereo: true,
         enabled: true
     },
     {
         name: "RC-505",
-        outputChannels: [8],
+        outputChannels: [8,9],
         inputChannels: [12,13],
-        defaultDbPos: 0.7,
+        // defaultDbPos: 0.7,
+        // defaultDbPos: 1,
         color: 3,
-        fakeStereo: false,
+        fakeStereo: true,
         enabled: true
     }
   ],
 
   /**
-   * those are only for CC csvs and not part of the mixer
+   * those are only for CC csvs/patchlist csvs and not part of the mixer
    */
   additionalDevices: [
     {
         name: "System8",
         color: 6,
         inputChannels: [99],
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/Roland/System-8.csv'
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/usagecolumn/Roland/System-8.csv'
     },
     {
         name: "MS2000",
         color: 13,
         inputChannels: [100],
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/main/KORG/MS2000.csv',
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/usagecolumn/KORG/MS2000.csv',
         patchcsv: [
             {
                 url: 'https://raw.githubusercontent.com/othmar52/patchlist/main/KORG/MS2000/KORG - MS2000 (Factory presets 2000).csv'
@@ -273,6 +263,19 @@ var mixerConfig = {
         color: 1,
         inputChannels: [101],
         cccsv: 'csv/cc/midicc-casio-cts300.csv'
-    }
+    },
+    {
+        name: "MFB Synth",
+        color: 14,
+        inputChannels: [103],
+        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/usagecolumn/MFB/Synth II.csv',
+        patchcsv: [
+            {
+                displayName: 'Analog',
+                url: 'https://raw.githubusercontent.com/othmar52/patchlist/main/MFB/Synth II/MFB - Synth II (Factory presets 2004).csv'
+            }
+        ]
+    },
   ]
 }
+        // cccsv: 'csv/cc/midicc-mfb-synth2.csv'

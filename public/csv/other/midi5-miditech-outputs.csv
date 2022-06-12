@@ -1,0 +1,5 @@
+Source,,Cable,Colors,Target,,Notes
+Miditech Thru 4,DIN OUT 1,red,blue,RC-505,DIN IN,
+Miditech Thru 4,DIN OUT 2,yellow,red;red,KaossPAD3+,DIN IN,
+Miditech Thru 4,DIN OUT 3,,,Arduino,DIN IN,Hardware Blazing Baton
+Miditech Thru 4,DIN OUT 4,,,,DIN IN,

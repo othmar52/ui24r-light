@@ -1,0 +1,9 @@
+Source,,Cable,Colors,Target,,Notes
+MioXL (back),DIN 4 OUT,black,,MioXL (rear),DIN 1 IN,Bridge to share config over different clock sources
+MIDI Looper 3 (left),DIN OUT,black,white;red,MioXL (rear),DIN 2 IN,notes from Zaquencer and 3 x MIDI Looper
+LMK4+,DIN OUT,ocean,yellow,MioXL (rear),DIN 3 IN,
+Soundbite Micro,DIN OUT,gray;blue,red;yellow,MioXL (rear),DIN 4 IN,Audio to MIDI clock converter
+ioDock/iPad,DIN OUT,blue,black;black,MioXL (rear),DIN 5 IN,ioDock USB MIDI does only work for incoming MIDI
+MioXL (back),DIN 6 OUT,black,,MioXL (rear),DIN 6 IN,Bridge to build a bypass route as a workaround for Digitakt limitations @see https://www.elektronauts.com/t/digitakt-midi-routing-issue/153414
+,,,,MioXL (front),DIN 7 IN,optional: wired clock input from ESI M8U
+,,,,MioXL (front),DIN 8 IN,optional: bluetooth clock input from ESI M8U -> WIDI Master Sender+Reciever

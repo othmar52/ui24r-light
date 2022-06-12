@@ -102,7 +102,8 @@ export default {
       'getEnabledMatrixInputs',
       'getVuEnabled',
       'getIsAnyRouteMuted',
-      'getAreAllRoutesMuted'
+      'getAreAllRoutesMuted',
+      'getEnableAllInputsAlwaysVisible'
     ]),
     debugChainLength () {
       return Object.keys(this.getMatrixTargetChains).length
@@ -144,7 +145,9 @@ export default {
     }
   },
   mounted () {
-    // this.foo = this.getMatrixHelperEnabled
+    if (this.getEnableAllInputsAlwaysVisible === false) {
+      return
+    }
     for (const inputItem of this.getEnabledMatrixInputs) {
       if (this.getMatrixRoutes.filter(el => el.inputId === inputItem.id).length === 0) {
         const newRoute = this.getRouteById()
@@ -155,7 +158,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-
-</style>

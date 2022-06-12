@@ -1,0 +1,11 @@
+Source,,Cable,Colors,Target,,Notes
+MioXL (back),HST 1 USB,,,Arturia KeyStep,USB,
+MioXL (back),HST 2 USB,,,Elektron Digitakt,USB,
+MioXL (back),HST 3 USB,,,Roland JD-Xi,USB,
+MioXL (back),HST 4 USB,,,ioDock/iPad,USB,ioDock MIDI OUT does not work via USB - so DIN OUT is wired as well...
+MioXL (back),HST 5 USB,,,Arduino ChannelModifier,USB,
+MioXL (back),HST 6 USB,,,Axoloti Core,USB,
+MioXL (back),HST 7 USB,,,RogerLinn Linnstrument,USB,
+MioXL (back),HST 8 USB,,,Arturia BeatStep,USB,
+MioXL (back),HST 9 USB,,,Arduino ClockUnjitter,USB,
+MioXL (back),HST 10 USB,,,Arduino MidiRecorder,USB,
