@@ -146,15 +146,15 @@ var mixerConfig = {
         ]
     },
     {
-        name: "TB-3",
-        color: 6,
+        name: "PELLA",
+        color: 7,
         inputChannels: [14],
-        midiChannels: [9],
+        // midiChannels: [9],
         // defaultDbPos: 0.6,
         // defaultDbPos: 1,
-        enabled: true,
+        enabled: true
         // cccsv: 'csv/cc/midicc-roland-tb3.csv'
-        cccsv: 'https://raw.githubusercontent.com/othmar52/midi/usagecolumn/Roland/TB-3.csv'
+        // cccsv: 'https://raw.githubusercontent.com/othmar52/midi/usagecolumn/Roland/TB-3.csv'
     },
     {
         name: "iPad",
