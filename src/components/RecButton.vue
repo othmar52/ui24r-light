@@ -6,6 +6,7 @@
 </template>
 
 <script>
+/* TODO: disable rec-button in case no usb-stick/harddisk is attached to the mixer */
 import { mapGetters } from 'vuex'
 export default {
   name: 'RecButton',

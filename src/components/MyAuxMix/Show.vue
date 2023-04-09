@@ -40,6 +40,7 @@
 import RangeSliderVu from '@/components/RangeSliderVu.vue'
 import RangeSliderGroupMix from '@/components/RangeSliderGroupMix.vue'
 import RecButton from '@/components/RecButton.vue'
+import NoSleep from 'nosleep.js'
 export default {
   name: 'MyAuxMix',
   components: {
@@ -86,6 +87,15 @@ export default {
       }
       return allSources
     }
+  },
+  mounted () {
+    var noSleep = new NoSleep()
+    // Enable wake lock.
+    // (must be wrapped in a user input event handler e.g. a mouse or touch handler)
+    document.addEventListener('click', function enableNoSleep () {
+      document.removeEventListener('click', enableNoSleep, false)
+      noSleep.enable()
+    }, false)
   }
 }
 </script>

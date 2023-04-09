@@ -6,13 +6,13 @@ var mixerConfig = {
     autoConnect: true
   },
   mixer2: {
-    enabled: true,
+    enabled: false,
     ip: '10.0.1.124',
     port: 80,
     autoConnect: true
   },
   paramRecorder1: {
-    enabled: true,
+    enabled: false,
     ip: '10.0.1.147',
     port: 9801,
     autoConnect: true
