@@ -91,12 +91,40 @@ export default {
       const minutes = Math.floor(seconds / 60)
       const sec = seconds % 60
       return ((minutes < 10) ? '0' : '') + minutes + ':' + ((sec < 10) ? '0' : '') + sec
+    },
+    sendRecStatusToAllFrames () {
+      if (window.parent === window.self) {
+        // no embedded frame
+        return
+      }
+      // console.log('window.parent.frames', window.parent.frames)
+      for (let f = 0; f < window.parent.frames.length; f++) {
+        if (window.parent.frames[f] === window.self) {
+          continue
+        }
+        try {
+          window.parent.frames[f].postMessage(
+            {
+              rec: this.state === true,
+              sec: this.state === true
+                ? this.formatSeconds(this.remoteVarTime)
+                : '00:00'
+            },
+            '*'
+          )
+        } catch (e) {
+
+        }
+      }
     }
   },
   watch: {
     remoteButtonState () {
       // console.log("watch.remoteButtonState() changed to ", this.remoteButtonState)
       this.state = (parseInt(this.remoteButtonState) === 1)
+    },
+    remoteVarTime () {
+      this.sendRecStatusToAllFrames()
     }
   }
 }
